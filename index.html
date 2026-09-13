@@ -3,25 +3,26 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
   /* Cascade commits to one visual world: a flood-operations control room.
-     Dark ground throughout, by design, on every host theme. */
+     Chrome (cards, borders, text) is true neutral graphite - blue is spent
+     deliberately, only on water in the map and on live/active UI states. */
   :root{
-    --bg:#0A1417;
-    --surface:#0F1C20;
-    --surface-2:#152528;
-    --ink:#E9F3F1;
-    --ink-soft:#9AB2B4;
-    --ink-faint:#5F787B;
+    --bg:#121212;
+    --surface:#1A1A19;
+    --surface-2:#212120;
+    --ink:#EDEBE7;
+    --ink-soft:#A6A29B;
+    --ink-faint:#6B6862;
     --accent:#3FC6DE;
     --accent-deep:#1E96AC;
-    --accent-soft:#12333C;
+    --accent-soft:#16333C;
     --danger:#FF7466;
     --danger-soft:#301E1B;
     --warning:#FFB35E;
     --warning-soft:#332812;
     --safe:#4CDA98;
     --safe-soft:#0F3226;
-    --line:#1D2C2F;
-    --line-strong:#2A3E42;
+    --line:#2B2A27;
+    --line-strong:#3B3935;
     --shadow: 0 1px 2px rgba(0,0,0,.4), 0 14px 34px -16px rgba(0,0,0,.75);
     --font-display:'Big Shoulders', 'Arial Narrow', sans-serif;
     --font-body:'IBM Plex Sans', system-ui, sans-serif;
@@ -30,15 +31,13 @@
 
   *{box-sizing:border-box;}
   body{
-    margin:0; color:var(--ink);
+    margin:0; color:var(--ink); background:var(--bg);
     font-family:var(--font-body); font-size:14px; line-height:1.5;
-    background:
-      radial-gradient(1100px 600px at 14% -10%, rgba(63,198,222,.07), transparent 60%),
-      var(--bg);
   }
   ::selection{ background:var(--accent-soft); }
 
-  .app{ display:flex; flex-direction:column; min-height:100vh; }
+  html{ height:100%; }
+  .app{ display:flex; flex-direction:column; height:100vh; overflow:hidden; }
   .topbar{ height:3px; flex:0 0 3px; background:linear-gradient(90deg, var(--accent-deep), var(--accent) 35%, transparent 75%); }
 
   /* ---------- Header ---------- */
@@ -71,24 +70,11 @@
 
   /* ---------- Footer ---------- */
   .ftr{
-    flex:0 0 auto; display:flex; flex-direction:column; gap:7px;
-    padding:11px 26px; border-top:1px solid var(--line-strong);
-    background:linear-gradient(0deg, var(--surface), var(--bg));
+    flex:0 0 auto; display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap;
+    padding:9px 26px; border-top:1px solid var(--line); background:var(--surface);
+    font-family:var(--font-mono); font-size:10px; color:var(--ink-faint); letter-spacing:.01em;
   }
-  .ftr-facts{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-  .ftr-fact{
-    display:flex; align-items:center; gap:6px;
-    font-family:var(--font-mono); font-size:10px; letter-spacing:.02em; font-weight:600;
-    color:var(--ink-soft); background:var(--surface-2); border:1px solid var(--line);
-    padding:4px 9px 4px 8px; border-radius:99px; white-space:nowrap;
-  }
-  .ftr-fact .sw{ width:7px; height:7px; border-radius:50%; flex:0 0 auto; }
-  .ftr-fact b{ color:var(--ink); font-weight:700; }
-  .ftr-sep{ color:var(--ink-faint); font-size:10px; }
-  .ftr-note{
-    font-family:var(--font-mono); font-size:9.5px; color:var(--ink-faint); letter-spacing:.01em;
-    line-height:1.5;
-  }
+  .ftr b{ color:var(--ink-soft); font-weight:600; }
 
   /* ---------- Layout ---------- */
   .main{ display:flex; flex:1; min-height:0; }
@@ -145,7 +131,7 @@
     line-height:1.42; margin-bottom:11px;
   }
   .impact-headline .num{ font-family:var(--font-mono); color:var(--danger); font-weight:600; }
-  .stat-row{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+  .stat-row{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:9px; }
   .stat{
     background:var(--surface-2); border-radius:5px; padding:9px 11px; border:1px solid var(--line);
   }
@@ -154,11 +140,13 @@
   .stat .v.d{ color:var(--danger); }
   .stat .v.w{ color:var(--warning); }
   .stat.wide{
-    grid-column:1 / -1; background:linear-gradient(135deg, var(--accent-soft), var(--surface-2));
-    border-color:var(--accent-deep);
+    grid-column:1 / -1; background:var(--surface-2); border-color:var(--line);
+    transition:background .2s, border-color .2s;
   }
-  .stat.wide .k{ color:var(--accent-deep); }
+  .stat.wide .k{ color:var(--ink-faint); }
   .stat.wide .v{ font-size:30px; color:var(--ink); transition:color .2s, text-shadow .2s; }
+  .stat.wide.hot{ background:linear-gradient(135deg, var(--warning-soft), var(--surface-2)); border-color:var(--warning); }
+  .stat.wide.hot .k{ color:var(--warning); }
   .stat.wide.hot .v{ color:var(--warning); text-shadow:0 0 18px color-mix(in srgb, var(--warning) 55%, transparent); }
 
   /* ---------- Tabs ---------- */
@@ -274,7 +262,19 @@
       repeating-linear-gradient(90deg, rgba(233,243,241,.025) 0 1px, transparent 1px 44px),
       var(--surface);
   }
-  svg#map{ width:100%; height:100%; display:block; }
+  svg#map{ width:100%; height:100%; display:block; cursor:grab; touch-action:none; user-select:none; }
+  svg#map.grabbing{ cursor:grabbing; }
+  .zoom-ctl{
+    position:absolute; right:16px; bottom:14px; display:flex; flex-direction:column;
+    border:1px solid var(--line); border-radius:6px; overflow:hidden; box-shadow:var(--shadow);
+  }
+  .zoom-ctl button{
+    width:28px; height:28px; border:none; background:color-mix(in srgb, var(--surface) 92%, transparent);
+    color:var(--ink-soft); font-family:var(--font-body); font-size:16px; font-weight:600; cursor:pointer;
+    border-bottom:1px solid var(--line); line-height:1; display:flex; align-items:center; justify-content:center;
+  }
+  .zoom-ctl button:last-child{ border-bottom:none; font-size:13px; }
+  .zoom-ctl button:hover{ background:var(--surface-2); color:var(--accent-deep); }
   .hud-corner{ position:absolute; width:20px; height:20px; border:2px solid var(--accent-deep); opacity:.55; pointer-events:none; }
   .hud-corner.tl{ top:10px; left:10px; border-right:none; border-bottom:none; }
   .hud-corner.tr{ top:10px; right:10px; border-left:none; border-bottom:none; }
@@ -301,6 +301,10 @@
   .node-circle:hover{ filter:brightness(1.1); }
   .edge-line{ transition:stroke .25s, opacity .25s, stroke-dasharray .1s; }
   .crit-ring{ transition:opacity .2s; }
+  .status-ring{ transition:opacity .2s; }
+  .status-ring.strained{ animation:ringPulse 1.4s ease-in-out infinite; }
+  @keyframes ringPulse{ 0%,100%{ opacity:.9; } 50%{ opacity:.35; } }
+  @media (prefers-reduced-motion: reduce){ .status-ring.strained{ animation:none; opacity:.7; } }
 
   /* ---------- Detail drawer ---------- */
   .detail{
@@ -328,8 +332,10 @@
   ::-webkit-scrollbar-track{ background:transparent; }
 
   @media (max-width: 900px){
+    .app{ height:auto; overflow:visible; }
     .main{ flex-direction:column; }
-    .side-col{ width:auto; flex:none; border-left:none; border-top:1px solid var(--line); }
+    .side-col{ width:auto; flex:none; border-left:none; border-top:1px solid var(--line); overflow-y:visible; }
+    .map-wrap{ min-height:340px; }
   }
 </style>
 
@@ -344,7 +350,7 @@
       </svg>
       <h1>Cascade</h1>
       <span class="hdr-divider"></span>
-      <span class="tag">Coastal resilience simulator, Udupi&ndash;Manipal&ndash;Kaup</span>
+      <span class="tag">Coastal resilience simulator, Udupi&ndash;Manipal&ndash;Kaup &middot; 32 assets &middot; 25 verified</span>
     </div>
     <span class="live-badge"><span class="dot"></span>Live simulation</span>
   </header>
@@ -355,6 +361,11 @@
         <svg id="map" viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet"></svg>
         <span class="hud-corner tl"></span><span class="hud-corner tr"></span>
         <span class="hud-corner bl"></span><span class="hud-corner br"></span>
+        <div class="zoom-ctl">
+          <button id="zoomIn" aria-label="Zoom in" title="Zoom in">+</button>
+          <button id="zoomOut" aria-label="Zoom out" title="Zoom out">&minus;</button>
+          <button id="zoomReset" aria-label="Reset view" title="Reset view">&#8634;</button>
+        </div>
         <div class="legend" id="legend"></div>
         <div class="map-caption" id="mapCaption"></div>
         <div class="detail" id="detail">
@@ -389,6 +400,7 @@
           <div class="stat wide" id="statIsolatedCard"><span class="k">Cut off from every hospital</span><span class="v" id="statIsolated">0 people</span></div>
           <div class="stat"><span class="k">Assets failed</span><span class="v" id="statFailed">0</span></div>
           <div class="stat"><span class="k">Utility impact score</span><span class="v" id="statScore">0</span></div>
+          <div class="stat" id="statStrainedCard"><span class="k">Sources overloaded</span><span class="v" id="statStrained">0</span></div>
         </div>
       </div>
 
@@ -443,9 +455,10 @@
         <div class="subpanel" id="sub-robust">
           <p class="legend-mini">Scenario weights are illustrative relative likelihoods for planning discussion, not measured return-period statistics. Optimizer picks the mitigation portfolio that minimizes expected impact under your budget.</p>
           <table class="scenario-table">
-            <thead><tr><th>Scenario</th><th class="num">Level</th><th class="num">Weight</th></tr></thead>
+            <thead><tr><th>Scenario</th><th class="num">Level</th><th class="num">Weight</th><th class="num">Cut off</th><th class="num">Impact</th></tr></thead>
             <tbody id="scenarioTable"></tbody>
           </table>
+          <p class="legend-mini" style="margin-top:-6px">Cut off and impact are computed live for each scenario as it stands today, with no mitigation applied, so you can compare them directly.</p>
           <div class="deck-row">
             <span class="deck-label">Budget</span>
             <span class="budget-readout"><span class="amt" id="budgetVal">₹60L</span></span>
@@ -464,14 +477,8 @@
   </div>
 
   <footer class="ftr">
-    <div class="ftr-facts">
-      <span class="ftr-fact"><span class="sw" style="background:var(--accent)"></span><b>32</b>&nbsp;assets</span>
-      <span class="ftr-fact"><span class="sw" style="background:var(--safe)"></span><b>25</b>&nbsp;verified positions + real coastline</span>
-      <span class="ftr-sep">&middot;</span>
-      <span class="ftr-fact">OpenStreetMap contributors, ODbL</span>
-      <span class="ftr-fact">NASA/USGS SRTM30m via OpenTopoData</span>
-    </div>
-    <div class="ftr-note">Population, costs and scenario weights are planning estimates, not measured data. Dashed node outline = estimated position not found in OpenStreetMap.</div>
+    <span><b>Data:</b> OpenStreetMap contributors, ODbL &middot; NASA/USGS SRTM30m via OpenTopoData</span>
+    <span>Population, costs and scenario weights are planning estimates, not measured data &middot; dashed node outline = estimated position</span>
   </footer>
 </div>
 
@@ -494,15 +501,15 @@
   var NODES = [
     {id:'MAIN', name:'NH66 / Karkala Road Junction', type:'main', x:950.0, y:145.0, elev:29, pop:0, vuln:0, road:false, source:'osm'},
 
-    {id:'SS1', name:'Manipal Substation', type:'substation', x:839.5, y:182.1, elev:87, pop:0, vuln:0, road:false, source:'osm'},
-    {id:'SS2', name:'Doddanagudde Substation', type:'substation', x:455.3, y:70.0, elev:26, pop:0, vuln:0, road:false, source:'osm'},
-    {id:'SS3', name:'Muluru Substation', type:'substation', x:638.3, y:590.0, elev:15, pop:0, vuln:0, road:false, source:'osm'},
-    {id:'SS4', name:'Udupi Town Substation', type:'substation', x:440.7, y:171.5, elev:27, pop:0, vuln:0, road:false, source:'estimated'},
+    {id:'SS1', name:'Manipal Substation', type:'substation', x:839.5, y:182.1, elev:87, pop:0, vuln:0, road:false, source:'osm', cap:18000},
+    {id:'SS2', name:'Doddanagudde Substation', type:'substation', x:455.3, y:70.0, elev:26, pop:0, vuln:0, road:false, source:'osm', cap:15000},
+    {id:'SS3', name:'Muluru Substation', type:'substation', x:638.3, y:590.0, elev:15, pop:0, vuln:0, road:false, source:'osm', cap:12000},
+    {id:'SS4', name:'Udupi Town Substation', type:'substation', x:440.7, y:171.5, elev:27, pop:0, vuln:0, road:false, source:'estimated', cap:32000},
 
-    {id:'WP1', name:'Malpe Water Pumping Station', type:'pump', x:147.1, y:125.2, elev:10, pop:0, vuln:0, road:false, source:'estimated'},
-    {id:'WP2', name:'Kaup Water Works', type:'pump', x:457.9, y:525.2, elev:12, pop:0, vuln:0, road:false, source:'estimated'},
-    {id:'WP3', name:'Manipal Reservoir Pumping Station', type:'pump', x:872.3, y:128.5, elev:95, pop:0, vuln:0, road:false, source:'estimated'},
-    {id:'WP4', name:'Udupi Town Water Works', type:'pump', x:406.2, y:181.4, elev:18, pop:0, vuln:0, road:false, source:'estimated'},
+    {id:'WP1', name:'Malpe Water Pumping Station', type:'pump', x:147.1, y:125.2, elev:10, pop:0, vuln:0, road:false, source:'estimated', cap:13000},
+    {id:'WP2', name:'Kaup Water Works', type:'pump', x:457.9, y:525.2, elev:12, pop:0, vuln:0, road:false, source:'estimated', cap:12000},
+    {id:'WP3', name:'Manipal Reservoir Pumping Station', type:'pump', x:872.3, y:128.5, elev:95, pop:0, vuln:0, road:false, source:'estimated', cap:18000},
+    {id:'WP4', name:'Udupi Town Water Works', type:'pump', x:406.2, y:181.4, elev:18, pop:0, vuln:0, road:false, source:'estimated', cap:40000},
 
     {id:'H1', name:'District Hospital, Udupi', type:'hospital', x:443.2, y:174.8, elev:29, pop:15000, vuln:6, road:true, source:'osm'},
     {id:'H2', name:'TMA Pai Hospital', type:'hospital', x:485.5, y:179.4, elev:33, pop:6000, vuln:4, road:true, source:'osm'},
@@ -582,7 +589,17 @@
     {id:'e53', a:'RD5', b:'R5', kind:'road'},
     {id:'e54', a:'RD5', b:'H3', kind:'road'},
     {id:'e55', a:'RD5', b:'S2', kind:'road'},
-    {id:'e56', a:'RD5', b:'MAIN', kind:'road'}
+    {id:'e56', a:'RD5', b:'MAIN', kind:'road'},
+
+    // backup ties: emergency cross-feed capability between adjacent sources
+    // of the same utility. Estimated from geographic proximity, not a
+    // published utility dependency map. Kaup/Katapady has none in either
+    // network - a real finding, not an omission: the southern corridor
+    // has no cross-feed capability modeled here.
+    {id:'b1', a:'SS4', b:'SS2', kind:'backup'},
+    {id:'b2', a:'SS4', b:'SS1', kind:'backup'},
+    {id:'b3', a:'WP4', b:'WP1', kind:'backup'},
+    {id:'b4', a:'WP4', b:'WP3', kind:'backup'}
   ];
 
   var TYPE_META = {
@@ -610,6 +627,61 @@
       return !!(failedNodes[e.a] || failedNodes[e.b]);
     }
 
+    /* ---- capacity & backup-tie resolution ----
+       A failed substation/pump's customers try to fail over to a surviving
+       peer over a backup tie. The receiving source can only absorb load up
+       to its own capacity; anything beyond that is not rescued. A source
+       carrying more than its rated capacity is flagged "strained" even if
+       every consumer nominally has service - the overload itself is the
+       finding, independent of any single consumer's status. */
+    var rescued = {};     // consumerId -> true (utility need met via backup)
+    var strained = {};    // sourceId -> true (serving beyond rated capacity)
+    var sourceLoad = {};  // sourceId -> {load, cap} for the detail panel
+
+    [['power','substation'],['water','pump']].forEach(function(pair){
+      var kind = pair[0], sourceType = pair[1];
+      var sources = NODES.filter(function(n){ return n.type===sourceType; });
+      var consumersOf = {}; sources.forEach(function(s){ consumersOf[s.id] = []; });
+      EDGES.forEach(function(e){
+        if(e.kind !== kind) return;
+        var srcId = sources.some(function(s){return s.id===e.a;}) ? e.a : e.b;
+        var consId = srcId===e.a ? e.b : e.a;
+        if(consumersOf[srcId]) consumersOf[srcId].push(consId);
+      });
+      var load = {};
+      sources.forEach(function(s){
+        load[s.id] = failedNodes[s.id] ? 0 : consumersOf[s.id].reduce(function(sum,cid){
+          var c = byId[cid]; return sum + (c.pop>0 ? c.pop : 0);
+        }, 0);
+      });
+      var backupEdges = EDGES.filter(function(e){
+        return e.kind==='backup' && sources.some(function(s){return s.id===e.a;}) && sources.some(function(s){return s.id===e.b;});
+      });
+      sources.forEach(function(failedSrc){
+        if(!failedNodes[failedSrc.id]) return;
+        var partners = backupEdges.filter(function(e){ return e.a===failedSrc.id || e.b===failedSrc.id; })
+          .map(function(e){ return e.a===failedSrc.id ? e.b : e.a; })
+          .filter(function(pid){ return !failedNodes[pid]; });
+        if(partners.length===0) return;
+        partners.sort(function(a,b){ return (byId[b].cap-load[b]) - (byId[a].cap-load[a]); });
+        var partner = partners[0];
+        var demand = consumersOf[failedSrc.id].reduce(function(sum,cid){
+          var c = byId[cid]; return sum + (c.pop>0 ? c.pop : 0);
+        }, 0);
+        var headroom = byId[partner].cap - load[partner];
+        if(demand <= headroom){
+          consumersOf[failedSrc.id].forEach(function(cid){ rescued[cid] = true; });
+          load[partner] += demand;
+        } else {
+          load[partner] += demand; // the attempted transfer overloads the whole tie, not just the new customers; consumers stay unserved
+        }
+      });
+      sources.forEach(function(s){
+        sourceLoad[s.id] = {load: load[s.id], cap: s.cap};
+        if(!failedNodes[s.id] && load[s.id] > s.cap) strained[s.id] = true;
+      });
+    });
+
     function roadConnected(nodeId, targetSet){
       if(targetSet[nodeId]) return true;
       var seen = {}; var q = [nodeId]; seen[nodeId] = true;
@@ -634,10 +706,14 @@
       changed = false; guard++;
       NODES.forEach(function(n){
         if(failedNodes[n.id]) return;
-        var powerEdges = EDGES.filter(function(e){ return e.kind==='power' && (e.a===n.id||e.b===n.id); });
-        var waterEdges = EDGES.filter(function(e){ return e.kind==='water' && (e.a===n.id||e.b===n.id); });
-        var lostPower = powerEdges.length>0 && powerEdges.every(edgeFailed);
-        var lostWater = waterEdges.length>0 && waterEdges.every(edgeFailed);
+        // substations/pumps are sources, not consumers: their status is
+        // governed by direct flood + the capacity/backup pass above, never
+        // by what happens to nodes downstream of them
+        if(n.type==='substation' || n.type==='pump') return;
+        var powerEdges = EDGES.filter(function(e){ return e.kind==='power' && e.b===n.id; });
+        var waterEdges = EDGES.filter(function(e){ return e.kind==='water' && e.b===n.id; });
+        var lostPower = powerEdges.length>0 && powerEdges.every(edgeFailed) && !rescued[n.id];
+        var lostWater = waterEdges.length>0 && waterEdges.every(edgeFailed) && !rescued[n.id];
         var lostRoad = n.roadReq && !roadConnected(n.id, MAIN_SET);
         if(lostPower || lostWater || lostRoad){
           failedNodes[n.id] = 'indirect';
@@ -659,7 +735,8 @@
       if(!reachable) isolatedIds.push(n.id);
     });
 
-    return {failedNodes: failedNodes, failedEdges: failedEdges, isolatedIds: isolatedIds};
+    return {failedNodes: failedNodes, failedEdges: failedEdges, isolatedIds: isolatedIds,
+            rescued: rescued, strained: strained, sourceLoad: sourceLoad};
   }
 
   function impactOf(sim){
@@ -676,8 +753,11 @@
       isolatedPop += n.pop;
       isolatedWeighted += n.pop * n.vuln;
     });
+    var strainedCount = Object.keys(sim.strained).length;
+    var rescuedPop = Object.keys(sim.rescued).reduce(function(sum,id){ return sum + byId[id].pop; }, 0);
     return {score:score, people:people, direct:direct, indirect:indirect, total:direct+indirect,
-            isolatedPop:isolatedPop, isolatedWeighted:isolatedWeighted};
+            isolatedPop:isolatedPop, isolatedWeighted:isolatedWeighted,
+            strainedCount:strainedCount, rescuedPop:rescuedPop};
   }
 
   /* ================= BETWEENNESS CENTRALITY (Brandes, unweighted) ================= */
@@ -844,6 +924,66 @@
   var svgNS = 'http://www.w3.org/2000/svg';
   var nodeEls = {}, edgeEls = {}, ringEls = {};
 
+  /* ---- pan & zoom, like a real map: wheel to zoom, drag to pan ---- */
+  var VB0 = {x:0, y:0, w:1000, h:640};
+  var vb = {x:0, y:0, w:1000, h:640};
+  var VB_MIN_W = 220, VB_MAX_W = 1700;
+  function applyVB(){ svg.setAttribute('viewBox', vb.x.toFixed(1)+' '+vb.y.toFixed(1)+' '+vb.w.toFixed(1)+' '+vb.h.toFixed(1)); }
+  function clampVB(){
+    var margin = 260;
+    vb.w = Math.min(VB_MAX_W, Math.max(VB_MIN_W, vb.w));
+    vb.h = vb.w * (VB0.h/VB0.w);
+    vb.x = Math.min(Math.max(vb.x, VB0.x-margin), VB0.x+VB0.w+margin-vb.w);
+    vb.y = Math.min(Math.max(vb.y, VB0.y-margin), VB0.y+VB0.h+margin-vb.h);
+  }
+  function svgPoint(clientX, clientY){
+    var r = svg.getBoundingClientRect();
+    return { x: vb.x + (clientX-r.left)/r.width*vb.w, y: vb.y + (clientY-r.top)/r.height*vb.h };
+  }
+  function zoomAt(clientX, clientY, factor){
+    var pt = svgPoint(clientX, clientY);
+    var newW = vb.w * factor;
+    newW = Math.min(VB_MAX_W, Math.max(VB_MIN_W, newW));
+    factor = newW / vb.w;
+    vb.x = pt.x - (pt.x - vb.x) * factor;
+    vb.y = pt.y - (pt.y - vb.y) * factor;
+    vb.w = newW;
+    clampVB();
+    applyVB();
+  }
+  var mapDragged = false, mapDragging = false, dragOrigin = null;
+  svg.addEventListener('wheel', function(e){
+    e.preventDefault();
+    zoomAt(e.clientX, e.clientY, e.deltaY < 0 ? 0.85 : 1.176);
+  }, {passive:false});
+  svg.addEventListener('pointerdown', function(e){
+    mapDragging = true; mapDragged = false;
+    dragOrigin = {cx:e.clientX, cy:e.clientY, vx:vb.x, vy:vb.y};
+    svg.setPointerCapture(e.pointerId);
+    svg.classList.add('grabbing');
+  });
+  svg.addEventListener('pointermove', function(e){
+    if(!mapDragging) return;
+    var r = svg.getBoundingClientRect();
+    var ddx = e.clientX - dragOrigin.cx, ddy = e.clientY - dragOrigin.cy;
+    if(Math.abs(ddx)>3 || Math.abs(ddy)>3) mapDragged = true;
+    vb.x = dragOrigin.vx - ddx/r.width*vb.w;
+    vb.y = dragOrigin.vy - ddy/r.height*vb.h;
+    clampVB();
+    applyVB();
+  });
+  function endDrag(e){ mapDragging = false; svg.classList.remove('grabbing'); }
+  svg.addEventListener('pointerup', endDrag);
+  svg.addEventListener('pointercancel', endDrag);
+  function resetView(){ vb = {x:VB0.x, y:VB0.y, w:VB0.w, h:VB0.h}; applyVB(); }
+  document.getElementById('zoomIn').addEventListener('click', function(){
+    var r = svg.getBoundingClientRect(); zoomAt(r.left+r.width/2, r.top+r.height/2, 0.8);
+  });
+  document.getElementById('zoomOut').addEventListener('click', function(){
+    var r = svg.getBoundingClientRect(); zoomAt(r.left+r.width/2, r.top+r.height/2, 1.25);
+  });
+  document.getElementById('zoomReset').addEventListener('click', resetView);
+
   function el(tag, attrs){
     var e = document.createElementNS(svgNS, tag);
     for(var k in attrs) e.setAttribute(k, attrs[k]);
@@ -898,9 +1038,11 @@
 
   var edgeLayer = el('g', {}); svg.appendChild(edgeLayer);
   var ringLayer = el('g', {}); svg.appendChild(ringLayer);
+  var statusRingLayer = el('g', {}); svg.appendChild(statusRingLayer);
   var routeLayer = el('g', {}); svg.appendChild(routeLayer);
   var nodeLayer = el('g', {}); svg.appendChild(nodeLayer);
   var labelLayer = el('g', {}); svg.appendChild(labelLayer);
+  var statusRingEls = {};
 
   var EDGE_COLORS = {power:'#C99A3C', water:'#3E7FB0', road:'#9AA6A8'};
 
@@ -962,6 +1104,10 @@
     ringLayer.appendChild(ring);
     ringEls[n.id] = ring;
 
+    var sring = el('circle', {cx:n.x, cy:n.y, r:meta.r+4, fill:'none', 'stroke-width':2, class:'status-ring', opacity:0});
+    statusRingLayer.appendChild(sring);
+    statusRingEls[n.id] = sring;
+
     nodeLayer.appendChild(g);
     nodeEls[n.id] = shapeEl;
 
@@ -969,7 +1115,7 @@
     lbl.textContent = n.id;
     labelLayer.appendChild(lbl);
 
-    shapeEl.addEventListener('click', function(){ showDetail(n.id); });
+    shapeEl.addEventListener('click', function(){ if(mapDragged) return; showDetail(n.id); });
   }
   NODES.forEach(nodeShape);
 
@@ -979,6 +1125,22 @@
       var isolated = sim.isolatedIds.indexOf(n.id) !== -1;
       var color = st==='direct' ? 'var(--danger)' : st==='indirect' ? 'var(--warning)' : isolated ? 'var(--warning)' : 'var(--safe)';
       nodeEls[n.id].setAttribute('fill', color);
+
+      var sring = statusRingEls[n.id];
+      if(sim.strained[n.id]){
+        sring.setAttribute('stroke', 'var(--warning)');
+        sring.setAttribute('stroke-dasharray', '3,2');
+        sring.classList.add('strained');
+        sring.setAttribute('opacity', '0.9');
+      } else if(sim.rescued[n.id] && !st){
+        sring.setAttribute('stroke', 'var(--accent)');
+        sring.setAttribute('stroke-dasharray', 'none');
+        sring.classList.remove('strained');
+        sring.setAttribute('opacity', '0.85');
+      } else {
+        sring.classList.remove('strained');
+        sring.setAttribute('opacity', '0');
+      }
     });
     EDGES.forEach(function(e){
       var failed = sim.failedEdges[e.id];
@@ -1004,6 +1166,16 @@
       wrap.appendChild(d);
     });
     var div = document.createElement('div'); div.className='legend-div'; wrap.appendChild(div);
+    var ringRows = [
+      ['var(--accent)', 'none', 'Rescued by a backup tie'],
+      ['var(--warning)', '3,2', 'Source overloaded beyond capacity']
+    ];
+    ringRows.forEach(function(r){
+      var d = document.createElement('div'); d.className='legend-row';
+      d.innerHTML = '<svg width="14" height="14" style="flex:0 0 auto"><circle cx="7" cy="7" r="5.5" fill="none" stroke="'+r[0]+'" stroke-width="2" stroke-dasharray="'+r[1]+'"/></svg>'+r[2];
+      wrap.appendChild(d);
+    });
+    var div2 = document.createElement('div'); div2.className='legend-div'; wrap.appendChild(div2);
     var note = document.createElement('div'); note.className='legend-note';
     note.textContent = 'Solid outline = verified OpenStreetMap position. Dashed outline = estimated utility placeholder.';
     wrap.appendChild(note);
@@ -1025,6 +1197,11 @@
       rows += '<div class="drow"><span>'+label+'</span><span>~'+n.pop.toLocaleString()+'</span></div>';
       rows += '<div class="drow"><span>Equity weight</span><span>&times;'+n.vuln+'</span></div>';
     }
+    if(n.cap){
+      var sl = sim.sourceLoad[n.id];
+      rows += '<div class="drow"><span>Rated capacity (est.)</span><span>'+sl.cap.toLocaleString()+'</span></div>';
+      rows += '<div class="drow"><span>Current load</span><span>'+Math.round(sl.load).toLocaleString()+' ('+Math.round(sl.load/sl.cap*100)+'%)</span></div>';
+    }
     rows += '<div class="drow"><span>Betweenness</span><span>'+BETWEENNESS[n.id].toFixed(1)+'</span></div>';
     document.getElementById('dRows').innerHTML = rows;
     document.getElementById('dProv').innerHTML = n.source==='osm'
@@ -1032,7 +1209,9 @@
       : '<span class="prov-badge prov-estimated">Estimated position</span>';
     var st = sim.failedNodes[n.id];
     var isolated = sim.isolatedIds.indexOf(n.id) !== -1;
-    var badge = !st && !isolated ? '<span class="status-badge status-ok">Operating</span>' :
+    var badge = sim.strained[n.id] ? '<span class="status-badge status-indirect">Overloaded beyond capacity</span>' :
+      (sim.rescued[n.id] && !st) ? '<span class="status-badge status-ok">Operating on backup tie</span>' :
+      !st && !isolated ? '<span class="status-badge status-ok">Operating</span>' :
       st==='direct' ? '<span class="status-badge status-direct">Direct flood failure</span>' :
       st==='indirect' ? '<span class="status-badge status-indirect">Cascade failure</span>' :
       '<span class="status-badge status-indirect">Cut off from every hospital</span>';
@@ -1055,14 +1234,19 @@
     document.getElementById('statIsolatedCard').classList.toggle('hot', imp.isolatedPop>0);
     document.getElementById('statFailed').textContent = imp.total;
     document.getElementById('statScore').textContent = fmt(imp.score);
+    document.getElementById('statStrained').textContent = imp.strainedCount;
+    document.getElementById('statStrained').className = 'v' + (imp.strainedCount>0 ? ' w' : '');
 
     var headline = document.getElementById('headline');
-    if(imp.isolatedPop===0 && imp.total===0){
+    if(imp.isolatedPop===0 && imp.total===0 && imp.strainedCount===0){
       headline.innerHTML = 'No assets flooded and every locality retains a road route to a hospital at this level.';
-    } else if(imp.isolatedPop>0 && imp.total===0){
+    } else if(imp.isolatedPop>0 && imp.total===0 && imp.strainedCount===0){
       headline.innerHTML = 'No building has flooded, but <span class="num">'+fmt(imp.isolatedPop)+' people</span> have no surviving road route to any hospital, cut off by flooded crossings alone.';
     } else {
       headline.innerHTML = '<span class="num">'+imp.total+' assets failed</span> directly or by cascade, and <span class="num">'+fmt(imp.isolatedPop)+' people</span> are cut off from every hospital by road.';
+      if(imp.strainedCount>0){
+        headline.innerHTML += ' <span class="num">'+imp.strainedCount+' surviving source'+(imp.strainedCount>1?'s are':' is')+'</span> now carrying more load than rated capacity via backup ties'+(imp.rescuedPop>0?', keeping '+fmt(imp.rescuedPop)+' people served for now':'')+'.';
+      }
     }
 
     renderCriticalPanel();
@@ -1189,8 +1373,10 @@
   (function buildScenarioTable(){
     var tbody = document.getElementById('scenarioTable');
     SCENARIOS.forEach(function(sc){
+      var imp = impactOf(simulate(sc.level));
       var tr = document.createElement('tr');
-      tr.innerHTML = '<td>'+sc.label+'</td><td class="num">'+sc.level+'m</td><td class="num">'+Math.round(sc.weight*100)+'%</td>';
+      tr.innerHTML = '<td>'+sc.label+'</td><td class="num">'+sc.level+'m</td><td class="num">'+Math.round(sc.weight*100)+'%</td>'+
+        '<td class="num">'+fmt(imp.isolatedPop)+'</td><td class="num">'+fmt(imp.score)+'</td>';
       tbody.appendChild(tr);
     });
   })();

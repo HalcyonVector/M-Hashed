@@ -35,12 +35,28 @@ the real data, not assumed in advance.
 - Power/water dependency edges (which substation feeds which locality) are modeled
   by geographic proximity to the real substation/pump positions, not sourced from a
   utility-company dependency map (none is publicly available).
+- Substation/pump **capacity** figures and the **backup-tie** edges between them
+  (added to model overload, not just binary failure) are illustrative planning
+  estimates, sized relative to each source's own computed customer load. They are
+  not sourced from any utility engineering document.
 - Intervention costs (₹ lakh figures) are illustrative planning order-of-magnitude
   tiers, not certified estimates.
 - Scenario likelihood weights in the "Robust plan" optimizer are illustrative for
   planning discussion, not measured return-period statistics.
 - The map is a schematic projection (independent x/y scaling), not drawn to true
   geographic scale — route-comparison distances are shown as a relative index, not km.
+
+## A real finding worth stating plainly
+With real SRTM elevations, every substation in this network sits at 15-95m —
+outside any physically plausible storm-surge or compound-flood range. Only the two
+water pumps (Malpe, 10m; Kaup, 12m) can ever fail by flooding at a realistic water
+level. This means the modeled backup-tie/overload mechanism is only reachable on
+the water side in this dataset: Malpe's pump failing at the "extreme flood" preset
+is absorbed by a tie to the Udupi Town Water Works (ending near 95% of its
+estimated capacity), while Kaup's pump has no backup tie at all, consistent with
+Kaup also having no alternate road route to a hospital — the same locality is the
+weak point on two independent layers of the analysis, which is itself a finding,
+not a coincidence built into the model by hand.
 
 Retrieved 2026-09-13 via `overpass-api.de` and `api.opentopodata.org` (both public,
 free, no-auth endpoints).
