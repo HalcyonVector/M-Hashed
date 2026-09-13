@@ -15,6 +15,16 @@ data. OpenStreetMap did **not** have any `man_made=water_works` or
 Udupi city core — those 7 utility nodes are placed at estimated positions and
 clearly marked `source:'estimated'` in the app (dashed node outline).
 
+## 1b. Basemap image — tried, reverted
+A raster-tile basemap (real OpenStreetMap tiles, stitched and recolored;
+kept in `basemap/` for reference) was tried as the map background. Dropped:
+laying our own dependency-graph pins and lines over a real photographic map
+read as a diagram pasted onto a photo rather than an integrated map, and the
+image was static (no live pan-loading of new tiles is possible inside the
+Artifact sandbox, which blocks runtime image/tile fetches to non-CDN hosts).
+The shipped map instead draws the real coastline geometry as a vector shape
+(see below), which composites cleanly with the node/pin layer.
+
 ## 2. NASA/USGS SRTM 30m elevation (via OpenTopoData) — `elevations.json`
 Every node's elevation, including the estimated utility placeholders, is a real
 SRTM30m reading for its coordinate, not invented. Two results anchor the whole

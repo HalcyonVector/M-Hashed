@@ -1,0 +1,272 @@
+<title>Cascade Field Guide</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#121212; --surface:#1A1A19; --surface-2:#212120;
+    --ink:#EDEBE7; --ink-soft:#A6A29B; --ink-faint:#6B6862;
+    --accent:#3FC6DE; --accent-deep:#1E96AC; --accent-soft:#16333C;
+    --danger:#FF7466; --danger-soft:#301E1B;
+    --warning:#FFB35E; --warning-soft:#332812;
+    --safe:#4CDA98; --safe-soft:#0F3226;
+    --line:#2B2A27; --line-strong:#3B3935;
+    --font-display:'Big Shoulders','Arial Narrow',sans-serif;
+    --font-body:'IBM Plex Sans',system-ui,sans-serif;
+    --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); font-size:15px; line-height:1.6; }
+  ::selection{ background:var(--accent-soft); }
+
+  .shell{ display:flex; justify-content:center; gap:48px; padding:52px 28px 100px; max-width:1180px; margin:0 auto; }
+  .toc{
+    flex:0 0 208px; position:sticky; top:52px; align-self:flex-start;
+    display:flex; flex-direction:column; gap:2px; padding-top:8px;
+  }
+  .toc a{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.03em; text-transform:uppercase;
+    color:var(--ink-faint); text-decoration:none; padding:6px 0; border-left:2px solid transparent;
+    padding-left:12px; transition:color .15s, border-color .15s;
+  }
+  .toc a:hover{ color:var(--ink-soft); }
+  .toc a.active{ color:var(--accent-deep); border-left-color:var(--accent-deep); }
+
+  main{ flex:1 1 620px; max-width:660px; min-width:0; }
+
+  .kicker{ font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-deep); margin:0 0 10px; }
+  h1{ font-family:var(--font-display); font-weight:800; font-size:48px; line-height:.98; text-transform:uppercase; letter-spacing:.3px; margin:0 0 14px; text-wrap:balance; }
+  .lede{ font-size:17px; color:var(--ink-soft); line-height:1.55; margin:0 0 4px; max-width:60ch; }
+  .meta-row{ font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); margin:20px 0 52px; padding-top:16px; border-top:1px solid var(--line); }
+
+  h2{
+    font-family:var(--font-display); font-weight:800; font-size:26px; text-transform:uppercase;
+    letter-spacing:.2px; margin:64px 0 6px; padding-top:2px; scroll-margin-top:24px;
+  }
+  h2 .n{ color:var(--accent-deep); font-family:var(--font-mono); font-size:14px; letter-spacing:.05em; margin-right:10px; vertical-align:3px; }
+  .section-lede{ color:var(--ink-soft); font-size:14.5px; margin:0 0 26px; max-width:58ch; }
+
+  h3{ font-family:var(--font-body); font-weight:700; font-size:15px; margin:34px 0 12px; color:var(--ink); }
+
+  p{ margin:0 0 16px; }
+  a{ color:var(--accent-deep); }
+  code{ font-family:var(--font-mono); font-size:.9em; background:var(--surface-2); padding:1px 5px; border-radius:3px; color:var(--ink); }
+
+  /* glossary rows: symbol reproduced exactly as it appears on the map */
+  .gloss{ display:flex; flex-direction:column; gap:2px; margin:0 0 28px; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .gloss-row{ display:flex; align-items:flex-start; gap:16px; padding:13px 16px; background:var(--surface); border-top:1px solid var(--line); }
+  .gloss-row:first-child{ border-top:none; }
+  .gloss-sym{ flex:0 0 40px; height:40px; display:flex; align-items:center; justify-content:center; }
+  .gloss-body b{ display:block; font-size:14px; margin-bottom:2px; }
+  .gloss-body span{ display:block; font-size:13px; color:var(--ink-soft); line-height:1.5; }
+  .gloss-body .tag{ font-family:var(--font-mono); font-size:10px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-faint); margin-top:4px; }
+
+  .line-sample{ width:40px; height:3px; border-radius:2px; }
+
+  table{ width:100%; border-collapse:collapse; margin:0 0 28px; font-size:13.5px; }
+  th{ text-align:left; font-family:var(--font-mono); font-size:10px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-faint); font-weight:600; padding:0 12px 8px 0; border-bottom:1px solid var(--line-strong); }
+  td{ padding:11px 12px 11px 0; border-bottom:1px solid var(--line); vertical-align:top; }
+  td:first-child, th:first-child{ padding-left:0; }
+  .status-pill{ display:inline-block; font-family:var(--font-mono); font-size:10.5px; font-weight:700; text-transform:uppercase; padding:2px 9px; border-radius:99px; white-space:nowrap; }
+  .st-done{ background:var(--safe-soft); color:var(--safe); }
+  .st-sub{ background:var(--warning-soft); color:var(--warning); }
+  .st-defer{ background:var(--line); color:var(--ink-soft); }
+  .st-added{ background:var(--accent-soft); color:var(--accent-deep); }
+
+  .callout{ background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--accent-deep); border-radius:0 8px 8px 0; padding:14px 18px; margin:0 0 28px; font-size:13.5px; color:var(--ink-soft); }
+  .callout b{ color:var(--ink); }
+  .callout.warn{ border-left-color:var(--warning); }
+
+  .metric-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:0 0 28px; }
+  .metric{ background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:14px 16px; }
+  .metric .k{ font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--accent-deep); display:block; margin-bottom:6px; }
+  .metric .v{ font-size:13.5px; color:var(--ink-soft); line-height:1.5; }
+  .metric code{ display:block; margin-top:8px; font-size:11.5px; }
+
+  footer{ margin-top:80px; padding-top:24px; border-top:1px solid var(--line); font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); }
+
+  @media (max-width:880px){
+    .shell{ flex-direction:column; padding:32px 20px 80px; }
+    .toc{ position:static; flex-direction:row; flex-wrap:wrap; gap:4px 16px; }
+    .toc a{ border-left:none; padding-left:0; border-bottom:2px solid transparent; }
+    .toc a.active{ border-left:none; border-bottom-color:var(--accent-deep); }
+    h1{ font-size:34px; }
+    .metric-grid{ grid-template-columns:1fr; }
+  }
+</style>
+
+<div class="shell">
+  <nav class="toc" id="toc">
+    <a href="#nodes">Nodes</a>
+    <a href="#status">Status colors</a>
+    <a href="#links">Dependency links</a>
+    <a href="#panels">Side panels</a>
+    <a href="#metrics">Headline metrics</a>
+    <a href="#data">What's real, what's not</a>
+    <a href="#pitch">Vs. the original pitch</a>
+  </nav>
+
+  <main>
+    <p class="kicker">Reference &middot; how to read the simulator</p>
+    <h1>Cascade Field Guide</h1>
+    <p class="lede">A plain explanation of every marker, line, ring, and number in the coastal resilience simulator, plus an honest accounting of what's built against the original pitch document.</p>
+    <div class="meta-row">Udupi&ndash;Manipal&ndash;Kaup corridor &middot; 32 assets, 25 with verified OpenStreetMap positions &middot; last updated for the Round 1 prototype</div>
+
+    <h2 id="nodes"><span class="n">01</span>Nodes</h2>
+    <p class="section-lede">Every dot, pin, and square on the map is one asset in the network. Click any of them to see its full name, elevation, and current status.</p>
+
+    <h3>Points of interest &mdash; shown as pins</h3>
+    <div class="gloss">
+      <div class="gloss-row">
+        <div class="gloss-sym"><svg width="26" height="34" viewBox="0 0 24 32"><path d="M12 0C7.58 0 4 3.58 4 8c0 5.25 8 16 8 16s8-10.75 8-16c0-4.42-3.58-8-8-8z" fill="#4CDA98"/><circle cx="12" cy="8" r="6.2" fill="#1A1A19"/><text x="12" y="11" text-anchor="middle" font-family="Big Shoulders" font-weight="800" font-size="10" fill="#EDEBE7">+</text></svg></div>
+        <div class="gloss-body"><b>Hospital</b><span>The only pin type with a permanent label. 3 in the network: District Hospital and TMA Pai Hospital (Udupi), KMC Hospital (Manipal).</span></div>
+      </div>
+      <div class="gloss-row">
+        <div class="gloss-sym"><svg width="22" height="28" viewBox="0 0 24 32"><path d="M12 0C7.58 0 4 3.58 4 8c0 5.25 8 16 8 16s8-10.75 8-16c0-4.42-3.58-8-8-8z" fill="#4CDA98"/><circle cx="12" cy="8" r="6.2" fill="#1A1A19"/><text x="12" y="11" text-anchor="middle" font-family="Big Shoulders" font-weight="800" font-size="10" fill="#EDEBE7">S</text></svg></div>
+        <div class="gloss-body"><b>School</b><span>3 schools. Click for name and estimated enrollment.</span></div>
+      </div>
+      <div class="gloss-row">
+        <div class="gloss-sym"><svg width="24" height="30" viewBox="0 0 24 32"><path d="M12 0C7.58 0 4 3.58 4 8c0 5.25 8 16 8 16s8-10.75 8-16c0-4.42-3.58-8-8-8z" fill="#4CDA98"/><circle cx="12" cy="8" r="6.2" fill="#1A1A19"/><text x="12" y="11" text-anchor="middle" font-family="Big Shoulders" font-weight="800" font-size="10" fill="#EDEBE7">R</text></svg></div>
+        <div class="gloss-body"><b>Flood relief centre</b><span>2 real schools double-tasked as designated relief shelters &mdash; a common, real Indian disaster-response practice, not an invented facility.</span></div>
+      </div>
+    </div>
+
+    <h3>Infrastructure &mdash; shown as small squares</h3>
+    <div class="gloss">
+      <div class="gloss-row">
+        <div class="gloss-sym"><svg width="18" height="18"><rect x="2" y="2" width="14" height="14" rx="2" fill="#4CDA98"/></svg></div>
+        <div class="gloss-body"><b>Substation</b><span>Power source. 4 in the network. Click to see its rated capacity and current load.</span></div>
+      </div>
+      <div class="gloss-row">
+        <div class="gloss-sym"><svg width="18" height="18"><rect x="2" y="2" width="14" height="14" rx="2" fill="#4CDA98" stroke="#EDEBE7" stroke-width="1.5" stroke-dasharray="2,1.5"/></svg></div>
+        <div class="gloss-body"><b>Water pump / works</b><span>Water source. 4 in the network. Dashed outline shown here means "estimated" &mdash; see below.</span></div>
+      </div>
+    </div>
+
+    <h3>Localities &mdash; shown as plain circles</h3>
+    <div class="gloss">
+      <div class="gloss-row">
+        <div class="gloss-sym"><svg width="18" height="18"><circle cx="9" cy="9" r="7" fill="#4CDA98"/></svg></div>
+        <div class="gloss-body"><b>Residential locality</b><span>7 named localities (Malpe, Kodavoor, Kaup, Katapady, Manipal, Indrali, Brahmagiri), each with an estimated population and an equity weight.</span></div>
+      </div>
+    </div>
+
+    <h3>Structural points &mdash; small, unlabeled</h3>
+    <div class="gloss">
+      <div class="gloss-row">
+        <div class="gloss-sym"><svg width="16" height="16"><polygon points="8,1 15,8 8,15 1,8" fill="#4CDA98"/></svg></div>
+        <div class="gloss-body"><b>Bridge / crossing</b><span>3 in the network. These are the network's real single points of failure: Malpe Bridge sits at a real, measured 0.0m elevation; the creek crossing near Kaup at 4.0m.</span></div>
+      </div>
+      <div class="gloss-row">
+        <div class="gloss-sym"><svg width="10" height="10"><circle cx="5" cy="5" r="3" fill="#4CDA98" opacity="0.55"/></svg></div>
+        <div class="gloss-body"><b>Road junction</b><span>5 purely structural points that hold the road graph together for routing. Not real places, so they carry no label &mdash; a real map doesn't mark every intersection either.</span></div>
+      </div>
+      <div class="gloss-row">
+        <div class="gloss-sym"><svg width="16" height="16"><rect x="3" y="3" width="10" height="10" rx="1.5" fill="#4CDA98" opacity="0.55"/></svg></div>
+        <div class="gloss-body"><b>Highway / grid anchor</b><span>One point representing the wider NH66 highway network beyond the modeled area &mdash; the "outside world" a road route can escape to.</span></div>
+      </div>
+    </div>
+
+    <h2 id="status"><span class="n">02</span>Status colors &amp; rings</h2>
+    <p class="section-lede">Every marker's fill color is its live status at the current water level. Rings around a marker add a second, independent signal.</p>
+    <div class="gloss">
+      <div class="gloss-row"><div class="gloss-sym"><svg width="16" height="16"><circle cx="8" cy="8" r="7" fill="#4CDA98"/></svg></div><div class="gloss-body"><b>Green &mdash; operating</b><span>Has power and water where relevant, and a surviving road route to a hospital.</span></div></div>
+      <div class="gloss-row"><div class="gloss-sym"><svg width="16" height="16"><circle cx="8" cy="8" r="7" fill="#FFB35E"/></svg></div><div class="gloss-body"><b>Amber &mdash; cascade failure or cut off</b><span>Failed indirectly (lost its sole power, water, or road connection), or still running but with no surviving road route to any hospital.</span></div></div>
+      <div class="gloss-row"><div class="gloss-sym"><svg width="16" height="16"><circle cx="8" cy="8" r="7" fill="#FF7466"/></svg></div><div class="gloss-body"><b>Red &mdash; direct flood failure</b><span>Its own real elevation is at or below the current water level.</span></div></div>
+      <div class="gloss-row"><div class="gloss-sym"><svg width="20" height="20"><circle cx="10" cy="10" r="8" fill="none" stroke="#3FC6DE" stroke-width="2"/></svg></div><div class="gloss-body"><b>Teal ring &mdash; rescued by a backup tie</b><span>Its normal source failed, but a substation or pump tied to it by an emergency backup line absorbed the load. Only reachable today via the Malpe pump &rarr; Udupi Town Water Works tie at the Extreme flood preset.</span></div></div>
+      <div class="gloss-row"><div class="gloss-sym"><svg width="20" height="20"><circle cx="10" cy="10" r="8" fill="none" stroke="#FFB35E" stroke-width="2" stroke-dasharray="3,2"/></svg></div><div class="gloss-body"><b>Pulsing amber ring &mdash; overloaded</b><span>A substation or pump is now carrying more load than its rated capacity, usually from absorbing a failed neighbor's customers. This is a leading-indicator warning, separate from the impact score.</span></div></div>
+      <div class="gloss-row"><div class="gloss-sym"><svg width="16" height="16"><rect x="2" y="2" width="12" height="12" rx="2" fill="none" stroke="#EDEBE7" stroke-width="2"/></svg></div><div class="gloss-body"><b>Solid outline</b><span>Position and elevation confirmed against OpenStreetMap + NASA/USGS SRTM data.</span></div></div>
+      <div class="gloss-row"><div class="gloss-sym"><svg width="16" height="16"><rect x="2" y="2" width="12" height="12" rx="2" fill="none" stroke="#EDEBE7" stroke-width="1.5" stroke-dasharray="2,1.5"/></svg></div><div class="gloss-body"><b>Dashed outline</b><span>Estimated placeholder &mdash; OpenStreetMap had no tag for this utility in this area (true for every water pump, and one of the four substations).</span></div></div>
+    </div>
+
+    <h2 id="links"><span class="n">03</span>Dependency links</h2>
+    <p class="section-lede">Power, water, road, and backup connections are a logical dependency graph, not physical routes. They're shown by default; the <b>Hide dependency links</b> button above the map switches to a decluttered, pins-only view if you want to read the coastline and status colors without the graph on top.</p>
+    <div class="gloss">
+      <div class="gloss-row"><div class="gloss-sym"><div class="line-sample" style="background:#C99A3C"></div></div><div class="gloss-body"><b>Power</b><span>Substation &rarr; consumer. A consumer fails indirectly if every one of its power edges is cut.</span></div></div>
+      <div class="gloss-row"><div class="gloss-sym"><div class="line-sample" style="background:#3E7FB0"></div></div><div class="gloss-body"><b>Water</b><span>Pump &rarr; consumer. Same rule as power, for water.</span></div></div>
+      <div class="gloss-row"><div class="gloss-sym"><div class="line-sample" style="background:#9AA6A8"></div></div><div class="gloss-body"><b>Road</b><span>The routable network hospitals and shelters need a surviving path through, back to the highway anchor.</span></div></div>
+      <div class="gloss-row"><div class="gloss-sym"><div class="line-sample" style="background:#3FC6DE"></div></div><div class="gloss-body"><b>Backup tie</b><span>Emergency cross-feed between two substations or two pumps. Only 4 exist, and Kaup's substation and pump have none &mdash; a real finding, not an oversight.</span></div></div>
+    </div>
+    <div class="callout">A failed edge turns red and dashed, the same convention as a failed node.</div>
+
+    <h2 id="panels"><span class="n">04</span>Side panels</h2>
+    <h3>Critical</h3>
+    <p>Betweenness centrality computed once on the intact network &mdash; the 6 assets whose removal would fracture the most connections, regardless of today's water level. This answers the brief's call to "identify disproportionately important assets" independent of any one scenario.</p>
+    <h3>Routes</h3>
+    <p>Pick two points; the app computes the shortest road route on the intact network (dashed grey) and the safest surviving route at today's water level (solid green), and tells you whether the shortest route is actually blocked and how much detour the safe one costs.</p>
+    <h3>Interventions &rarr; This scenario</h3>
+    <p>Five real, costed mitigations (raise a causeway, add a backup feeder, build a bypass) re-tested at today's water level, ranked by how much they cut the impact score.</p>
+    <h3>Interventions &rarr; Robust plan</h3>
+    <p>The same five mitigations evaluated as <b>expected</b> impact reduction across all four scenarios at once, weighted by illustrative likelihood, then solved as a knapsack against a budget you set. This is the direct answer to the brief's "compare alternative scenarios" ask &mdash; it optimizes across all of them, not just the one on the slider.</p>
+
+    <h2 id="metrics"><span class="n">05</span>Headline metrics</h2>
+    <div class="metric-grid">
+      <div class="metric"><span class="k">Cut off from every hospital</span><div class="v">People in a locality with no surviving road path to any hospital, regardless of whether their own building has flooded. This is usually the largest and first-moving number.</div></div>
+      <div class="metric"><span class="k">Assets failed</span><div class="v">Count of nodes in direct or cascade failure &mdash; a raw tally, not weighted.</div></div>
+      <div class="metric"><span class="k">Utility impact score</span><div class="v">The brief's own formula.<code>Σ (population served × equity weight)</code>summed over every failed asset with a population.</div></div>
+      <div class="metric"><span class="k">Sources overloaded</span><div class="v">Count of substations/pumps currently serving beyond their rated capacity via a backup tie &mdash; a leading indicator, kept separate from the impact score on purpose.</div></div>
+    </div>
+
+    <h2 id="data"><span class="n">06</span>What's real, what's not</h2>
+    <table>
+      <thead><tr><th>Element</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Names &amp; positions for 25 of 32 assets</td><td><span class="status-pill st-done">Real</span> &nbsp;OpenStreetMap, Overpass API</td></tr>
+        <tr><td>Elevation for every asset, including estimated ones</td><td><span class="status-pill st-done">Real</span> &nbsp;NASA/USGS SRTM30m, via OpenTopoData</td></tr>
+        <tr><td>Coastline shape</td><td><span class="status-pill st-done">Real</span> &nbsp;OpenStreetMap natural=coastline data</td></tr>
+        <tr><td>7 utility positions (all 4 pumps, 1 of 4 substations)</td><td><span class="status-pill st-sub">Estimated</span> &nbsp;not tagged in OSM for this area</td></tr>
+        <tr><td>Population &amp; shelter-capacity figures</td><td><span class="status-pill st-sub">Estimated</span> &nbsp;no population tag existed in OSM</td></tr>
+        <tr><td>Equity weights, substation/pump capacities, backup ties</td><td><span class="status-pill st-sub">Estimated</span> &nbsp;planning judgment calls</td></tr>
+        <tr><td>Intervention costs, scenario likelihood weights</td><td><span class="status-pill st-sub">Illustrative</span> &nbsp;order-of-magnitude for discussion</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13.5px;color:var(--ink-faint)">Full sourcing detail, raw API responses, and reasoning live in <code>data/PROVENANCE.md</code> alongside the app.</p>
+
+    <h2 id="pitch"><span class="n">07</span>Against the original pitch</h2>
+    <p class="section-lede">A line-by-line check of the Round 1 scope against what's actually built.</p>
+    <table>
+      <thead><tr><th>From the pitch document</th><th></th></tr></thead>
+      <tbody>
+        <tr><td>Real, geographically grounded flooding as the trigger</td><td><span class="status-pill st-done">Done</span></td></tr>
+        <tr><td>Equity-weighted impact scoring</td><td><span class="status-pill st-done">Done</span></td></tr>
+        <tr><td>Nodes: roads, bridges, hospitals, pumps, substations, shelters, residential zones</td><td><span class="status-pill st-done">Done</span></td></tr>
+        <tr><td>Edges: power, water, road, <b>backup dependencies</b></td><td><span class="status-pill st-done">Done</span></td></tr>
+        <tr><td>Direct failure by elevation, cascading indirect failure</td><td><span class="status-pill st-done">Done</span></td></tr>
+        <tr><td>Shortest vs. safest route recomputation</td><td><span class="status-pill st-done">Done</span></td></tr>
+        <tr><td>Betweenness centrality for critical assets</td><td><span class="status-pill st-done">Done</span></td></tr>
+        <tr><td>Ranked interventions vs. cost tier</td><td><span class="status-pill st-done">Done</span></td></tr>
+        <tr><td>Node/edge <b>capacity</b> field</td><td><span class="status-pill st-sub">Partial</span></td></tr>
+        <tr><td>Edge-level flood <b>threshold</b> (independent of node elevation)</td><td><span class="status-pill st-sub">Folded in</span></td></tr>
+        <tr><td>Compare alternative scenarios</td><td><span class="status-pill st-added">Exceeded</span></td></tr>
+        <tr><td>Population cut off from care by road, independent of asset failure</td><td><span class="status-pill st-added">Added</span></td></tr>
+        <tr><td>Capacity-aware overload modeling</td><td><span class="status-pill st-added">Added</span></td></tr>
+        <tr><td>Live monitoring dashboard</td><td><span class="status-pill st-defer">Future scope</span></td></tr>
+        <tr><td>Automated authority alerts</td><td><span class="status-pill st-defer">Future scope</span></td></tr>
+        <tr><td>Multi-hazard modeling</td><td><span class="status-pill st-defer">Future scope</span></td></tr>
+        <tr><td>Multi-layer network fusion</td><td><span class="status-pill st-defer">Future scope</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3>The two "Partial" rows, honestly explained</h3>
+    <div class="callout">
+      <b>Capacity</b> was specified on every node and edge in the original data model. It's implemented on substations and pumps (rated capacity, with the overload mechanic above), which is where it does real analytical work. It's not implemented on roads or bridges &mdash; a road-congestion capacity model is a real, larger feature genuinely deferred, not quietly dropped.
+    </div>
+    <div class="callout warn">
+      <b>Edge-level flood threshold</b> was meant to let a connection flood independently of either endpoint's elevation (a low-lying cable run between two higher points). Real elevation data made this almost unnecessary: Malpe Bridge and the Kaup creek crossing are themselves real, separately-elevated <i>nodes</i> at 0m and 4m, so the same effect happens through node elevation rather than a synthetic edge number with no data behind it. Judgment call: more honest than inventing edge thresholds, at the cost of matching the original schema exactly.
+    </div>
+
+    <footer>Cascade &middot; coastal resilience simulator for the Udupi&ndash;Manipal&ndash;Kaup corridor &middot; this guide describes the Round 1 prototype as built</footer>
+  </main>
+</div>
+
+<script>
+  var links = document.querySelectorAll('.toc a');
+  var sections = Array.prototype.map.call(links, function(a){ return document.querySelector(a.getAttribute('href')); });
+  function onScroll(){
+    var pos = window.scrollY + 100;
+    var active = 0;
+    sections.forEach(function(s, i){ if(s && s.offsetTop <= pos) active = i; });
+    links.forEach(function(a, i){ a.classList.toggle('active', i === active); });
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+</script>
