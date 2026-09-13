@@ -1,0 +1,2337 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-09-13T10:35:06Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 672742464,
+  "lat": 13.3507423,
+  "lon": 74.7036914,
+  "tags": {
+    "name": "Malpe",
+    "name:kn": "ಮಲ್ಪೆ",
+    "name:ml": "മൽപെ",
+    "place": "suburb"
+  }
+},
+{
+  "type": "node",
+  "id": 672742480,
+  "lat": 13.3326012,
+  "lon": 74.7471694,
+  "tags": {
+    "amenity": "hospital",
+    "name": "TMA Pai Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 867155586,
+  "lat": 13.2014543,
+  "lon": 74.7495583,
+  "tags": {
+    "name": "Muluru",
+    "name:kn": "ಮೂಳೂರು",
+    "name:kn:iso15919": "Mūḷūru",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 867155742,
+  "lat": 13.2306764,
+  "lon": 74.7484014,
+  "tags": {
+    "name": "Kapu",
+    "name:en": "Kaup",
+    "name:kn": "ಕಾಪು",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 867156134,
+  "lat": 13.2824436,
+  "lon": 74.7461953,
+  "tags": {
+    "name": "Katapady",
+    "name:kn": "ಕಟಪಾಡಿ",
+    "name:ml": "കടപാടി",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 870908719,
+  "lat": 13.3534806,
+  "lon": 74.7893684,
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "KMC Hospital"
+  }
+},
+{
+  "type": "node",
+  "id": 1351009057,
+  "lat": 13.3519723,
+  "lon": 74.7870308,
+  "tags": {
+    "name": "Manipal",
+    "name:hi": "मणिपाल",
+    "name:kn": "ಮಣಿಪಾಲ",
+    "name:ml": "മണിപ്പാൽ",
+    "name:ta": "மணிப்பால்",
+    "place": "town",
+    "wikidata": "Q3764792",
+    "wikipedia": "en:Manipal"
+  }
+},
+{
+  "type": "node",
+  "id": 1463819858,
+  "lat": 13.3480730,
+  "lon": 74.7326841,
+  "tags": {
+    "amenity": "school",
+    "name": "Adiudupi Higher Primary School",
+    "name:kn": "ಆದಿಉಡುಪಿ ಹಿರಿಯ ಪ್ರಾಥಮಿಕ ಶಾಲೆ"
+  }
+},
+{
+  "type": "node",
+  "id": 1463849302,
+  "lat": 13.3353174,
+  "lon": 74.7517937,
+  "tags": {
+    "amenity": "school",
+    "name": "PPC UDUPI"
+  }
+},
+{
+  "type": "node",
+  "id": 1474358993,
+  "lat": 13.3297450,
+  "lon": 74.7491510,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Pb. No-5, Dr.Lombard Memorial Hospital Road,(Mission Hospital Road) Christian High School",
+    "addr:postcode": "576101",
+    "addr:state": "Karnataka",
+    "amenity": "hospital",
+    "name": "C.S.I. Lombard Memorial Hospital",
+    "source": "OpenGovernmentData"
+  }
+},
+{
+  "type": "node",
+  "id": 1603383345,
+  "lat": 13.3340175,
+  "lon": 74.7423038,
+  "tags": {
+    "amenity": "hospital",
+    "name": "District Hospital",
+    "name:kn": "ಜಿಲ್ಲೆ ಆಸ್ಪತ್ರೆ",
+    "source": "local knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 1603389452,
+  "lat": 13.3310781,
+  "lon": 74.7423802,
+  "tags": {
+    "addr:postcode": "576101",
+    "amenity": "school",
+    "name": "Government High School",
+    "name:kn": "ಸರ್ಕಾರಿ ಪ್ರೌಢ ಶಾಲೆ",
+    "source": "local knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 1706782410,
+  "lat": 13.2939497,
+  "lon": 74.7685311,
+  "tags": {
+    "name": "Manipura",
+    "name:kn": "ಮಣಿಪುರ",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 1799396702,
+  "lat": 13.2920912,
+  "lon": 74.7928708,
+  "tags": {
+    "name": "Kuntala Gudde",
+    "name:kn": "ಕುಂತಲ ಗುಡ್ಡೆ",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 1799396704,
+  "lat": 13.3207973,
+  "lon": 74.7717788,
+  "tags": {
+    "name": "Kukkikatte",
+    "name:kn": "ಕುಕ್ಕಿಕಟ್ಟೆ",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 1799396706,
+  "lat": 13.3203066,
+  "lon": 74.7582819,
+  "tags": {
+    "name": "Korankara Padi",
+    "name:kn": "ಕೊರಂಕರ ಪಾಡಿ",
+    "place": "suburb"
+  }
+},
+{
+  "type": "node",
+  "id": 1828361774,
+  "lat": 13.3453176,
+  "lon": 74.7712929,
+  "tags": {
+    "name": "Indrali",
+    "name:kn": "ಇಂದ್ರಾಳಿ",
+    "place": "suburb"
+  }
+},
+{
+  "type": "node",
+  "id": 1828736793,
+  "lat": 13.3597388,
+  "lon": 74.7630639,
+  "tags": {
+    "name": "Doddana Gudde",
+    "name:kn": "ದೊಡ್ಡನಗುಡ್ಡೆ",
+    "place": "suburb"
+  }
+},
+{
+  "type": "node",
+  "id": 1837719550,
+  "lat": 13.3360303,
+  "lon": 74.7428414,
+  "tags": {
+    "amenity": "school",
+    "name": "St Cecilys  Girls High School"
+  }
+},
+{
+  "type": "node",
+  "id": 1838391727,
+  "lat": 13.3477889,
+  "lon": 74.7312050,
+  "tags": {
+    "name": "Adi Udupi",
+    "name:kn": "ಆದಿ ಉಡುಪಿ",
+    "place": "suburb"
+  }
+},
+{
+  "type": "node",
+  "id": 1839485349,
+  "lat": 13.3370127,
+  "lon": 74.7506948,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Mitra Priya Mitra Priya",
+    "addr:postcode": "576101",
+    "addr:state": "Karnataka",
+    "amenity": "hospital",
+    "name": "Mitra Hospital",
+    "source": "OpenGovernmentData"
+  }
+},
+{
+  "type": "node",
+  "id": 1843796213,
+  "lat": 13.3298122,
+  "lon": 74.7478321,
+  "tags": {
+    "amenity": "school",
+    "name": "Christian Pre-University College"
+  }
+},
+{
+  "type": "node",
+  "id": 1969502615,
+  "lat": 13.3465464,
+  "lon": 74.7871446,
+  "tags": {
+    "amenity": "school",
+    "name": "Manipal Pre-University College (MPUC)",
+    "name:kn": "ಮಣಿಪಾಲ ಪದವಿಪೂರ್ವ ಕಾಲೇಜು"
+  }
+},
+{
+  "type": "node",
+  "id": 1998408598,
+  "lat": 13.3158342,
+  "lon": 74.7290894,
+  "tags": {
+    "name": "Kutvadi",
+    "name:kn": "ಕುತ್ಪಾಡಿ",
+    "name:kn:iso15919": "Kutpāḍi",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 1998408608,
+  "lat": 13.3167157,
+  "lon": 74.7473067,
+  "tags": {
+    "name": "Bailuru",
+    "name:kn": "ಬೈಲೂರು",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 1998410212,
+  "lat": 13.3365103,
+  "lon": 74.7298182,
+  "tags": {
+    "name": "Ambalapadi",
+    "name:kn": "ಅಂಬಲಪಾಡಿ",
+    "place": "suburb"
+  }
+},
+{
+  "type": "node",
+  "id": 1998410215,
+  "lat": 13.3371158,
+  "lon": 74.7209991,
+  "tags": {
+    "name": "Kidiyuru",
+    "name:kn": "ಕಿದಿಯೂರು",
+    "name:kn:iso15919": "Kidiyūru",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 1998410220,
+  "lat": 13.3359378,
+  "lon": 74.7305487,
+  "tags": {
+    "amenity": "school",
+    "name": "Government Primary School",
+    "name:kn": "ಸರ್ಕಾರಿ ಪ್ರಾಥಮಿಕ ಶಾಲೆ"
+  }
+},
+{
+  "type": "node",
+  "id": 2061058773,
+  "lat": 13.3035443,
+  "lon": 74.7768318,
+  "tags": {
+    "name": "Kalmanje",
+    "name:kn": "ಕಲ್ಮಂಜೆ",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 2328322487,
+  "lat": 13.2945226,
+  "lon": 74.7799819,
+  "tags": {
+    "name": "Dendur",
+    "name:kn": "ದೆಂದೂರು",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 2328322703,
+  "lat": 13.2708286,
+  "lon": 74.7988642,
+  "tags": {
+    "name": "Kunjarugiri",
+    "name:kn": "ಕುಂಜಾರುಗಿರಿ",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 2328322856,
+  "lat": 13.3480775,
+  "lon": 74.7209165,
+  "tags": {
+    "name": "Kalmadi",
+    "name:kn": "ಕಲ್ಮಾಡಿ",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 2338365466,
+  "lat": 13.2493015,
+  "lon": 74.7922593,
+  "tags": {
+    "name": "Bantakallu",
+    "name:kn": "ಬಂಟಕಲ್ಲು",
+    "name:kn:iso15919": "Baṇṭakallu",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 3061315049,
+  "lat": 13.2593837,
+  "lon": 74.7458067,
+  "tags": {
+    "name": "Pangala",
+    "name:kn": "ಪಾಂಗಾಳ",
+    "name:kn:iso15919": "Pāṅgāḷa",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 3119030240,
+  "lat": 13.2603426,
+  "lon": 74.7712380,
+  "tags": {
+    "name": "Shankarapura",
+    "name:kn": "ಶಂಕರಪುರ",
+    "name:kn:iso15919": "Śaṅkarapura",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 3119030241,
+  "lat": 13.2727341,
+  "lon": 74.7700840,
+  "tags": {
+    "name": "Kurkalu",
+    "name:kn": "ಕುರ್ಕಾಲು",
+    "name:kn:iso15919": "Kurkālu",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 3119030242,
+  "lat": 13.2266328,
+  "lon": 74.7675617,
+  "tags": {
+    "name": "Majuru",
+    "name:kn": "ಮಜೂರು",
+    "name:kn:iso15919": "Majūru",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 3304615441,
+  "lat": 13.3450059,
+  "lon": 74.7828340,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "24 Ananth Nagar Manipal",
+    "addr:postcode": "576104",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Sonia Clinic",
+    "source": "OpenGovernmentData"
+  }
+},
+{
+  "type": "node",
+  "id": 3722413016,
+  "lat": 13.3280514,
+  "lon": 74.7650201,
+  "tags": {
+    "name": "Indiranagara",
+    "name:kn": "ಇಂದಿರಾನಗರ",
+    "place": "suburb"
+  }
+},
+{
+  "type": "node",
+  "id": 4056580682,
+  "lat": 13.2055538,
+  "lon": 74.7700672,
+  "tags": {
+    "name": "Belapu",
+    "name:kn": "ಬೆಳಪು",
+    "name:kn:iso15919": "Beḷapu",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 4056580683,
+  "lat": 13.2527323,
+  "lon": 74.7697919,
+  "tags": {
+    "name": "Innanje",
+    "name:kn": "ಇನ್ನಂಜೆ",
+    "name:kn:iso15919": "Innañje",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 4056580685,
+  "lat": 13.2805773,
+  "lon": 74.7402555,
+  "tags": {
+    "name": "Kote",
+    "name:kn": "ಕೋಟೆ",
+    "name:kn:iso15919": "Kōṭe",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 4056580686,
+  "lat": 13.2711323,
+  "lon": 74.7296777,
+  "tags": {
+    "name": "Mattu",
+    "name:kn": "ಮಟ್ಟು",
+    "name:kn:iso15919": "Maṭṭu",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 4056580687,
+  "lat": 13.3193799,
+  "lon": 74.7419763,
+  "tags": {
+    "name": "Pade",
+    "name:kn": "ಪಾಡೆ",
+    "name:kn:iso15919": "Pāḍe",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 4056581289,
+  "lat": 13.2938218,
+  "lon": 74.7286768,
+  "tags": {
+    "name": "Pitrodi",
+    "name:kn": "ಪಿತ್ರೋಡಿ",
+    "name:kn:iso15919": "Pitrōḍi",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 4056581292,
+  "lat": 13.3027326,
+  "lon": 74.7361627,
+  "tags": {
+    "name": "Udyavara",
+    "name:kn": "ಉದ್ಯಾವರ",
+    "name:kn:iso15919": "Udyāvara",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 4056581293,
+  "lat": 13.2874277,
+  "lon": 74.7524790,
+  "tags": {
+    "name": "Yenagudde",
+    "name:kn": "ಯೇಣಗುಡ್ಡೆ",
+    "name:kn:iso15919": "Yēṇaguḍḍe",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 4056581369,
+  "lat": 13.3129085,
+  "lon": 74.7804376,
+  "tags": {
+    "name": "Mudu Alevuru",
+    "name:kn": "ಮೂಡು ಅಲೆವೂರು",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 4057267444,
+  "lat": 13.2101674,
+  "lon": 74.7921981,
+  "tags": {
+    "name": "Kalatturu",
+    "name:kn": "ಕಳತ್ತೂರು",
+    "name:kn:iso15919": "Kaḷattūru",
+    "place": "hamlet"
+  }
+},
+{
+  "type": "node",
+  "id": 4057267446,
+  "lat": 13.2204483,
+  "lon": 74.7642263,
+  "tags": {
+    "name": "Mallaru",
+    "name:kn": "ಮಲ್ಲಾರು",
+    "name:kn:iso15919": "Mallāru",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 6003073399,
+  "lat": 13.3412188,
+  "lon": 74.7407976,
+  "tags": {
+    "name": "Brahmagiri",
+    "name:kn": "ಬ್ರಹ್ಮಗಿರಿ",
+    "place": "suburb"
+  }
+},
+{
+  "type": "node",
+  "id": 6003073400,
+  "lat": 13.3234807,
+  "lon": 74.7388074,
+  "tags": {
+    "name": "Kinnimulki",
+    "name:kn": "ಕಿನ್ನಿಮುಲ್ಕಿ",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 6237703191,
+  "lat": 13.2761615,
+  "lon": 74.7562122,
+  "tags": {
+    "name": "Acchada",
+    "name:kn": "ಅಚ್ಚಡ",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 6237703192,
+  "lat": 13.3664844,
+  "lon": 74.7017473,
+  "tags": {
+    "name": "Thottam",
+    "name:kn": "ತೊಟ್ಟಂ",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 6238226220,
+  "lat": 13.2452300,
+  "lon": 74.7432089,
+  "tags": {
+    "name": "Uliyaragoli",
+    "name:kn": "ಉಳಿಯಾರಗೋಳಿ",
+    "name:ml": "ഉളിയാരഗോളി",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 6238226221,
+  "lat": 13.2364573,
+  "lon": 74.7443569,
+  "tags": {
+    "name": "Polipu",
+    "name:kn": "ಪೊಲಿಪು",
+    "place": "hamlet"
+  }
+},
+{
+  "type": "node",
+  "id": 6238226222,
+  "lat": 13.2490418,
+  "lon": 74.7333008,
+  "tags": {
+    "name": "Kaipunjal",
+    "name:kn": "ಕೈಪುಂಜಾಲ್",
+    "place": "hamlet"
+  }
+},
+{
+  "type": "node",
+  "id": 6355231748,
+  "lat": 13.2264519,
+  "lon": 74.7798693,
+  "tags": {
+    "name": "Paduru",
+    "name:kn": "ಪಡೂರು",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 6938695150,
+  "lat": 13.3538104,
+  "lon": 74.7900929,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Madhava Nagar, Pumpwell, Manipal",
+    "addr:postcode": "576104",
+    "addr:state": "Karnataka",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Kasturba Hospital, Udupi",
+    "name:kn": "ಕಸ್ತೂರ್ಬ ಆಸ್ಪತ್ರೆ",
+    "source": "OpenGovernmentData"
+  }
+},
+{
+  "type": "node",
+  "id": 6938996759,
+  "lat": 13.3129462,
+  "lon": 74.7356558,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Kuthpady",
+    "addr:postcode": "574118",
+    "addr:state": "Karnataka",
+    "amenity": "hospital",
+    "name": "S. D. M. Ayurveda Hospital",
+    "source": "OpenGovernmentData"
+  }
+},
+{
+  "type": "node",
+  "id": 6939052533,
+  "lat": 13.3373118,
+  "lon": 74.7489327,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Church Road",
+    "addr:postcode": "576222",
+    "addr:state": "Karnataka",
+    "amenity": "hospital",
+    "name": "J M J Diagnova Hospital",
+    "source": "OpenGovernmentData"
+  }
+},
+{
+  "type": "node",
+  "id": 6939067858,
+  "lat": 13.3595038,
+  "lon": 74.7624175,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "6Th Main, V.M.Nagar,Doddanaguddue",
+    "addr:postcode": "576102",
+    "addr:state": "Karnataka",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Dr.A.V.Baliga Memorial Hospital",
+    "source": "OpenGovernmentData"
+  }
+},
+{
+  "type": "node",
+  "id": 6944239594,
+  "lat": 13.3435049,
+  "lon": 74.7474562,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Vyavahar Plaza,Bannanje",
+    "addr:postcode": "576101",
+    "addr:state": "Karnataka",
+    "amenity": "hospital",
+    "name": "Manjunatha Eye Hospital",
+    "source": "OpenGovernmentData"
+  }
+},
+{
+  "type": "node",
+  "id": 6944703659,
+  "lat": 13.3391700,
+  "lon": 74.7467682,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "# 12-4-2A1, Behind Alankar Theatre, A. J. Aese Road",
+    "addr:postcode": "576101",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Prasad Netralaya",
+    "source": "OpenGovernmentData"
+  }
+},
+{
+  "type": "node",
+  "id": 6947003708,
+  "lat": 13.3359202,
+  "lon": 74.7466341,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Andrade Arcade, K. M. Marg, Opposite Syndicate Bank",
+    "addr:postcode": "576101",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Mahalaxmi Eye Clinic and Laser Centre",
+    "source": "OpenGovernmentData"
+  }
+},
+{
+  "type": "node",
+  "id": 6947682047,
+  "lat": 13.3368877,
+  "lon": 74.7495161,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Upendra Towers , Kamath Nursing Home Km Marg",
+    "addr:postcode": "576101",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Roshni Laparoscopy And Infertility Centre",
+    "source": "OpenGovernmentData"
+  }
+},
+{
+  "type": "node",
+  "id": 7562741442,
+  "lat": 13.3400479,
+  "lon": 74.7473380,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Brahmagiri, Udupi",
+    "addr:postcode": "576101",
+    "addr:state": "Karnataka",
+    "amenity": "hospital",
+    "name": "Adarsha Hospital",
+    "name:kn": "ಆದರ್ಶ ಆಸ್ಪತ್ರೆ",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 7562741446,
+  "lat": 13.3576414,
+  "lon": 74.7553773,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Karnataka Housing Board Colony, Doddanagudde, Udupi",
+    "addr:postcode": "576102",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Sushrutha Clinic",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 7562741448,
+  "lat": 13.3471954,
+  "lon": 74.7679297,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Kunjibettu, Udupi",
+    "addr:postcode": "576102",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Hitayu Ayurveda Centre",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 7562741457,
+  "lat": 13.3134800,
+  "lon": 74.7511112,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "NGO Colony, Bailoor",
+    "addr:postcode": "576101",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Amritha Clinic",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 7562741463,
+  "lat": 13.3459551,
+  "lon": 74.7631752,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "MG Road, Kunjibettu, Udupi",
+    "addr:postcode": "576102",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Anugraha Medical Centre",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 7562741465,
+  "lat": 13.3096843,
+  "lon": 74.7366234,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Udyavara, Udupi",
+    "addr:postcode": "581347",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Dr. Sharma Clinic",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 7562741468,
+  "lat": 13.3331893,
+  "lon": 74.7486388,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Kadekoppala, Chitpady, Udupi",
+    "addr:postcode": "576101",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Upachar Urology Clinic",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 7562741472,
+  "lat": 13.3341557,
+  "lon": 74.7480716,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Brahmagiri, Udupi",
+    "addr:postcode": "576101",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Sneha Clinic",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 7562741474,
+  "lat": 13.3353360,
+  "lon": 74.7508588,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Near Poornaprajna Auditorium, Kadekoppala, Chitpady, Udupi",
+    "addr:postcode": "576101",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Anantha Jyothi Nethralaya",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 7562741506,
+  "lat": 13.3340600,
+  "lon": 74.7481040,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Court Road, Brahmagiri, Udupi",
+    "addr:postcode": "576101",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Anusha Children's Clinic",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 7562741515,
+  "lat": 13.3448171,
+  "lon": 74.7507886,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Thenkpete, Maruthi Veethika, Udupi",
+    "addr:postcode": "576101",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Vivek Homeo Clinic",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 7562741520,
+  "lat": 13.3459792,
+  "lon": 74.7636114,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Kunjibettu, Udupi",
+    "addr:postcode": "576103",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Acharya ENT Clinic",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 7562741521,
+  "lat": 13.3450736,
+  "lon": 74.7648591,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Near MGM College, Kunjibettu, Udupi",
+    "addr:postcode": "576103",
+    "addr:state": "Karnataka",
+    "amenity": "hospital",
+    "name": "Sunag Ortho Care And Multi-Speciality Centre",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 7562741525,
+  "lat": 13.3458235,
+  "lon": 74.7710362,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Indrali, Hayagreeva Nagar, Udupi",
+    "addr:postcode": "576102",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Amcare Clinic",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 7562741528,
+  "lat": 13.3385134,
+  "lon": 74.7495363,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Thenkpete, Maruthi Veethika, Udupi",
+    "addr:postcode": "576101",
+    "addr:state": "Karnataka",
+    "amenity": "hospital",
+    "name": "Koosamma Shambhu Shetty Memorial Haji Abdullah Mother & Child Hospital",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 7562741533,
+  "lat": 13.3564909,
+  "lon": 74.7609817,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Doddanagudde, Udupi",
+    "addr:postcode": "576102",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Athreya Clinic",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 7562741535,
+  "lat": 13.3482976,
+  "lon": 74.7749806,
+  "tags": {
+    "addr:district": "Udupi",
+    "addr:full": "Kunjibettu, Udupi",
+    "addr:postcode": "576102",
+    "addr:state": "Karnataka",
+    "amenity": "clinic",
+    "name": "Manipal Homeopathy Clinic",
+    "source": "Local Knowledge"
+  }
+},
+{
+  "type": "node",
+  "id": 7827302832,
+  "lat": 13.3579685,
+  "lon": 74.7556273,
+  "tags": {
+    "amenity": "school",
+    "name": "Doddanagudde Government School"
+  }
+},
+{
+  "type": "node",
+  "id": 7827627565,
+  "lat": 13.3538044,
+  "lon": 74.7554992,
+  "tags": {
+    "amenity": "school",
+    "name": "Gundibail School"
+  }
+},
+{
+  "type": "node",
+  "id": 10589606599,
+  "lat": 13.3530060,
+  "lon": 74.7100534,
+  "tags": {
+    "name": "Kodavoor",
+    "name:kn": "ಕೊಡವೂರು",
+    "name:ml": "കൊടവൂർ",
+    "place": "suburb"
+  }
+},
+{
+  "type": "node",
+  "id": 13810352425,
+  "lat": 13.3178250,
+  "lon": 74.7658080,
+  "tags": {
+    "name": "Marpalli",
+    "name:kn": "ಮಾರ್ಪಲ್ಲಿ",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 13970019301,
+  "lat": 13.3109396,
+  "lon": 74.7993720,
+  "tags": {
+    "addr:postcode": "576104",
+    "amenity": "school",
+    "contact:facebook": "share/p/1DuMHa282e",
+    "email": "kvudupi@gmail.com",
+    "name": "Kendriya vidyalaya Udupi",
+    "opening_hours": "Mo-Sa 08:30-16:00",
+    "phone": "0820-2950079",
+    "website": "https://udupi.kvs.ac.in"
+  }
+},
+{
+  "type": "way",
+  "id": 150301801,
+  "center": {
+    "lat": 13.3246104,
+    "lon": 74.7670164
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "primary",
+    "lanes": "2",
+    "layer": "1",
+    "ref": "SH37"
+  }
+},
+{
+  "type": "way",
+  "id": 150301802,
+  "center": {
+    "lat": 13.2998307,
+    "lon": 74.7793427
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "primary",
+    "lanes": "2",
+    "layer": "1",
+    "ref": "SH37"
+  }
+},
+{
+  "type": "way",
+  "id": 150311490,
+  "center": {
+    "lat": 13.3208764,
+    "lon": 74.7656010
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "secondary",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 158470664,
+  "center": {
+    "lat": 13.2216865,
+    "lon": 74.7744727
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "secondary",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 158470667,
+  "center": {
+    "lat": 13.2801781,
+    "lon": 74.7575940
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "secondary",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 158471675,
+  "center": {
+    "lat": 13.2261610,
+    "lon": 74.7613487
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "secondary",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 158480965,
+  "center": {
+    "lat": 13.2547709,
+    "lon": 74.7457565
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "trunk",
+    "lanes": "2",
+    "layer": "1",
+    "maxspeed": "80",
+    "maxweight:signed": "no",
+    "oneway": "yes",
+    "ref": "NH66",
+    "ref:old": "NH17"
+  }
+},
+{
+  "type": "way",
+  "id": 158486423,
+  "center": {
+    "lat": 13.2973503,
+    "lon": 74.7450481
+  },
+  "tags": {
+    "bridge": "yes",
+    "dual_carriageway": "yes",
+    "highway": "trunk",
+    "lanes": "3",
+    "layer": "1",
+    "maxspeed": "80",
+    "maxweight:signed": "no",
+    "oneway": "yes",
+    "ref": "NH66",
+    "ref:old": "NH17",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 158486426,
+  "center": {
+    "lat": 13.2887850,
+    "lon": 74.7550449
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "secondary",
+    "lanes": "2",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 158486429,
+  "center": {
+    "lat": 13.2916343,
+    "lon": 74.7582589
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "secondary",
+    "lanes": "2",
+    "layer": "1",
+    "name:kn": "ಮಣಿಪುರ ಸೇತುವೆ"
+  }
+},
+{
+  "type": "way",
+  "id": 225005166,
+  "center": {
+    "lat": 13.2411282,
+    "lon": 74.7637996
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "secondary",
+    "lanes": "2",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 225119878,
+  "center": {
+    "lat": 13.2747531,
+    "lon": 74.7294480
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "lanes": "1",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 248111317,
+  "center": {
+    "lat": 13.2248079,
+    "lon": 74.7392285
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "tertiary",
+    "layer": "1",
+    "maxweight:signed": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 255672954,
+  "center": {
+    "lat": 13.3288552,
+    "lon": 74.7186506
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 255917211,
+  "center": {
+    "lat": 13.2984400,
+    "lon": 74.7466042
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 256638639,
+  "center": {
+    "lat": 13.3318237,
+    "lon": 74.7881925
+  },
+  "tags": {
+    "name": "Manipal",
+    "name:kn": "ಮಣಿಪಾಲ",
+    "power": "substation"
+  }
+},
+{
+  "type": "way",
+  "id": 256638744,
+  "center": {
+    "lat": 13.3657081,
+    "lon": 74.7437440
+  },
+  "tags": {
+    "power": "substation"
+  }
+},
+{
+  "type": "way",
+  "id": 258650942,
+  "center": {
+    "lat": 13.3571422,
+    "lon": 74.7165798
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "tertiary",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 623136693,
+  "center": {
+    "lat": 13.3487617,
+    "lon": 74.6934653
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "path",
+    "informal": "yes",
+    "layer": "1",
+    "surface": "paving_stones"
+  }
+},
+{
+  "type": "way",
+  "id": 636601131,
+  "center": {
+    "lat": 13.2546923,
+    "lon": 74.7458882
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "trunk",
+    "lanes": "2",
+    "layer": "1",
+    "maxweight:signed": "no",
+    "oneway": "yes",
+    "ref": "NH66"
+  }
+},
+{
+  "type": "way",
+  "id": 636601132,
+  "center": {
+    "lat": 13.3248362,
+    "lon": 74.7395434
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "primary_link",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 636601146,
+  "center": {
+    "lat": 13.2973413,
+    "lon": 74.7451974
+  },
+  "tags": {
+    "bridge": "yes",
+    "dual_carriageway": "yes",
+    "highway": "trunk",
+    "lanes": "2",
+    "layer": "1",
+    "maxweight:signed": "no",
+    "oneway": "yes",
+    "ref": "NH66",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 800602654,
+  "center": {
+    "lat": 13.2270918,
+    "lon": 74.7758976
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "tertiary",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 800602664,
+  "center": {
+    "lat": 13.2318049,
+    "lon": 74.7730772
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 800636100,
+  "center": {
+    "lat": 13.2146915,
+    "lon": 74.7793600
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "unclassified",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 800636131,
+  "center": {
+    "lat": 13.2188006,
+    "lon": 74.7627217
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "unclassified",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 800963163,
+  "center": {
+    "lat": 13.2319276,
+    "lon": 74.7407176
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 801009719,
+  "center": {
+    "lat": 13.2141144,
+    "lon": 74.7559002
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "track",
+    "layer": "1",
+    "source": "digitalglobe",
+    "surface": "unpaved"
+  }
+},
+{
+  "type": "way",
+  "id": 801476108,
+  "center": {
+    "lat": 13.2037817,
+    "lon": 74.7659977
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "unclassified",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 802367140,
+  "center": {
+    "lat": 13.2924049,
+    "lon": 74.7738060
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 803215682,
+  "center": {
+    "lat": 13.2557177,
+    "lon": 74.7384004
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 803216793,
+  "center": {
+    "lat": 13.2556204,
+    "lon": 74.7355939
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "unclassified",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 803242824,
+  "center": {
+    "lat": 13.2675718,
+    "lon": 74.7359132
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "unclassified",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 803242829,
+  "center": {
+    "lat": 13.2629112,
+    "lon": 74.7325210
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "unclassified",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 803301362,
+  "center": {
+    "lat": 13.2715674,
+    "lon": 74.7350836
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 803370152,
+  "center": {
+    "lat": 13.3399840,
+    "lon": 74.7073773
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "tertiary",
+    "lane_markings": "no",
+    "layer": "1",
+    "maxweightrating": "20",
+    "name": "Malpe Bridge",
+    "name:kn": "ಮಲ್ಪೆ -ಪಡುಕೆರೆ ಸೇತುವೆ",
+    "source": "digitalglobe",
+    "surface": "concrete"
+  }
+},
+{
+  "type": "way",
+  "id": 803373752,
+  "center": {
+    "lat": 13.3486919,
+    "lon": 74.7108736
+  },
+  "tags": {
+    "bicycle": "yes",
+    "bridge": "yes",
+    "cycleway": "lane",
+    "foot": "designated",
+    "highway": "primary",
+    "lanes": "2",
+    "layer": "1",
+    "oneway": "no",
+    "ref": "SH65"
+  }
+},
+{
+  "type": "way",
+  "id": 804116497,
+  "center": {
+    "lat": 13.2983737,
+    "lon": 74.7610858
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "unclassified",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 804201419,
+  "center": {
+    "lat": 13.2401934,
+    "lon": 74.7570297
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "secondary",
+    "lanes": "2",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 804201422,
+  "center": {
+    "lat": 13.2404009,
+    "lon": 74.7578233
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "secondary",
+    "lanes": "2",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 804207565,
+  "center": {
+    "lat": 13.3496368,
+    "lon": 74.7689971
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 804218025,
+  "center": {
+    "lat": 13.2550693,
+    "lon": 74.7455996
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "unclassified",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 804226626,
+  "center": {
+    "lat": 13.2048836,
+    "lon": 74.7962324
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "tertiary",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 804242323,
+  "center": {
+    "lat": 13.3587068,
+    "lon": 74.7328524
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "unclassified",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 804242325,
+  "center": {
+    "lat": 13.3568565,
+    "lon": 74.7344842
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 805237621,
+  "center": {
+    "lat": 13.2279139,
+    "lon": 74.7521064
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "secondary",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 805237623,
+  "center": {
+    "lat": 13.2175406,
+    "lon": 74.7533150
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "unclassified",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 805912784,
+  "center": {
+    "lat": 13.3028871,
+    "lon": 74.7481596
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 805927210,
+  "center": {
+    "lat": 13.2330034,
+    "lon": 74.7936813
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "track",
+    "layer": "1",
+    "source": "digitalglobe",
+    "surface": "unpaved"
+  }
+},
+{
+  "type": "way",
+  "id": 805962039,
+  "center": {
+    "lat": 13.3000232,
+    "lon": 74.7996457
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 806025728,
+  "center": {
+    "lat": 13.2576048,
+    "lon": 74.7615378
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "unclassified",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 806265847,
+  "center": {
+    "lat": 13.2099028,
+    "lon": 74.7557417
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "unclassified",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 806667668,
+  "center": {
+    "lat": 13.2974584,
+    "lon": 74.7361053
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 808739970,
+  "center": {
+    "lat": 13.3168476,
+    "lon": 74.7203974
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 809455887,
+  "center": {
+    "lat": 13.3596612,
+    "lon": 74.7666971
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "tertiary",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 809481457,
+  "center": {
+    "lat": 13.3524360,
+    "lon": 74.7384860
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "trunk",
+    "lanes": "2",
+    "layer": "1",
+    "maxspeed": "100",
+    "oneway": "yes",
+    "ref": "NH66",
+    "ref:old": "NH17",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 809481459,
+  "center": {
+    "lat": 13.3525288,
+    "lon": 74.7383277
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "trunk",
+    "lanes": "2",
+    "layer": "1",
+    "maxspeed": "100",
+    "oneway": "yes",
+    "ref": "NH66",
+    "ref:old": "NH17"
+  }
+},
+{
+  "type": "way",
+  "id": 810382175,
+  "center": {
+    "lat": 13.3488071,
+    "lon": 74.7167922
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "tertiary",
+    "layer": "1",
+    "oneway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 812475570,
+  "center": {
+    "lat": 13.3339073,
+    "lon": 74.7258288
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "unclassified",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 812750770,
+  "center": {
+    "lat": 13.3430785,
+    "lon": 74.7177291
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "secondary",
+    "layer": "1",
+    "motorroad": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 813022684,
+  "center": {
+    "lat": 13.3413747,
+    "lon": 74.7217240
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 816094698,
+  "center": {
+    "lat": 13.2675826,
+    "lon": 74.7412073
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 816094701,
+  "center": {
+    "lat": 13.2658614,
+    "lon": 74.7585083
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "unclassified",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 816141143,
+  "center": {
+    "lat": 13.3382696,
+    "lon": 74.7135447
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 1054516111,
+  "center": {
+    "lat": 13.3032743,
+    "lon": 74.7873134
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "residential",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 1056606828,
+  "center": {
+    "lat": 13.2494451,
+    "lon": 74.7367426
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "tertiary",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 1192556805,
+  "center": {
+    "lat": 13.3321037,
+    "lon": 74.7884543
+  },
+  "tags": {
+    "name": "Manipal",
+    "name:kn": "ಮಣಿಪಾಲ",
+    "operator": "KPTCL",
+    "power": "substation",
+    "substation": "distribution",
+    "voltage": "110000"
+  }
+},
+{
+  "type": "way",
+  "id": 1205677433,
+  "center": {
+    "lat": 13.3454775,
+    "lon": 74.7704768
+  },
+  "tags": {
+    "access": "yes",
+    "alt_name": "Thirthahalli - Udupi Highway",
+    "bicycle": "yes",
+    "bridge": "yes",
+    "cycleway": "no",
+    "foot": "yes",
+    "highway": "trunk",
+    "horse": "yes",
+    "lanes": "2",
+    "layer": "1",
+    "name": "Malpe - Manipal Road",
+    "name:kn": "ಮಲ್ಪೆ - ಮಣಿಪಾಲ ರಸ್ತೆ",
+    "oneway": "yes",
+    "ref": "NH169A",
+    "sidewalk": "no",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1205677435,
+  "center": {
+    "lat": 13.3453834,
+    "lon": 74.7704916
+  },
+  "tags": {
+    "access": "yes",
+    "alt_name": "Thirthahalli - Udupi Highway",
+    "bicycle": "yes",
+    "bridge": "yes",
+    "cycleway": "lane",
+    "foot": "designated",
+    "highway": "trunk",
+    "horse": "yes",
+    "lanes": "2",
+    "layer": "1",
+    "name": "Malpe-Manipal Road;Malpe - Manipal Road",
+    "name:kn": "ಮಲ್ಪೆ - ಮಣಿಪಾಲ ರಸ್ತೆ",
+    "oneway": "yes",
+    "ref": "NH169A",
+    "ref:old": "SH65",
+    "sidewalk": "no",
+    "surface": "asphalt"
+  }
+},
+{
+  "type": "way",
+  "id": 1237731517,
+  "center": {
+    "lat": 13.3085156,
+    "lon": 74.7578517
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "secondary",
+    "layer": "1",
+    "name": "NH66 - Udyavara - Kemturu - Rampura - Guddeyangadi - Marne - Pernankila - Moodubelle Road"
+  }
+},
+{
+  "type": "way",
+  "id": 1280260987,
+  "center": {
+    "lat": 13.2749277,
+    "lon": 74.7292234
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "tertiary",
+    "lanes": "2",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 1370367938,
+  "center": {
+    "lat": 13.3465102,
+    "lon": 74.7359211
+  },
+  "tags": {
+    "bridge": "yes",
+    "dual_carriageway": "yes",
+    "highway": "trunk",
+    "lanes": "2",
+    "layer": "1",
+    "maxspeed": "100",
+    "oneway": "yes",
+    "ref": "NH66",
+    "ref:old": "NH17",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 1370367940,
+  "center": {
+    "lat": 13.3465360,
+    "lon": 74.7358112
+  },
+  "tags": {
+    "bridge": "yes",
+    "dual_carriageway": "yes",
+    "highway": "trunk",
+    "lanes": "2",
+    "layer": "1",
+    "maxspeed": "100",
+    "oneway": "yes",
+    "ref": "NH66",
+    "ref:old": "NH17"
+  }
+},
+{
+  "type": "way",
+  "id": 1495481340,
+  "center": {
+    "lat": 13.3407200,
+    "lon": 74.7709406
+  },
+  "tags": {
+    "power": "substation"
+  }
+},
+{
+  "type": "way",
+  "id": 1495481342,
+  "center": {
+    "lat": 13.3406750,
+    "lon": 74.7709347
+  },
+  "tags": {
+    "building": "yes",
+    "power": "substation"
+  }
+},
+{
+  "type": "way",
+  "id": 1495481351,
+  "center": {
+    "lat": 13.3354074,
+    "lon": 74.7711709
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "footway",
+    "incline": "down",
+    "layer": "1",
+    "ramp": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1495481352,
+  "center": {
+    "lat": 13.3351905,
+    "lon": 74.7710474
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "footway",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 1495481353,
+  "center": {
+    "lat": 13.3353989,
+    "lon": 74.7708945
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "footway",
+    "incline": "up",
+    "layer": "1",
+    "ramp": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1495481355,
+  "center": {
+    "lat": 13.3444318,
+    "lon": 74.7705861
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1533003497,
+  "center": {
+    "lat": 13.2083727,
+    "lon": 74.7648728
+  },
+  "tags": {
+    "power": "substation",
+    "substation": "traction"
+  }
+},
+{
+  "type": "way",
+  "id": 1547162824,
+  "center": {
+    "lat": 13.3370468,
+    "lon": 74.7364483
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "trunk",
+    "lanes": "2",
+    "layer": "1",
+    "maxspeed": "100",
+    "oneway": "yes",
+    "ref": "NH66",
+    "ref:old": "NH17"
+  }
+},
+{
+  "type": "way",
+  "id": 1547162826,
+  "center": {
+    "lat": 13.3370452,
+    "lon": 74.7365264
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "trunk",
+    "lanes": "2",
+    "layer": "1",
+    "maxspeed": "100",
+    "oneway": "yes",
+    "ref": "NH66",
+    "ref:old": "NH17",
+    "source": "digitalglobe"
+  }
+}
+
+  ]
+}

@@ -1,0 +1,1293 @@
+<title>Cascade: Coastal Resilience Simulator</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  /* Cascade commits to one visual world: a flood-operations control room.
+     Dark ground throughout, by design, on every host theme. */
+  :root{
+    --bg:#0A1417;
+    --surface:#0F1C20;
+    --surface-2:#152528;
+    --ink:#E9F3F1;
+    --ink-soft:#9AB2B4;
+    --ink-faint:#5F787B;
+    --accent:#3FC6DE;
+    --accent-deep:#1E96AC;
+    --accent-soft:#12333C;
+    --danger:#FF7466;
+    --danger-soft:#301E1B;
+    --warning:#FFB35E;
+    --warning-soft:#332812;
+    --safe:#4CDA98;
+    --safe-soft:#0F3226;
+    --line:#1D2C2F;
+    --line-strong:#2A3E42;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 14px 34px -16px rgba(0,0,0,.75);
+    --font-display:'Big Shoulders', 'Arial Narrow', sans-serif;
+    --font-body:'IBM Plex Sans', system-ui, sans-serif;
+    --font-mono:'IBM Plex Mono', ui-monospace, monospace;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0; color:var(--ink);
+    font-family:var(--font-body); font-size:14px; line-height:1.5;
+    background:
+      radial-gradient(1100px 600px at 14% -10%, rgba(63,198,222,.07), transparent 60%),
+      var(--bg);
+  }
+  ::selection{ background:var(--accent-soft); }
+
+  .app{ display:flex; flex-direction:column; min-height:100vh; }
+  .topbar{ height:3px; flex:0 0 3px; background:linear-gradient(90deg, var(--accent-deep), var(--accent) 35%, transparent 75%); }
+
+  /* ---------- Header ---------- */
+  .hdr{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:20px; padding:12px 26px; border-bottom:1px solid var(--line-strong);
+    background:linear-gradient(180deg, var(--surface), var(--bg));
+  }
+  .hdr-title{ display:flex; align-items:center; gap:13px; min-width:0; }
+  .mark{ flex:0 0 auto; display:block; }
+  .hdr h1{
+    font-family:var(--font-display); font-weight:800; font-size:24px;
+    letter-spacing:.4px; margin:0; color:var(--ink);
+    text-transform:uppercase; line-height:1; white-space:nowrap;
+  }
+  .hdr-divider{ width:1px; height:22px; background:var(--line-strong); flex:0 0 auto; }
+  .hdr .tag{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.06em;
+    color:var(--ink-faint); text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .live-badge{
+    flex:0 0 auto; display:flex; align-items:center; gap:7px;
+    font-family:var(--font-mono); font-size:10px; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--accent-deep); border:1px solid var(--accent-deep); background:var(--accent-soft);
+    padding:6px 12px; border-radius:99px; white-space:nowrap; font-weight:600;
+  }
+  .live-badge .dot{ width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 6px var(--accent); animation:pulse 2.2s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.4; } }
+  @media (prefers-reduced-motion: reduce){ .live-badge .dot{ animation:none; } }
+
+  /* ---------- Footer ---------- */
+  .ftr{
+    flex:0 0 auto; display:flex; flex-direction:column; gap:7px;
+    padding:11px 26px; border-top:1px solid var(--line-strong);
+    background:linear-gradient(0deg, var(--surface), var(--bg));
+  }
+  .ftr-facts{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .ftr-fact{
+    display:flex; align-items:center; gap:6px;
+    font-family:var(--font-mono); font-size:10px; letter-spacing:.02em; font-weight:600;
+    color:var(--ink-soft); background:var(--surface-2); border:1px solid var(--line);
+    padding:4px 9px 4px 8px; border-radius:99px; white-space:nowrap;
+  }
+  .ftr-fact .sw{ width:7px; height:7px; border-radius:50%; flex:0 0 auto; }
+  .ftr-fact b{ color:var(--ink); font-weight:700; }
+  .ftr-sep{ color:var(--ink-faint); font-size:10px; }
+  .ftr-note{
+    font-family:var(--font-mono); font-size:9.5px; color:var(--ink-faint); letter-spacing:.01em;
+    line-height:1.5;
+  }
+
+  /* ---------- Layout ---------- */
+  .main{ display:flex; flex:1; min-height:0; }
+  .map-col{ flex:1 1 auto; display:flex; flex-direction:column; padding:14px 12px 14px 26px; min-width:0; }
+  .side-col{
+    width:400px; flex:0 0 400px; border-left:1px solid var(--line);
+    padding:14px 24px 20px; overflow-y:auto; background:var(--surface);
+  }
+
+  /* ---------- Water level deck ---------- */
+  .deck{
+    background:var(--surface); border:1px solid var(--line); border-radius:7px;
+    padding:15px 18px; box-shadow:var(--shadow); margin-bottom:12px;
+  }
+  .deck-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .deck-label{
+    font-family:var(--font-mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:.08em; color:var(--ink-faint);
+  }
+  .deck-value{ font-family:var(--font-display); font-size:28px; font-weight:800; color:var(--accent-deep); line-height:1; }
+  .deck-value span{ font-size:14px; font-weight:600; color:var(--ink-faint); margin-left:2px; }
+  input[type=range]{
+    width:100%; margin:11px 0 4px; -webkit-appearance:none; appearance:none;
+    height:6px; border-radius:4px;
+    background:linear-gradient(90deg, var(--safe) 0%, var(--warning) 55%, var(--danger) 100%);
+    outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none; width:18px; height:18px; border-radius:50%;
+    background:var(--surface); border:3px solid var(--accent-deep); cursor:pointer;
+    box-shadow:0 1px 4px rgba(0,0,0,.3);
+  }
+  input[type=range]::-moz-range-thumb{
+    width:18px; height:18px; border-radius:50%; background:var(--surface);
+    border:3px solid var(--accent-deep); cursor:pointer;
+  }
+  .presets{ display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-top:9px; }
+  .preset-btn{
+    font-family:var(--font-body); font-size:11px; font-weight:600; text-align:center;
+    padding:7px 4px; border-radius:4px; border:1px solid var(--line-strong);
+    background:var(--surface-2); color:var(--ink-soft); cursor:pointer;
+    transition:background .12s,color .12s,border-color .12s; line-height:1.3;
+  }
+  .preset-btn:hover{ border-color:var(--accent); color:var(--accent-deep); }
+  .preset-btn.active{ background:var(--accent-deep); border-color:var(--accent-deep); color:#fff; }
+
+  /* ---------- Impact readout ---------- */
+  .impact{
+    background:var(--surface); border:1px solid var(--line); border-radius:7px;
+    padding:15px 18px; box-shadow:var(--shadow); margin-bottom:12px;
+  }
+  .impact-headline{
+    font-family:var(--font-body); font-size:14.5px; font-weight:600; color:var(--ink);
+    line-height:1.42; margin-bottom:11px;
+  }
+  .impact-headline .num{ font-family:var(--font-mono); color:var(--danger); font-weight:600; }
+  .stat-row{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+  .stat{
+    background:var(--surface-2); border-radius:5px; padding:9px 11px; border:1px solid var(--line);
+  }
+  .stat .k{ font-family:var(--font-mono); font-size:9.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-faint); display:block; margin-bottom:3px;}
+  .stat .v{ font-family:var(--font-display); font-size:20px; font-weight:800; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .stat .v.d{ color:var(--danger); }
+  .stat .v.w{ color:var(--warning); }
+  .stat.wide{
+    grid-column:1 / -1; background:linear-gradient(135deg, var(--accent-soft), var(--surface-2));
+    border-color:var(--accent-deep);
+  }
+  .stat.wide .k{ color:var(--accent-deep); }
+  .stat.wide .v{ font-size:30px; color:var(--ink); transition:color .2s, text-shadow .2s; }
+  .stat.wide.hot .v{ color:var(--warning); text-shadow:0 0 18px color-mix(in srgb, var(--warning) 55%, transparent); }
+
+  /* ---------- Tabs ---------- */
+  .tabs{ display:flex; gap:2px; background:var(--surface-2); border-radius:5px; padding:3px; margin-bottom:12px; border:1px solid var(--line); }
+  .tab-btn{
+    flex:1; text-align:center; padding:8px 6px; border-radius:3px; border:none;
+    background:transparent; font-family:var(--font-body); font-size:12px; font-weight:600;
+    color:var(--ink-soft); cursor:pointer; transition:background .12s,color .12s;
+  }
+  .tab-btn.active{ background:var(--surface); color:var(--accent-deep); box-shadow:var(--shadow); }
+  .panel{ display:none; }
+  .panel.active{ display:block; }
+
+  .subtabs{ display:flex; gap:6px; margin-bottom:11px; }
+  .subtab-btn{
+    flex:1; text-align:center; padding:6px 6px; border-radius:4px; cursor:pointer;
+    font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.04em;
+    font-weight:600; color:var(--ink-faint); background:var(--surface-2); border:1px solid var(--line);
+  }
+  .subtab-btn.active{ color:var(--accent-deep); border-color:var(--accent-deep); background:var(--accent-soft); }
+  .subpanel{ display:none; }
+  .subpanel.active{ display:block; }
+
+  .field{ margin-bottom:10px; }
+  .field label{ display:block; font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); margin-bottom:4px; }
+  select{
+    width:100%; padding:8px 10px; border-radius:4px; border:1px solid var(--line-strong);
+    background:var(--surface); color:var(--ink); font-family:var(--font-body); font-size:13px;
+  }
+  .btn{
+    width:100%; padding:10px 12px; border-radius:5px; border:none; cursor:pointer;
+    background:var(--accent-deep); color:#fff; font-family:var(--font-body); font-weight:600; font-size:13px;
+    margin-top:4px; transition:background .12s;
+  }
+  .btn:hover{ background:var(--accent); }
+  .btn:focus-visible, .preset-btn:focus-visible, .tab-btn:focus-visible, .subtab-btn:focus-visible, select:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .route-result{ margin-top:12px; display:none; }
+  .route-card{
+    border:1px solid var(--line); border-radius:5px; padding:10px 12px; margin-bottom:8px;
+    background:var(--surface-2);
+  }
+  .route-card .rt{ font-family:var(--font-mono); font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); display:flex; justify-content:space-between; }
+  .route-card .rt b.tag-dash{ color:var(--ink-faint); }
+  .route-card .rt b.tag-solid{ color:var(--safe); }
+  .route-card .dist{ font-family:var(--font-display); font-weight:800; font-size:20px; margin:2px 0; }
+  .route-card .path{ font-family:var(--font-mono); font-size:11px; color:var(--ink-soft); word-break:break-word; }
+  .route-warn{ font-size:12px; color:var(--danger); font-weight:600; margin-top:2px; }
+  .route-ok{ font-size:12px; color:var(--safe); font-weight:600; margin-top:2px; }
+
+  .legend-mini{ font-size:12px; color:var(--ink-soft); margin:0 0 10px; }
+
+  .critical-list{ margin-top:10px; }
+  .crit-item{
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+    padding:8px 10px; border-radius:4px; background:var(--surface-2); margin-bottom:6px;
+    border:1px solid var(--line); cursor:pointer;
+  }
+  .crit-item .nm{ font-size:12.5px; font-weight:600; }
+  .crit-item .ty{ font-family:var(--font-mono); font-size:10px; color:var(--ink-faint); text-transform:uppercase; }
+  .crit-item .sc{ font-family:var(--font-mono); font-size:12px; color:var(--accent-deep); font-weight:600; }
+
+  .interv-list{ margin-top:4px; display:flex; flex-direction:column; gap:8px; }
+  .interv{
+    border:1px solid var(--line); border-radius:5px; padding:11px 12px; background:var(--surface-2);
+  }
+  .interv.chosen{ border-color:var(--safe); background:color-mix(in srgb, var(--safe-soft) 55%, var(--surface-2)); }
+  .interv-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
+  .interv-name{ font-size:12.5px; font-weight:600; line-height:1.35; }
+  .interv-cost{ font-family:var(--font-mono); font-size:10.5px; color:var(--ink-faint); margin-top:3px; }
+  .cost-pill{
+    font-family:var(--font-mono); font-size:9.5px; text-transform:uppercase; letter-spacing:.05em;
+    padding:2px 7px; border-radius:99px; white-space:nowrap; flex:0 0 auto; font-weight:600;
+  }
+  .cost-low{ background:var(--safe-soft); color:var(--safe); }
+  .cost-medium{ background:var(--warning-soft); color:var(--warning); }
+  .cost-high{ background:var(--danger-soft); color:var(--danger); }
+  .interv-bottom{ display:flex; align-items:center; gap:8px; margin-top:8px; }
+  .interv-bar-track{ flex:1; height:6px; border-radius:4px; background:var(--line); overflow:hidden; }
+  .interv-bar-fill{ height:100%; background:var(--accent); border-radius:4px; }
+  .interv-pct{ font-family:var(--font-mono); font-size:11.5px; font-weight:600; color:var(--accent-deep); white-space:nowrap; }
+  .interv-rank{
+    font-family:var(--font-display); font-weight:800; font-size:15px; color:var(--ink-faint);
+    width:20px; text-align:center; flex:0 0 auto;
+  }
+  .interv-none{ font-size:12px; color:var(--ink-faint); font-style:italic; }
+  .interv-check{ font-family:var(--font-mono); font-size:10px; color:var(--safe); font-weight:700; }
+
+  .budget-readout{
+    display:flex; justify-content:space-between; align-items:baseline; margin-bottom:2px;
+  }
+  .budget-readout .amt{ font-family:var(--font-display); font-size:24px; font-weight:800; color:var(--accent-deep); }
+  .scenario-table{ width:100%; border-collapse:collapse; margin:10px 0 12px; font-size:11.5px; }
+  .scenario-table th, .scenario-table td{ text-align:left; padding:5px 6px; border-bottom:1px solid var(--line); }
+  .scenario-table th{ font-family:var(--font-mono); font-size:9.5px; text-transform:uppercase; color:var(--ink-faint); font-weight:600; letter-spacing:.04em; }
+  .scenario-table td.num{ font-family:var(--font-mono); text-align:right; font-variant-numeric:tabular-nums; }
+  .portfolio-box{
+    background:var(--accent-soft); border:1px solid var(--accent-deep); border-radius:5px;
+    padding:12px 13px; margin:10px 0 14px;
+  }
+  .portfolio-box .lbl{ font-family:var(--font-mono); font-size:10px; text-transform:uppercase; letter-spacing:.05em; color:var(--accent-deep); font-weight:700; }
+  .portfolio-box .val{ font-family:var(--font-display); font-size:24px; font-weight:800; color:var(--ink); margin:3px 0 6px; }
+  .portfolio-box ul{ margin:0; padding-left:18px; font-size:12px; color:var(--ink-soft); }
+  .portfolio-box li{ margin-bottom:2px; }
+
+  /* ---------- Map ---------- */
+  .map-wrap{
+    flex:1; border:1px solid var(--line); border-radius:8px;
+    box-shadow:var(--shadow); position:relative; overflow:hidden; min-height:420px;
+    background:
+      radial-gradient(900px 500px at 12% 8%, rgba(63,198,222,.06), transparent 60%),
+      repeating-linear-gradient(0deg, rgba(233,243,241,.025) 0 1px, transparent 1px 44px),
+      repeating-linear-gradient(90deg, rgba(233,243,241,.025) 0 1px, transparent 1px 44px),
+      var(--surface);
+  }
+  svg#map{ width:100%; height:100%; display:block; }
+  .hud-corner{ position:absolute; width:20px; height:20px; border:2px solid var(--accent-deep); opacity:.55; pointer-events:none; }
+  .hud-corner.tl{ top:10px; left:10px; border-right:none; border-bottom:none; }
+  .hud-corner.tr{ top:10px; right:10px; border-left:none; border-bottom:none; }
+  .hud-corner.bl{ bottom:10px; left:10px; border-right:none; border-top:none; }
+  .hud-corner.br{ bottom:10px; right:10px; border-left:none; border-top:none; }
+  .map-caption{
+    position:absolute; left:16px; bottom:14px; font-family:var(--font-mono); font-size:10px;
+    color:var(--ink-faint); background:color-mix(in srgb, var(--surface) 85%, transparent);
+    padding:5px 9px; border-radius:4px; letter-spacing:.02em; max-width:56%;
+    border:1px solid var(--line); line-height:1.5;
+  }
+  .legend{
+    position:absolute; right:16px; top:14px; background:color-mix(in srgb, var(--surface) 92%, transparent);
+    border:1px solid var(--line); border-radius:5px; padding:10px 12px; font-size:11.5px;
+    display:flex; flex-direction:column; gap:6px; box-shadow:var(--shadow);
+  }
+  .legend-row{ display:flex; align-items:center; gap:7px; color:var(--ink-soft); }
+  .legend-dot{ width:10px; height:10px; border-radius:50%; flex:0 0 auto; }
+  .legend-div{ height:1px; background:var(--line); margin:2px 0; }
+  .legend-note{ font-family:var(--font-mono); font-size:9.5px; color:var(--ink-faint); max-width:190px; line-height:1.4; }
+
+  .node-label{ font-family:var(--font-mono); font-size:9.5px; fill:var(--ink-soft); pointer-events:none; }
+  .node-circle{ cursor:pointer; transition:fill .25s, stroke .25s; }
+  .node-circle:hover{ filter:brightness(1.1); }
+  .edge-line{ transition:stroke .25s, opacity .25s, stroke-dasharray .1s; }
+  .crit-ring{ transition:opacity .2s; }
+
+  /* ---------- Detail drawer ---------- */
+  .detail{
+    position:absolute; left:16px; top:14px; width:268px; background:color-mix(in srgb, var(--surface) 97%, transparent);
+    border:1px solid var(--line-strong); border-radius:6px; padding:13px 15px; box-shadow:var(--shadow);
+    display:none;
+  }
+  .detail.show{ display:block; }
+  .detail .close{ position:absolute; right:9px; top:8px; cursor:pointer; color:var(--ink-faint); font-size:16px; line-height:1; background:none; border:none; padding:2px; }
+  .detail h3{ margin:0 16px 2px 0; font-family:var(--font-display); font-weight:800; font-size:16px; text-transform:uppercase; line-height:1.15; }
+  .detail .type{ font-family:var(--font-mono); font-size:10px; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px; }
+  .detail .drow{ display:flex; justify-content:space-between; font-size:12px; padding:3px 0; border-top:1px solid var(--line); gap:10px; }
+  .detail .drow span:first-child{ color:var(--ink-faint); flex:0 0 auto; }
+  .detail .drow span:last-child{ font-weight:600; font-family:var(--font-mono); text-align:right; }
+  .status-badge{ display:inline-block; padding:2px 8px; border-radius:99px; font-size:10.5px; font-weight:700; font-family:var(--font-mono); text-transform:uppercase; margin-top:6px; }
+  .status-ok{ background:var(--safe-soft); color:var(--safe); }
+  .status-direct{ background:var(--danger-soft); color:var(--danger); }
+  .status-indirect{ background:var(--warning-soft); color:var(--warning); }
+  .prov-badge{ display:inline-block; padding:2px 7px; border-radius:99px; font-size:9.5px; font-weight:700; font-family:var(--font-mono); text-transform:uppercase; margin-top:8px; margin-right:5px; }
+  .prov-verified{ background:var(--accent-soft); color:var(--accent-deep); }
+  .prov-estimated{ background:var(--line); color:var(--ink-soft); }
+
+  ::-webkit-scrollbar{ width:9px; }
+  ::-webkit-scrollbar-thumb{ background:var(--line-strong); border-radius:6px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+
+  @media (max-width: 900px){
+    .main{ flex-direction:column; }
+    .side-col{ width:auto; flex:none; border-left:none; border-top:1px solid var(--line); }
+  }
+</style>
+
+<div class="app">
+  <div class="topbar"></div>
+  <header class="hdr">
+    <div class="hdr-title">
+      <svg class="mark" width="22" height="22" viewBox="0 0 20 20" aria-hidden="true">
+        <rect x="1" y="2.5" width="18" height="3.2" rx="1.2" fill="var(--accent)"/>
+        <rect x="4.5" y="8.7" width="11" height="3.2" rx="1.2" fill="var(--accent-deep)"/>
+        <rect x="8" y="14.9" width="4" height="2.6" rx="1" fill="var(--accent-deep)" opacity=".6"/>
+      </svg>
+      <h1>Cascade</h1>
+      <span class="hdr-divider"></span>
+      <span class="tag">Coastal resilience simulator, Udupi&ndash;Manipal&ndash;Kaup</span>
+    </div>
+    <span class="live-badge"><span class="dot"></span>Live simulation</span>
+  </header>
+
+  <div class="main">
+    <div class="map-col">
+      <div class="map-wrap">
+        <svg id="map" viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet"></svg>
+        <span class="hud-corner tl"></span><span class="hud-corner tr"></span>
+        <span class="hud-corner bl"></span><span class="hud-corner br"></span>
+        <div class="legend" id="legend"></div>
+        <div class="map-caption" id="mapCaption"></div>
+        <div class="detail" id="detail">
+          <button class="close" id="detailClose" aria-label="Close">×</button>
+          <h3 id="dName"></h3>
+          <div class="type" id="dType"></div>
+          <div id="dRows"></div>
+          <div id="dProv"></div>
+          <div id="dStatus"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col">
+      <div class="deck">
+        <div class="deck-row">
+          <span class="deck-label">Water level</span>
+          <span class="deck-value" id="wlVal">1.5<span>m</span></span>
+        </div>
+        <input type="range" id="wlSlider" min="-1" max="12" step="0.5" value="1.5" aria-label="Water level in meters above normal tide">
+        <div class="presets">
+          <button class="preset-btn" data-level="-1">Normal<br>tide</button>
+          <button class="preset-btn active" data-level="1.5">Moderate<br>monsoon</button>
+          <button class="preset-btn" data-level="4">Severe<br>cyclone</button>
+          <button class="preset-btn" data-level="10">Extreme<br>flood (tail)</button>
+        </div>
+      </div>
+
+      <div class="impact">
+        <div class="impact-headline" id="headline">Reading network state.</div>
+        <div class="stat-row">
+          <div class="stat wide" id="statIsolatedCard"><span class="k">Cut off from every hospital</span><span class="v" id="statIsolated">0 people</span></div>
+          <div class="stat"><span class="k">Assets failed</span><span class="v" id="statFailed">0</span></div>
+          <div class="stat"><span class="k">Utility impact score</span><span class="v" id="statScore">0</span></div>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab-btn active" data-panel="critical">Critical</button>
+        <button class="tab-btn" data-panel="routes">Routes</button>
+        <button class="tab-btn" data-panel="interventions">Interventions</button>
+      </div>
+
+      <div class="panel active" id="panel-critical">
+        <p class="legend-mini">Betweenness centrality on the intact network: the assets whose loss would fracture the most connections, regardless of today's water level.</p>
+        <div class="critical-list" id="critList"></div>
+      </div>
+
+      <div class="panel" id="panel-routes">
+        <div class="field">
+          <label for="routeA">From</label>
+          <select id="routeA"></select>
+        </div>
+        <div class="field">
+          <label for="routeB">To</label>
+          <select id="routeB"></select>
+        </div>
+        <button class="btn" id="routeBtn">Compare shortest vs. safest</button>
+        <div class="route-result" id="routeResult">
+          <div class="route-card">
+            <div class="rt"><span><b class="tag-dash">▬ ▬</b> Shortest (pre-flood)</span><span id="rtShortestLen"></span></div>
+            <div class="dist" id="rtShortestDist"></div>
+            <div class="path" id="rtShortestPath"></div>
+            <div id="rtShortestNote"></div>
+          </div>
+          <div class="route-card">
+            <div class="rt"><span><b class="tag-solid">━━</b> Safest (current water level)</span><span id="rtSafestLen"></span></div>
+            <div class="dist" id="rtSafestDist"></div>
+            <div class="path" id="rtSafestPath"></div>
+            <div id="rtSafestNote"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-interventions">
+        <div class="subtabs">
+          <div class="subtab-btn active" data-sub="scenario">This scenario</div>
+          <div class="subtab-btn" data-sub="robust">Robust plan</div>
+        </div>
+
+        <div class="subpanel active" id="sub-scenario">
+          <p class="legend-mini">Candidate mitigations re-tested at today's water level, ranked by reduction in the utility impact score.</p>
+          <div class="interv-list" id="intervList"></div>
+        </div>
+
+        <div class="subpanel" id="sub-robust">
+          <p class="legend-mini">Scenario weights are illustrative relative likelihoods for planning discussion, not measured return-period statistics. Optimizer picks the mitigation portfolio that minimizes expected impact under your budget.</p>
+          <table class="scenario-table">
+            <thead><tr><th>Scenario</th><th class="num">Level</th><th class="num">Weight</th></tr></thead>
+            <tbody id="scenarioTable"></tbody>
+          </table>
+          <div class="deck-row">
+            <span class="deck-label">Budget</span>
+            <span class="budget-readout"><span class="amt" id="budgetVal">₹60L</span></span>
+          </div>
+          <input type="range" id="budgetSlider" min="0" max="450" step="5" value="60" aria-label="Budget in lakh rupees">
+          <div class="portfolio-box">
+            <div class="lbl">Optimal portfolio under budget</div>
+            <div class="val" id="portfolioReduction">–</div>
+            <ul id="portfolioList"></ul>
+          </div>
+          <p class="legend-mini" style="margin-top:2px">All 5 candidates, ranked by expected impact reduction per ₹ lakh spent:</p>
+          <div class="interv-list" id="intervListRobust"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="ftr">
+    <div class="ftr-facts">
+      <span class="ftr-fact"><span class="sw" style="background:var(--accent)"></span><b>32</b>&nbsp;assets</span>
+      <span class="ftr-fact"><span class="sw" style="background:var(--safe)"></span><b>25</b>&nbsp;verified positions + real coastline</span>
+      <span class="ftr-sep">&middot;</span>
+      <span class="ftr-fact">OpenStreetMap contributors, ODbL</span>
+      <span class="ftr-fact">NASA/USGS SRTM30m via OpenTopoData</span>
+    </div>
+    <div class="ftr-note">Population, costs and scenario weights are planning estimates, not measured data. Dashed node outline = estimated position not found in OpenStreetMap.</div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* =================================================================
+     DATA MODEL
+     Positions, names and elevations for nodes tagged source:'osm' were
+     retrieved live from OpenStreetMap (Overpass API) and NASA/USGS SRTM
+     30m elevation (via OpenTopoData) for this exact stretch of coastal
+     Karnataka. Nodes tagged source:'estimated' are utility infrastructure
+     not tagged in OpenStreetMap for this area; their position is a
+     planning placeholder near the service area they would cover, and
+     their elevation is still the real SRTM reading for that placeholder
+     point. Population, vulnerability weights and road-dependency flags
+     are all planning estimates, not measured data.
+  ================================================================== */
+  var NODES = [
+    {id:'MAIN', name:'NH66 / Karkala Road Junction', type:'main', x:950.0, y:145.0, elev:29, pop:0, vuln:0, road:false, source:'osm'},
+
+    {id:'SS1', name:'Manipal Substation', type:'substation', x:839.5, y:182.1, elev:87, pop:0, vuln:0, road:false, source:'osm'},
+    {id:'SS2', name:'Doddanagudde Substation', type:'substation', x:455.3, y:70.0, elev:26, pop:0, vuln:0, road:false, source:'osm'},
+    {id:'SS3', name:'Muluru Substation', type:'substation', x:638.3, y:590.0, elev:15, pop:0, vuln:0, road:false, source:'osm'},
+    {id:'SS4', name:'Udupi Town Substation', type:'substation', x:440.7, y:171.5, elev:27, pop:0, vuln:0, road:false, source:'estimated'},
+
+    {id:'WP1', name:'Malpe Water Pumping Station', type:'pump', x:147.1, y:125.2, elev:10, pop:0, vuln:0, road:false, source:'estimated'},
+    {id:'WP2', name:'Kaup Water Works', type:'pump', x:457.9, y:525.2, elev:12, pop:0, vuln:0, road:false, source:'estimated'},
+    {id:'WP3', name:'Manipal Reservoir Pumping Station', type:'pump', x:872.3, y:128.5, elev:95, pop:0, vuln:0, road:false, source:'estimated'},
+    {id:'WP4', name:'Udupi Town Water Works', type:'pump', x:406.2, y:181.4, elev:18, pop:0, vuln:0, road:false, source:'estimated'},
+
+    {id:'H1', name:'District Hospital, Udupi', type:'hospital', x:443.2, y:174.8, elev:29, pop:15000, vuln:6, road:true, source:'osm'},
+    {id:'H2', name:'TMA Pai Hospital', type:'hospital', x:485.5, y:179.4, elev:33, pop:6000, vuln:4, road:true, source:'osm'},
+    {id:'H3', name:'KMC Hospital, Manipal', type:'hospital', x:849.9, y:110.3, elev:102, pop:10000, vuln:5, road:true, source:'osm'},
+
+    {id:'S1', name:'Government High School, Udupi', type:'school', x:444.1, y:184.4, elev:24, pop:600, vuln:3, road:false, source:'osm'},
+    {id:'S2', name:'Manipal Pre-University College', type:'school', x:830.0, y:133.5, elev:102, pop:900, vuln:3, road:false, source:'osm'},
+    {id:'S3', name:'Adiudupi Higher Primary School', type:'school', x:360.4, y:128.2, elev:14, pop:350, vuln:3, road:false, source:'osm'},
+
+    {id:'SH1', name:'Doddanagudde Govt. School (flood relief centre)', type:'shelter', x:558.1, y:95.5, elev:28, pop:1200, vuln:4, road:true, source:'osm'},
+    {id:'SH2', name:"St Cecily's Girls High School (flood relief centre)", type:'shelter', x:447.6, y:168.2, elev:34, pop:1000, vuln:4, road:true, source:'osm'},
+
+    {id:'R1', name:'Malpe', type:'residential', x:110.0, y:119.6, elev:12, pop:8000, vuln:2, road:false, source:'osm'},
+    {id:'R2', name:'Kodavoor', type:'residential', x:165.3, y:112.0, elev:16, pop:3000, vuln:1, road:false, source:'osm'},
+    {id:'R3', name:'Kapu (Kaup)', type:'residential', x:495.9, y:516.3, elev:22, pop:6000, vuln:2, road:false, source:'osm'},
+    {id:'R4', name:'Katapady', type:'residential', x:476.9, y:345.4, elev:22, pop:4000, vuln:1, road:false, source:'osm'},
+    {id:'R5', name:'Manipal', type:'residential', x:829.1, y:115.3, elev:98, pop:5000, vuln:1, road:false, source:'osm'},
+    {id:'R6', name:'Indrali', type:'residential', x:693.6, y:137.4, elev:38, pop:2500, vuln:1, road:false, source:'osm'},
+    {id:'R7', name:'Brahmagiri', type:'residential', x:430.3, y:151.0, elev:23, pop:4500, vuln:1, road:false, source:'osm'},
+
+    {id:'B1', name:'Malpe Bridge', type:'bridge', x:141.9, y:155.0, elev:0, pop:0, vuln:0, road:false, source:'osm'},
+    {id:'B2', name:'Unnamed creek crossing near Kaup', type:'bridge', x:358.6, y:409.8, elev:4, pop:0, vuln:0, road:false, source:'osm'},
+    {id:'B3', name:'Malpe-Manipal Road Bridge', type:'bridge', x:686.7, y:136.8, elev:32, pop:0, vuln:0, road:false, source:'osm'},
+
+    {id:'RD1', name:'NH66 Junction, Udupi', type:'road', x:475.2, y:145.0, elev:22, pop:0, vuln:0, road:false, source:'osm'},
+    {id:'RD2', name:'NH66 Junction, Katapady', type:'road', x:475.2, y:346.7, elev:21, pop:0, vuln:0, road:false, source:'osm'},
+    {id:'RD3', name:'Malpe-Manipal Road Junction', type:'road', x:768.7, y:138.4, elev:58, pop:0, vuln:0, road:false, source:'osm'},
+    {id:'RD4', name:'Udupi-Manipal Link Junction', type:'road', x:596.0, y:168.2, elev:24, pop:0, vuln:0, road:false, source:'osm'},
+    {id:'RD5', name:'Manipal Approach Junction', type:'road', x:794.6, y:121.9, elev:84, pop:0, vuln:0, road:false, source:'osm'}
+  ];
+
+  var EDGES = [
+    // power (substation -> consumer)
+    {id:'e1', a:'SS1', b:'H3', kind:'power'}, {id:'e2', a:'SS1', b:'R5', kind:'power'},
+    {id:'e3', a:'SS1', b:'S2', kind:'power'}, {id:'e4', a:'SS1', b:'WP3', kind:'power'},
+    {id:'e5', a:'SS2', b:'SH1', kind:'power'}, {id:'e6', a:'SS2', b:'S3', kind:'power'},
+    {id:'e7', a:'SS2', b:'R2', kind:'power'}, {id:'e8', a:'SS2', b:'WP1', kind:'power'},
+    {id:'e9', a:'SS2', b:'R1', kind:'power'},
+    {id:'e10', a:'SS3', b:'R3', kind:'power'}, {id:'e11', a:'SS3', b:'R4', kind:'power'},
+    {id:'e12', a:'SS3', b:'WP2', kind:'power'},
+    {id:'e13', a:'SS4', b:'H1', kind:'power'}, {id:'e14', a:'SS4', b:'H2', kind:'power'},
+    {id:'e15', a:'SS4', b:'S1', kind:'power'}, {id:'e16', a:'SS4', b:'SH2', kind:'power'},
+    {id:'e17', a:'SS4', b:'R7', kind:'power'}, {id:'e18', a:'SS4', b:'WP4', kind:'power'},
+
+    // water (pump -> consumer)
+    {id:'e19', a:'WP1', b:'R1', kind:'water'}, {id:'e20', a:'WP1', b:'R2', kind:'water'},
+    {id:'e21', a:'WP2', b:'R3', kind:'water'}, {id:'e22', a:'WP2', b:'R4', kind:'water'},
+    {id:'e23', a:'WP3', b:'H3', kind:'water'}, {id:'e24', a:'WP3', b:'R5', kind:'water'},
+    {id:'e25', a:'WP3', b:'S2', kind:'water'},
+    {id:'e26', a:'WP4', b:'H1', kind:'water'}, {id:'e27', a:'WP4', b:'H2', kind:'water'},
+    {id:'e28', a:'WP4', b:'S1', kind:'water'}, {id:'e29', a:'WP4', b:'SH2', kind:'water'},
+    {id:'e30', a:'WP4', b:'R7', kind:'water'},
+
+    // road network (undirected junctions along real named/verified roads)
+    {id:'e31', a:'R1', b:'B1', kind:'road'},
+    {id:'e32', a:'B1', b:'R2', kind:'road'},
+    {id:'e33', a:'B1', b:'RD1', kind:'road'},
+    {id:'e34', a:'R2', b:'S3', kind:'road'},
+    {id:'e35', a:'S3', b:'RD1', kind:'road'},
+    {id:'e36', a:'RD1', b:'H1', kind:'road'},
+    {id:'e37', a:'RD1', b:'H2', kind:'road'},
+    {id:'e38', a:'RD1', b:'S1', kind:'road'},
+    {id:'e39', a:'H1', b:'SH2', kind:'road'},
+    {id:'e40', a:'S1', b:'R7', kind:'road'},
+    {id:'e41', a:'RD1', b:'RD2', kind:'road'},
+    {id:'e42', a:'RD2', b:'R4', kind:'road'},
+    {id:'e43', a:'RD2', b:'B2', kind:'road'},
+    {id:'e44', a:'B2', b:'R3', kind:'road'},
+    {id:'e45', a:'B2', b:'WP2', kind:'road'},
+    {id:'e46', a:'RD1', b:'RD4', kind:'road'},
+    {id:'e47', a:'RD4', b:'RD3', kind:'road'},
+    {id:'e48', a:'RD4', b:'R6', kind:'road'},
+    {id:'e49', a:'RD4', b:'SH1', kind:'road'},
+    {id:'e50', a:'RD3', b:'B3', kind:'road'},
+    {id:'e51', a:'B3', b:'R2', kind:'road'},
+    {id:'e52', a:'RD3', b:'RD5', kind:'road'},
+    {id:'e53', a:'RD5', b:'R5', kind:'road'},
+    {id:'e54', a:'RD5', b:'H3', kind:'road'},
+    {id:'e55', a:'RD5', b:'S2', kind:'road'},
+    {id:'e56', a:'RD5', b:'MAIN', kind:'road'}
+  ];
+
+  var TYPE_META = {
+    main:        {label:'Highway / grid anchor', r:9,  shape:'square'},
+    substation:  {label:'Substation (power source)', r:9, shape:'square'},
+    pump:        {label:'Water pump / works', r:9, shape:'square'},
+    hospital:    {label:'Hospital', r:11, shape:'circle'},
+    school:      {label:'School', r:8, shape:'circle'},
+    shelter:     {label:'Designated flood relief centre', r:9, shape:'circle'},
+    residential: {label:'Residential locality', r:8, shape:'circle'},
+    bridge:      {label:'Bridge / crossing', r:7, shape:'diamond'},
+    road:        {label:'Road junction', r:5.5, shape:'diamond'}
+  };
+
+  var byId = {};
+  NODES.forEach(function(n){ byId[n.id] = n; n.roadReq = !!n.road; });
+  var HOSPITAL_IDS = NODES.filter(function(n){ return n.type==='hospital'; }).map(function(n){return n.id;});
+
+  /* ================= SIMULATION ================= */
+  function simulate(waterLevel){
+    var failedNodes = {};
+    NODES.forEach(function(n){ if(n.elev <= waterLevel) failedNodes[n.id] = 'direct'; });
+
+    function edgeFailed(e){
+      return !!(failedNodes[e.a] || failedNodes[e.b]);
+    }
+
+    function roadConnected(nodeId, targetSet){
+      if(targetSet[nodeId]) return true;
+      var seen = {}; var q = [nodeId]; seen[nodeId] = true;
+      while(q.length){
+        var cur = q.shift();
+        if(targetSet[cur]) return true;
+        for(var i=0;i<EDGES.length;i++){
+          var e = EDGES[i];
+          if(e.kind !== 'road') continue;
+          if(edgeFailed(e)) continue;
+          var other = null;
+          if(e.a === cur) other = e.b; else if(e.b === cur) other = e.a;
+          if(other && !seen[other]){ seen[other] = true; q.push(other); }
+        }
+      }
+      return false;
+    }
+    var MAIN_SET = {MAIN:true};
+
+    var changed = true, guard = 0;
+    while(changed && guard < 12){
+      changed = false; guard++;
+      NODES.forEach(function(n){
+        if(failedNodes[n.id]) return;
+        var powerEdges = EDGES.filter(function(e){ return e.kind==='power' && (e.a===n.id||e.b===n.id); });
+        var waterEdges = EDGES.filter(function(e){ return e.kind==='water' && (e.a===n.id||e.b===n.id); });
+        var lostPower = powerEdges.length>0 && powerEdges.every(edgeFailed);
+        var lostWater = waterEdges.length>0 && waterEdges.every(edgeFailed);
+        var lostRoad = n.roadReq && !roadConnected(n.id, MAIN_SET);
+        if(lostPower || lostWater || lostRoad){
+          failedNodes[n.id] = 'indirect';
+          changed = true;
+        }
+      });
+    }
+
+    var failedEdges = {};
+    EDGES.forEach(function(e){ if(edgeFailed(e)) failedEdges[e.id] = true; });
+
+    // population isolated from EVERY hospital (road connectivity check, independent of roadReq)
+    var hospitalSet = {};
+    HOSPITAL_IDS.forEach(function(h){ if(!failedNodes[h]) hospitalSet[h] = true; });
+    var isolatedIds = [];
+    NODES.forEach(function(n){
+      if(n.pop<=0 || n.type==='hospital') return;
+      var reachable = Object.keys(hospitalSet).length>0 && roadConnected(n.id, hospitalSet) && !failedNodes[n.id];
+      if(!reachable) isolatedIds.push(n.id);
+    });
+
+    return {failedNodes: failedNodes, failedEdges: failedEdges, isolatedIds: isolatedIds};
+  }
+
+  function impactOf(sim){
+    var score = 0, people = 0, direct = 0, indirect = 0;
+    NODES.forEach(function(n){
+      var st = sim.failedNodes[n.id];
+      if(!st) return;
+      if(st==='direct') direct++; else indirect++;
+      if(n.pop > 0){ score += n.pop * n.vuln; people += n.pop; }
+    });
+    var isolatedPop = 0, isolatedWeighted = 0;
+    sim.isolatedIds.forEach(function(id){
+      var n = byId[id];
+      isolatedPop += n.pop;
+      isolatedWeighted += n.pop * n.vuln;
+    });
+    return {score:score, people:people, direct:direct, indirect:indirect, total:direct+indirect,
+            isolatedPop:isolatedPop, isolatedWeighted:isolatedWeighted};
+  }
+
+  /* ================= BETWEENNESS CENTRALITY (Brandes, unweighted) ================= */
+  function computeBetweenness(){
+    var adj = {};
+    NODES.forEach(function(n){ adj[n.id] = []; });
+    EDGES.forEach(function(e){ adj[e.a].push(e.b); adj[e.b].push(e.a); });
+    var CB = {}; NODES.forEach(function(n){ CB[n.id] = 0; });
+    NODES.forEach(function(nd){
+      var s = nd.id;
+      var S = [], P = {}, sigma = {}, d = {};
+      NODES.forEach(function(n){ P[n.id]=[]; sigma[n.id]=0; d[n.id]=-1; });
+      sigma[s]=1; d[s]=0;
+      var Q=[s];
+      while(Q.length){
+        var v = Q.shift(); S.push(v);
+        adj[v].forEach(function(w){
+          if(d[w]<0){ d[w]=d[v]+1; Q.push(w); }
+          if(d[w]===d[v]+1){ sigma[w]+=sigma[v]; P[w].push(v); }
+        });
+      }
+      var delta = {}; NODES.forEach(function(n){ delta[n.id]=0; });
+      while(S.length){
+        var w = S.pop();
+        P[w].forEach(function(v){ delta[v] += (sigma[v]/sigma[w]) * (1+delta[w]); });
+        if(w!==s) CB[w]+=delta[w];
+      }
+    });
+    return CB;
+  }
+  var BETWEENNESS = computeBetweenness();
+
+  /* ================= DIJKSTRA (road network) ================= */
+  function dist(a,b){ var dx=a.x-b.x, dy=a.y-b.y; return Math.sqrt(dx*dx+dy*dy)/34; }
+
+  function dijkstraRoad(startId, endId, sim){
+    var nodeIds = NODES.map(function(n){return n.id;});
+    var adj = {}; nodeIds.forEach(function(id){ adj[id]=[]; });
+    EDGES.forEach(function(e){
+      if(e.kind!=='road') return;
+      if(sim && (sim.failedEdges[e.id] || sim.failedNodes[e.a] || sim.failedNodes[e.b])) return;
+      var w = dist(byId[e.a], byId[e.b]);
+      adj[e.a].push({to:e.b, w:w});
+      adj[e.b].push({to:e.a, w:w});
+    });
+    if(sim && sim.failedNodes[startId]) return null;
+    if(sim && sim.failedNodes[endId]) return null;
+
+    var d = {}, prev = {}, visited = {};
+    nodeIds.forEach(function(id){ d[id]=Infinity; });
+    d[startId]=0;
+    while(true){
+      var u=null, best=Infinity;
+      for(var i=0;i<nodeIds.length;i++){
+        var id=nodeIds[i];
+        if(!visited[id] && d[id]<best){ best=d[id]; u=id; }
+      }
+      if(u===null) break;
+      if(u===endId) break;
+      visited[u]=true;
+      adj[u].forEach(function(edge){
+        if(visited[edge.to]) return;
+        var nd = d[u]+edge.w;
+        if(nd < d[edge.to]){ d[edge.to]=nd; prev[edge.to]=u; }
+      });
+    }
+    if(d[endId]===Infinity) return null;
+    var path=[endId], cur=endId;
+    while(cur!==startId){ cur = prev[cur]; if(cur===undefined) break; path.unshift(cur); }
+    return {dist:d[endId], path:path};
+  }
+
+  /* =================================================================
+     INTERVENTIONS
+     Each targets the real vulnerability the elevation data actually
+     surfaced: Malpe Bridge sits at 0m and an unnamed creek crossing
+     near Kaup sits at 4m, both real SRTM readings. Costs are
+     illustrative planning-order-of-magnitude figures (INR lakh),
+     not certified estimates.
+  ================================================================== */
+  var INTERVENTIONS = [
+    {
+      id:'raise-b1', cost:'medium', costLakh:40,
+      label:'Raise the Malpe Bridge approach causeway by 2m',
+      apply:function(extraEdges, overrides){ overrides.B1 = byId.B1.elev + 2; }
+    },
+    {
+      id:'raise-b2', cost:'medium', costLakh:40,
+      label:'Raise the approach causeway at the Kaup creek crossing by 2m',
+      apply:function(extraEdges, overrides){ overrides.B2 = byId.B2.elev + 2; }
+    },
+    {
+      id:'plinth-wp1', cost:'low', costLakh:8,
+      label:'Raise switchgear plinth at Malpe Water Pumping Station by 3m',
+      apply:function(extraEdges, overrides){ overrides.WP1 = byId.WP1.elev + 3; }
+    },
+    {
+      id:'bypass-kaup', cost:'high', costLakh:350,
+      label:'Build an inland bypass road: Kaup direct to Katapady, avoiding the creek crossing',
+      apply:function(extraEdges){ extraEdges.push({id:'x1', a:'R3', b:'RD2', kind:'road'}); }
+    },
+    {
+      id:'backup-wp1', cost:'medium', costLakh:25,
+      label:'Add backup power feeder: Udupi Town Substation to Malpe Pumping Station',
+      apply:function(extraEdges){ extraEdges.push({id:'x2', a:'SS4', b:'WP1', kind:'power'}); }
+    }
+  ];
+
+  var SCENARIOS = [
+    {id:'normal', label:'Normal tide', level:-1, weight:0.55},
+    {id:'moderate', label:'Moderate monsoon', level:1.5, weight:0.30},
+    {id:'severe', label:'Severe cyclone', level:4, weight:0.12},
+    {id:'extreme', label:'Extreme flood (tail)', level:10, weight:0.03}
+  ];
+
+  function simulateWithInterventions(waterLevel, ivs){
+    var overridesElev = {};
+    var extraEdges = [];
+    ivs.forEach(function(iv){ iv.apply(extraEdges, overridesElev); });
+
+    var savedElev = {};
+    Object.keys(overridesElev).forEach(function(id){ savedElev[id] = byId[id].elev; byId[id].elev = overridesElev[id]; });
+    var origLen = EDGES.length;
+    extraEdges.forEach(function(e){ EDGES.push(e); });
+
+    var sim = simulate(waterLevel);
+    var imp = impactOf(sim);
+
+    Object.keys(savedElev).forEach(function(id){ byId[id].elev = savedElev[id]; });
+    EDGES.length = origLen;
+
+    return imp;
+  }
+
+  function combinedScore(imp){ return imp.score + imp.isolatedWeighted; }
+
+  function expectedImpact(ivs){
+    var total = 0;
+    SCENARIOS.forEach(function(sc){
+      var imp = simulateWithInterventions(sc.level, ivs);
+      total += sc.weight * combinedScore(imp);
+    });
+    return total;
+  }
+
+  function optimalPortfolio(budgetLakh){
+    var n = INTERVENTIONS.length;
+    var baseline = expectedImpact([]);
+    var best = {reduction:-1, ivs:[], cost:0};
+    for(var mask=0; mask<(1<<n); mask++){
+      var chosen = [], cost = 0;
+      for(var i=0;i<n;i++){
+        if(mask & (1<<i)){ chosen.push(INTERVENTIONS[i]); cost += INTERVENTIONS[i].costLakh; }
+      }
+      if(cost > budgetLakh) continue;
+      var reduction = baseline - expectedImpact(chosen);
+      if(reduction > best.reduction){ best = {reduction:reduction, ivs:chosen, cost:cost}; }
+    }
+    return {baseline:baseline, best:best};
+  }
+
+  /* ================= RENDERING ================= */
+  var svg = document.getElementById('map');
+  var svgNS = 'http://www.w3.org/2000/svg';
+  var nodeEls = {}, edgeEls = {}, ringEls = {};
+
+  function el(tag, attrs){
+    var e = document.createElementNS(svgNS, tag);
+    for(var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+
+  /* Real Arabian Sea coastline for this stretch, from OpenStreetMap's
+     natural=coastline data, projected into the same coordinate space as
+     every node above. Not a decorative shape - this is the actual shore. */
+  var SEA_POLYGON = "-40,-40.8 52.2,-40.8 52.1,-37.2 51.9,-36.2 51.7,-34.5 51.1,-32.4 50.7,-29.2 49.5,-25.9 48.0,-19.9 46.4,-15.2 45.6,-12.4 43.8,-7.5 41.9,-1.6 41.3,1.3 41.2,3.1 41.0,4.6 40.4,8.0 41.3,14.7 42.4,21.6 42.8,23.6 43.8,27.3 44.7,31.0 45.3,34.6 45.0,37.5 45.6,38.5 47.5,40.1 47.8,41.0 47.8,41.8 47.9,43.4 47.9,43.8 49.2,47.3 50.4,50.1 51.9,52.9 53.5,56.2 54.0,57.7 54.8,67.3 55.0,69.6 55.4,72.8 55.9,75.4 56.2,79.0 57.5,82.7 58.3,85.2 58.8,88.9 58.5,90.1 59.1,96.1 60.3,100.4 60.9,105.3 61.0,108.7 60.6,111.9 60.2,114.1 59.7,115.8 59.0,117.5 57.6,119.0 54.8,122.2 53.5,123.1 50.6,124.9 49.4,125.5 45.4,127.2 44.0,127.9 42.3,128.2 40.2,128.5 38.1,128.6 36.5,128.6 6.3,123.0 4.7,122.5 3.8,122.6 3.4,122.9 3.8,123.2 38.2,129.2 34.4,130.3 31.4,131.2 18.5,128.9 9.2,127.2 -0.2,125.5 -2.2,125.3 -3.1,125.4 -3.8,125.7 -3.6,126.0 -2.9,126.1 -0.6,126.1 3.6,126.8 5.8,127.0 6.3,127.4 6.4,127.7 4.5,129.0 3.4,130.4 3.1,131.5 3.5,131.8 4.2,131.9 4.9,131.5 5.3,130.4 6.2,129.4 7.9,129.4 10.2,129.6 14.2,130.5 18.5,131.8 23.2,133.9 29.0,137.4 37.7,140.7 50.0,143.8 78.8,149.5 100.3,154.1 122.7,161.0 136.5,166.2 144.1,169.9 152.1,175.1 163.5,182.9 170.1,188.7 175.9,193.4 180.8,197.8 188.4,205.0 192.2,209.0 200.7,218.1 208.6,227.3 213.9,233.8 218.2,240.7 226.0,253.1 230.1,260.6 233.8,266.7 236.4,272.6 239.7,278.6 243.2,285.8 244.1,288.5 247.5,297.8 248.2,301.3 248.7,302.8 248.5,304.7 249.7,308.0 251.4,312.9 251.8,315.9 252.1,319.2 253.1,323.8 254.0,325.7 254.6,327.8 257.2,333.8 261.1,340.4 262.8,342.2 265.6,345.2 268.6,348.1 270.2,350.5 269.6,350.9 269.6,351.2 270.1,351.5 270.8,351.5 271.6,351.7 272.6,352.3 275.1,354.9 275.1,355.3 275.0,355.6 275.5,355.8 276.1,355.9 277.0,356.1 278.4,358.1 279.1,358.6 279.9,358.9 280.6,359.4 281.4,360.2 281.9,361.3 281.4,361.6 280.7,361.8 280.6,362.0 280.5,362.3 281.1,362.7 282.0,362.7 282.7,362.7 283.3,362.9 284.1,363.4 284.3,364.6 284.3,365.4 284.1,365.7 284.0,366.0 284.2,366.3 284.8,366.4 285.2,366.6 286.8,367.1 289.8,370.3 293.3,373.9 299.7,379.6 302.5,381.6 305.5,384.4 310.0,389.2 314.7,394.2 320.5,402.2 325.1,409.9 327.7,414.3 328.9,416.2 332.0,421.6 336.4,428.4 338.9,432.3 342.2,438.2 344.4,440.6 345.2,441.2 345.9,442.1 346.7,443.2 348.3,445.9 348.9,447.9 351.9,454.5 354.2,460.9 356.1,466.1 359.3,473.6 365.5,484.6 368.4,490.2 372.8,499.1 374.5,503.2 377.3,508.1 378.2,509.8 379.3,513.4 383.7,520.9 387.6,525.0 390.1,528.2 392.9,532.5 393.5,535.0 393.3,535.8 393.2,536.5 392.6,536.6 390.9,536.4 390.1,536.5 389.4,536.7 388.9,537.2 389.0,537.6 389.7,538.2 391.6,538.8 392.8,539.2 393.9,539.8 394.5,540.3 396.0,540.8 396.4,541.1 396.5,541.4 395.4,541.9 395.5,542.1 396.1,542.4 397.2,542.4 398.6,542.2 399.7,542.1 401.3,541.8 402.2,542.2 403.3,543.2 405.0,545.4 406.7,548.4 408.9,551.4 411.6,555.0 412.6,557.0 414.4,559.6 417.1,563.8 418.2,565.9 419.8,567.6 421.1,570.1 421.5,570.4 422.2,571.4 422.9,572.8 424.2,575.2 424.9,576.6 425.3,577.5 426.5,580.7 427.3,582.2 428.1,583.0 428.5,583.2 428.8,583.4 429.1,583.7 429.4,584.2 430.0,585.8 433.4,590.5 437.3,597.3 440.0,602.0 446.5,611.0 447.5,612.4 451.3,618.1 453.3,622.4 454.0,623.5 454.5,624.1 455.6,626.1 456.4,627.1 458.3,630.0 459.0,631.5 459.3,633.8 458.6,635.2 458.1,636.1 458.2,636.7 459.0,637.1 459.0,637.6 459.3,642.4 459.6,643.1 460.3,644.0 462.9,644.9 464.9,646.1 467.5,647.6 472.2,651.0 475.3,653.5 475.9,654.3 476.2,655.2 476.3,655.6 476.9,656.0 478.8,656.8 479.9,657.5 481.2,658.7 486.8,662.3 490.2,665.1 493.3,667.5 497.4,671.2 501.0,674.8 503.8,678.3 508.5,684.0 511.2,687.4 516.3,694.1 521.4,700.4 522.7,702.7 524.7,705.7 529.1,711.3 531.6,715.5 532.5,717.1 535.6,721.2 537.7,724.0 539.7,727.0 541.8,729.8 544.9,734.6 545.4,735.2 546.0,735.7 547.0,737.1 551.1,742.3 555.5,747.9 558.3,752.0 561.5,757.1 564.6,763.4 565.9,765.5 567.2,767.5 568.9,770.3 571.5,774.2 573.5,777.2 577.6,782.6 -40,782.6";
+  var COASTLINE_POINTS = SEA_POLYGON.split(' ').slice(1, -1).join(' ');
+
+  // deep offshore -> lighter shallows near the real shoreline
+  var seaGrad = el('linearGradient', {id:'seaGrad', x1:'0', y1:'0', x2:'1', y2:'0'});
+  seaGrad.appendChild(el('stop', {offset:'0', 'stop-color':'#0B4E63', 'stop-opacity':'0.55'}));
+  seaGrad.appendChild(el('stop', {offset:'0.5', 'stop-color':'var(--accent-deep)', 'stop-opacity':'0.30'}));
+  seaGrad.appendChild(el('stop', {offset:'1', 'stop-color':'var(--accent)', 'stop-opacity':'0.05'}));
+  var landGrad = el('radialGradient', {id:'landGrad', cx:'0.75', cy:'0.35', r:'0.9'});
+  landGrad.appendChild(el('stop', {offset:'0', 'stop-color':'#4A7A4E', 'stop-opacity':'0.10'}));
+  landGrad.appendChild(el('stop', {offset:'1', 'stop-color':'#4A7A4E', 'stop-opacity':'0'}));
+  var seaClip = el('clipPath', {id:'seaClip'});
+  seaClip.appendChild(el('polygon', {points:SEA_POLYGON}));
+  var defs = el('defs', {});
+  defs.appendChild(seaGrad); defs.appendChild(landGrad); defs.appendChild(seaClip);
+  svg.appendChild(defs);
+
+  // subtle plateau-toward-Manipal warmth, real direction (east = higher ground)
+  svg.appendChild(el('rect', {x:0,y:0,width:1000,height:640,fill:'url(#landGrad)'}));
+
+  svg.appendChild(el('polygon', {points:SEA_POLYGON, fill:'url(#seaGrad)'}));
+
+  // faint ripple texture, clipped to the real sea shape only
+  function wavePath(y, amp, wavelength, x0, x1){
+    var d = 'M '+x0+' '+y, x = x0, half = wavelength/2, up = true;
+    while(x < x1){
+      var nx = Math.min(x+half, x1);
+      d += ' Q '+((x+nx)/2)+' '+(y+(up?-amp:amp))+' '+nx+' '+y;
+      x = nx; up = !up;
+    }
+    return d;
+  }
+  var waveLayer = el('g', {'clip-path':'url(#seaClip)', opacity:'0.5'});
+  for(var wy=20; wy<640; wy+=34){
+    var wl = 46 + (wy%3)*14;
+    waveLayer.appendChild(el('path', {d:wavePath(wy, 2.6, wl, -40, 620), fill:'none', stroke:'var(--accent)', 'stroke-width':1, 'stroke-opacity':0.12}));
+  }
+  svg.appendChild(waveLayer);
+
+  svg.appendChild(el('polyline', {points:COASTLINE_POINTS, fill:'none', stroke:'var(--accent)', 'stroke-width':1.5, 'stroke-opacity':0.55, 'stroke-linejoin':'round'}));
+  svg.appendChild(el('text', {x:14,y:26,'font-family':'var(--font-mono)','font-size':'10','fill':'var(--ink-soft)', 'letter-spacing':'0.08em'})).textContent='ARABIAN SEA';
+  svg.appendChild(el('text', {x:14,y:40,'font-family':'var(--font-mono)','font-size':'8','fill':'var(--ink-faint)', 'letter-spacing':'0.04em', opacity:'0.8'})).textContent='real coastline, OpenStreetMap';
+
+  var edgeLayer = el('g', {}); svg.appendChild(edgeLayer);
+  var ringLayer = el('g', {}); svg.appendChild(ringLayer);
+  var routeLayer = el('g', {}); svg.appendChild(routeLayer);
+  var nodeLayer = el('g', {}); svg.appendChild(nodeLayer);
+  var labelLayer = el('g', {}); svg.appendChild(labelLayer);
+
+  var EDGE_COLORS = {power:'#C99A3C', water:'#3E7FB0', road:'#9AA6A8'};
+
+  // deterministic small hash per edge id, used to bend road paths so they
+  // read as real roads rather than ruler-straight schematic lines
+  function hash01(str){
+    var h = 0;
+    for(var i=0;i<str.length;i++) h = (h*31 + str.charCodeAt(i)) >>> 0;
+    return (h % 1000) / 1000;
+  }
+
+  EDGES.forEach(function(e){
+    var a = byId[e.a], b = byId[e.b];
+    var elNode;
+    if(e.kind==='road'){
+      var mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
+      var dx=b.x-a.x, dy=b.y-a.y, len=Math.sqrt(dx*dx+dy*dy)||1;
+      var nx=-dy/len, ny=dx/len;
+      var bend = (hash01(e.id)-0.5) * Math.min(len*0.18, 22);
+      var cx=mx+nx*bend, cy=my+ny*bend;
+      elNode = el('path', {
+        d:'M '+a.x+' '+a.y+' Q '+cx+' '+cy+' '+b.x+' '+b.y,
+        class:'edge-line', fill:'none',
+        stroke: EDGE_COLORS.road, 'stroke-width':2.4, 'stroke-opacity':0.62, 'stroke-linecap':'round'
+      });
+    } else {
+      elNode = el('line', {
+        x1:a.x, y1:a.y, x2:b.x, y2:b.y,
+        class:'edge-line',
+        stroke: EDGE_COLORS[e.kind], 'stroke-width':1.6,
+        'stroke-opacity':0.55
+      });
+    }
+    edgeLayer.appendChild(elNode);
+    edgeEls[e.id] = elNode;
+  });
+
+  function nodeShape(n){
+    var meta = TYPE_META[n.type];
+    var g = el('g', {});
+    var shapeEl;
+    if(meta.shape==='square'){
+      shapeEl = el('rect', {x:n.x-meta.r, y:n.y-meta.r, width:meta.r*2, height:meta.r*2, rx:2});
+    } else if(meta.shape==='diamond'){
+      var r=meta.r;
+      shapeEl = el('polygon', {points:(n.x)+','+(n.y-r)+' '+(n.x+r)+','+n.y+' '+n.x+','+(n.y+r)+' '+(n.x-r)+','+n.y});
+    } else {
+      shapeEl = el('circle', {cx:n.x, cy:n.y, r:meta.r});
+    }
+    shapeEl.setAttribute('class','node-circle');
+    shapeEl.setAttribute('fill', 'var(--safe)');
+    shapeEl.setAttribute('stroke', 'var(--surface)');
+    shapeEl.setAttribute('stroke-width', n.source==='estimated' ? '1.5' : '2.5');
+    shapeEl.setAttribute('stroke-dasharray', n.source==='estimated' ? '2,1.5' : 'none');
+    shapeEl.setAttribute('data-id', n.id);
+    g.appendChild(shapeEl);
+
+    var ring = el('circle', {cx:n.x, cy:n.y, r:meta.r+5, fill:'none', stroke:'var(--accent)', 'stroke-width':2, class:'crit-ring', opacity:0});
+    ringLayer.appendChild(ring);
+    ringEls[n.id] = ring;
+
+    nodeLayer.appendChild(g);
+    nodeEls[n.id] = shapeEl;
+
+    var lbl = el('text', {x:n.x, y:n.y+meta.r+11, 'text-anchor':'middle', class:'node-label'});
+    lbl.textContent = n.id;
+    labelLayer.appendChild(lbl);
+
+    shapeEl.addEventListener('click', function(){ showDetail(n.id); });
+  }
+  NODES.forEach(nodeShape);
+
+  function paintNodes(sim){
+    NODES.forEach(function(n){
+      var st = sim.failedNodes[n.id];
+      var isolated = sim.isolatedIds.indexOf(n.id) !== -1;
+      var color = st==='direct' ? 'var(--danger)' : st==='indirect' ? 'var(--warning)' : isolated ? 'var(--warning)' : 'var(--safe)';
+      nodeEls[n.id].setAttribute('fill', color);
+    });
+    EDGES.forEach(function(e){
+      var failed = sim.failedEdges[e.id];
+      var line = edgeEls[e.id];
+      if(!line) return;
+      line.setAttribute('stroke', failed ? 'var(--danger)' : EDGE_COLORS[e.kind]);
+      line.setAttribute('stroke-opacity', failed ? 0.85 : (e.kind==='road'?0.62:0.55));
+      line.setAttribute('stroke-dasharray', failed ? '5,3' : 'none');
+    });
+  }
+
+  /* legend */
+  (function buildLegend(){
+    var wrap = document.getElementById('legend');
+    var rows = [
+      ['var(--safe)', 'Operating, road-connected to a hospital'],
+      ['var(--warning)', 'Cascade failure or cut off from every hospital'],
+      ['var(--danger)', 'Direct flood failure']
+    ];
+    rows.forEach(function(r){
+      var d = document.createElement('div'); d.className='legend-row';
+      d.innerHTML = '<span class="legend-dot" style="background:'+r[0]+'"></span>'+r[1];
+      wrap.appendChild(d);
+    });
+    var div = document.createElement('div'); div.className='legend-div'; wrap.appendChild(div);
+    var note = document.createElement('div'); note.className='legend-note';
+    note.textContent = 'Solid outline = verified OpenStreetMap position. Dashed outline = estimated utility placeholder.';
+    wrap.appendChild(note);
+  })();
+
+  document.getElementById('mapCaption').textContent = 'North at top. Coastline and node positions are real (OpenStreetMap). Axes are stretched independently for legibility, so this is not true-scale.';
+
+  /* detail drawer */
+  var detail = document.getElementById('detail');
+  function showDetail(id){
+    var n = byId[id];
+    var sim = currentSim;
+    document.getElementById('dName').textContent = n.name;
+    document.getElementById('dType').textContent = TYPE_META[n.type].label + '  ·  ' + n.id;
+    var rows = '';
+    rows += '<div class="drow"><span>Elevation (SRTM)</span><span>'+n.elev.toFixed(0)+' m</span></div>';
+    if(n.pop>0){
+      var label = n.type==='shelter' ? 'Shelter capacity (est.)' : n.type==='hospital' ? 'Catchment served (est.)' : 'Population (est.)';
+      rows += '<div class="drow"><span>'+label+'</span><span>~'+n.pop.toLocaleString()+'</span></div>';
+      rows += '<div class="drow"><span>Equity weight</span><span>&times;'+n.vuln+'</span></div>';
+    }
+    rows += '<div class="drow"><span>Betweenness</span><span>'+BETWEENNESS[n.id].toFixed(1)+'</span></div>';
+    document.getElementById('dRows').innerHTML = rows;
+    document.getElementById('dProv').innerHTML = n.source==='osm'
+      ? '<span class="prov-badge prov-verified">Verified position</span>'
+      : '<span class="prov-badge prov-estimated">Estimated position</span>';
+    var st = sim.failedNodes[n.id];
+    var isolated = sim.isolatedIds.indexOf(n.id) !== -1;
+    var badge = !st && !isolated ? '<span class="status-badge status-ok">Operating</span>' :
+      st==='direct' ? '<span class="status-badge status-direct">Direct flood failure</span>' :
+      st==='indirect' ? '<span class="status-badge status-indirect">Cascade failure</span>' :
+      '<span class="status-badge status-indirect">Cut off from every hospital</span>';
+    document.getElementById('dStatus').innerHTML = badge;
+    detail.classList.add('show');
+  }
+  document.getElementById('detailClose').addEventListener('click', function(){ detail.classList.remove('show'); });
+
+  /* ================= STATE + UI WIRING ================= */
+  var currentSim = null;
+
+  function fmt(n){ return Math.round(n).toLocaleString(); }
+
+  function update(waterLevel){
+    currentSim = simulate(waterLevel);
+    var imp = impactOf(currentSim);
+    paintNodes(currentSim);
+
+    document.getElementById('statIsolated').textContent = fmt(imp.isolatedPop)+' people';
+    document.getElementById('statIsolatedCard').classList.toggle('hot', imp.isolatedPop>0);
+    document.getElementById('statFailed').textContent = imp.total;
+    document.getElementById('statScore').textContent = fmt(imp.score);
+
+    var headline = document.getElementById('headline');
+    if(imp.isolatedPop===0 && imp.total===0){
+      headline.innerHTML = 'No assets flooded and every locality retains a road route to a hospital at this level.';
+    } else if(imp.isolatedPop>0 && imp.total===0){
+      headline.innerHTML = 'No building has flooded, but <span class="num">'+fmt(imp.isolatedPop)+' people</span> have no surviving road route to any hospital, cut off by flooded crossings alone.';
+    } else {
+      headline.innerHTML = '<span class="num">'+imp.total+' assets failed</span> directly or by cascade, and <span class="num">'+fmt(imp.isolatedPop)+' people</span> are cut off from every hospital by road.';
+    }
+
+    renderCriticalPanel();
+    renderInterventionsScenario(waterLevel);
+    renderRobustPanel();
+    if(document.getElementById('routeResult').style.display==='block'){
+      runRouteCompare();
+    }
+  }
+
+  /* critical assets panel */
+  function renderCriticalPanel(){
+    var ranked = NODES.filter(function(n){return n.type!=='main';}).slice().sort(function(a,b){ return BETWEENNESS[b.id]-BETWEENNESS[a.id]; }).slice(0,6);
+    NODES.forEach(function(n){ ringEls[n.id].setAttribute('opacity', 0); });
+    var list = document.getElementById('critList');
+    list.innerHTML = '';
+    ranked.forEach(function(n, i){
+      ringEls[n.id].setAttribute('opacity', 1);
+      var row = document.createElement('div'); row.className='crit-item';
+      row.innerHTML = '<div><div class="nm">'+(i+1)+'. '+n.name+'</div><div class="ty">'+TYPE_META[n.type].label+'</div></div><div class="sc">'+BETWEENNESS[n.id].toFixed(1)+'</div>';
+      row.addEventListener('click', function(){ showDetail(n.id); });
+      list.appendChild(row);
+    });
+  }
+
+  /* route panel */
+  var routeA = document.getElementById('routeA'), routeB = document.getElementById('routeB');
+  NODES.forEach(function(n){
+    var o1 = document.createElement('option'); o1.value=n.id; o1.textContent=n.name;
+    var o2 = o1.cloneNode(true);
+    routeA.appendChild(o1); routeB.appendChild(o2);
+  });
+  routeA.value = 'R3'; routeB.value = 'H1';
+
+  function clearRoutes(){ while(routeLayer.firstChild) routeLayer.removeChild(routeLayer.firstChild); }
+  function drawPath(path, style){
+    var pts = path.map(function(id){ return byId[id]; });
+    var d = 'M ' + pts.map(function(p){ return p.x+' '+p.y; }).join(' L ');
+    var p = el('path', {d:d, fill:'none', stroke:style.color, 'stroke-width':style.width, 'stroke-dasharray':style.dash||'none', 'stroke-linecap':'round', 'stroke-linejoin':'round', opacity:0.92});
+    routeLayer.appendChild(p);
+  }
+
+  function runRouteCompare(){
+    var a = routeA.value, b = routeB.value;
+    clearRoutes();
+    document.getElementById('routeResult').style.display = 'block';
+
+    var shortest = dijkstraRoad(a, b, null);
+    var safest = dijkstraRoad(a, b, currentSim);
+
+    if(shortest){
+      drawPath(shortest.path, {color:'#8B9698', width:3, dash:'7,5'});
+      document.getElementById('rtShortestDist').textContent = shortest.dist.toFixed(1)+' idx';
+      document.getElementById('rtShortestLen').textContent = shortest.path.length+' stops';
+      document.getElementById('rtShortestPath').textContent = shortest.path.join(' → ');
+      var blocked = shortest.path.some(function(id){ return currentSim.failedNodes[id]; }) ||
+        EDGES.some(function(e){
+          if(e.kind!=='road') return false;
+          var ia = shortest.path.indexOf(e.a), ib = shortest.path.indexOf(e.b);
+          if(ia<0||ib<0||Math.abs(ia-ib)!==1) return false;
+          return currentSim.failedEdges[e.id];
+        });
+      document.getElementById('rtShortestNote').innerHTML = blocked ? '<div class="route-warn">Blocked at current water level: passes through failed infrastructure.</div>' : '<div class="route-ok">Still passable at current water level.</div>';
+    } else {
+      document.getElementById('rtShortestDist').textContent='n/a';
+      document.getElementById('rtShortestLen').textContent='n/a';
+      document.getElementById('rtShortestPath').textContent='No road path exists in the base network.';
+      document.getElementById('rtShortestNote').innerHTML='';
+    }
+
+    if(safest){
+      drawPath(safest.path, {color:'var(--safe)', width:3.4});
+      document.getElementById('rtSafestDist').textContent = safest.dist.toFixed(1)+' idx';
+      document.getElementById('rtSafestLen').textContent = safest.path.length+' stops';
+      document.getElementById('rtSafestPath').textContent = safest.path.join(' → ');
+      var detourNote = (shortest && safest.dist > shortest.dist+0.05) ?
+        '<div class="route-warn">Detour adds '+(safest.dist-shortest.dist).toFixed(1)+' idx vs. the pre-flood shortest route (map is schematic, not to scale).</div>' :
+        '<div class="route-ok">Matches the pre-flood shortest route.</div>';
+      document.getElementById('rtSafestNote').innerHTML = detourNote;
+    } else {
+      document.getElementById('rtSafestDist').textContent='n/a';
+      document.getElementById('rtSafestLen').textContent='n/a';
+      document.getElementById('rtSafestPath').textContent='No surviving road path at this water level. Origin or destination is cut off.';
+      document.getElementById('rtSafestNote').innerHTML='<div class="route-warn">No viable route currently exists between these points.</div>';
+    }
+  }
+  document.getElementById('routeBtn').addEventListener('click', runRouteCompare);
+
+  /* interventions: this-scenario sub-panel */
+  function renderInterventionsScenario(waterLevel){
+    var baselineImp = impactOf(currentSim);
+    var baseline = combinedScore(baselineImp);
+    var results = INTERVENTIONS.map(function(iv){
+      var imp = simulateWithInterventions(waterLevel, [iv]);
+      return {iv:iv, reduction: baseline-combinedScore(imp)};
+    });
+    results.sort(function(x,y){ return y.reduction - x.reduction; });
+    var list = document.getElementById('intervList');
+    list.innerHTML='';
+    if(baseline===0){
+      list.innerHTML = '<div class="interv-none">No impact at this water level. Nothing to mitigate yet.</div>';
+      return;
+    }
+    var maxReduction = Math.max.apply(null, results.map(function(r){return r.reduction;}).concat([1]));
+    results.forEach(function(r, i){
+      var pct = baseline>0 ? Math.round((r.reduction/baseline)*100) : 0;
+      var barPct = maxReduction>0 ? Math.max(2, Math.round((r.reduction/maxReduction)*100)) : 2;
+      var card = document.createElement('div'); card.className='interv';
+      card.innerHTML =
+        '<div class="interv-top">' +
+          '<div class="interv-rank">'+(i+1)+'</div>' +
+          '<div style="flex:1"><div class="interv-name">'+r.iv.label+'</div><div class="interv-cost">~₹'+r.iv.costLakh+'L</div></div>' +
+          '<div class="cost-pill cost-'+r.iv.cost+'">'+r.iv.cost+'</div>' +
+        '</div>' +
+        '<div class="interv-bottom">' +
+          '<div class="interv-bar-track"><div class="interv-bar-fill" style="width:'+barPct+'%"></div></div>' +
+          '<div class="interv-pct">'+(r.reduction>0? '-'+pct+'%' : '0%')+'</div>' +
+        '</div>';
+      list.appendChild(card);
+    });
+  }
+
+  /* interventions: robust (multi-scenario, budget-constrained) sub-panel */
+  (function buildScenarioTable(){
+    var tbody = document.getElementById('scenarioTable');
+    SCENARIOS.forEach(function(sc){
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>'+sc.label+'</td><td class="num">'+sc.level+'m</td><td class="num">'+Math.round(sc.weight*100)+'%</td>';
+      tbody.appendChild(tr);
+    });
+  })();
+
+  var budgetSlider = document.getElementById('budgetSlider');
+  var budgetVal = document.getElementById('budgetVal');
+
+  function renderRobustPanel(){
+    var budget = parseFloat(budgetSlider.value);
+    budgetVal.textContent = '₹'+budget+'L';
+
+    var result = optimalPortfolio(budget);
+    var pct = result.baseline>0 ? Math.round((result.best.reduction/result.baseline)*100) : 0;
+    document.getElementById('portfolioReduction').textContent = result.best.ivs.length
+      ? '-'+pct+'% expected impact'
+      : 'No mitigation fits this budget';
+    var ul = document.getElementById('portfolioList');
+    ul.innerHTML = '';
+    if(result.best.ivs.length===0){
+      var li = document.createElement('li'); li.textContent = 'Increase the budget to afford a mitigation.';
+      ul.appendChild(li);
+    } else {
+      result.best.ivs.forEach(function(iv){
+        var li = document.createElement('li');
+        li.textContent = iv.label + ' (~₹'+iv.costLakh+'L)';
+        ul.appendChild(li);
+      });
+      var liCost = document.createElement('li');
+      liCost.style.color = 'var(--ink-faint)';
+      liCost.textContent = 'Total: ₹'+result.best.cost+'L of ₹'+budget+'L budget';
+      ul.appendChild(liCost);
+    }
+
+    // per-intervention cost-effectiveness ranking (expected value, standalone)
+    var chosenIds = result.best.ivs.map(function(iv){return iv.id;});
+    var rows = INTERVENTIONS.map(function(iv){
+      var reduction = result.baseline - expectedImpact([iv]);
+      return {iv:iv, reduction:reduction, ratio: reduction/iv.costLakh};
+    });
+    rows.sort(function(x,y){ return y.ratio - x.ratio; });
+    var maxRatio = Math.max.apply(null, rows.map(function(r){return r.ratio;}).concat([0.001]));
+    var list = document.getElementById('intervListRobust');
+    list.innerHTML = '';
+    rows.forEach(function(r, i){
+      var barPct = Math.max(2, Math.round((r.ratio/maxRatio)*100));
+      var isChosen = chosenIds.indexOf(r.iv.id) !== -1;
+      var card = document.createElement('div'); card.className='interv'+(isChosen?' chosen':'');
+      card.innerHTML =
+        '<div class="interv-top">' +
+          '<div class="interv-rank">'+(i+1)+'</div>' +
+          '<div style="flex:1"><div class="interv-name">'+r.iv.label+(isChosen?' <span class="interv-check">&#10003; in plan</span>':'')+'</div><div class="interv-cost">~₹'+r.iv.costLakh+'L &middot; expected reduction '+fmt(r.reduction)+'</div></div>' +
+          '<div class="cost-pill cost-'+r.iv.cost+'">'+r.iv.cost+'</div>' +
+        '</div>' +
+        '<div class="interv-bottom">' +
+          '<div class="interv-bar-track"><div class="interv-bar-fill" style="width:'+barPct+'%"></div></div>' +
+          '<div class="interv-pct">'+r.ratio.toFixed(1)+'/₹L</div>' +
+        '</div>';
+      list.appendChild(card);
+    });
+  }
+  budgetSlider.addEventListener('input', renderRobustPanel);
+
+  /* tabs */
+  var tabBtns = document.querySelectorAll('.tab-btn');
+  tabBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      tabBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+      document.getElementById('panel-'+btn.dataset.panel).classList.add('active');
+    });
+  });
+  var subtabBtns = document.querySelectorAll('.subtab-btn');
+  subtabBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      subtabBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelectorAll('.subpanel').forEach(function(p){ p.classList.remove('active'); });
+      document.getElementById('sub-'+btn.dataset.sub).classList.add('active');
+    });
+  });
+
+  /* water level controls */
+  var slider = document.getElementById('wlSlider');
+  var wlVal = document.getElementById('wlVal');
+  var presetBtns = document.querySelectorAll('.preset-btn');
+  function setLevel(v){
+    v = parseFloat(v);
+    slider.value = v;
+    wlVal.innerHTML = v.toFixed(1)+'<span>m</span>';
+    presetBtns.forEach(function(b){ b.classList.toggle('active', parseFloat(b.dataset.level)===v); });
+    update(v);
+  }
+  slider.addEventListener('input', function(){ setLevel(slider.value); });
+  presetBtns.forEach(function(b){ b.addEventListener('click', function(){ setLevel(b.dataset.level); }); });
+
+  /* init */
+  setLevel(1.5);
+})();
+</script>
