@@ -1014,13 +1014,43 @@
   /* ================= RENDERING ================= */
   var svg = document.getElementById('map');
   var svgNS = 'http://www.w3.org/2000/svg';
-  var nodeEls = {}, edgeEls = {}, ringEls = {};
+  var nodeEls = {}, edgeEls = {}, ringEls = {}, nodeGroups = {}, labelEls = {};
 
   /* ---- pan & zoom, like a real map: wheel to zoom, drag to pan ---- */
   var VB0 = {x:0, y:0, w:1000, h:640};
   var vb = {x:0, y:0, w:1000, h:640};
   var VB_MIN_W = 220, VB_MAX_W = 1150;
-  function applyVB(){ svg.setAttribute('viewBox', vb.x.toFixed(1)+' '+vb.y.toFixed(1)+' '+vb.w.toFixed(1)+' '+vb.h.toFixed(1)); }
+  function applyVB(){
+    svg.setAttribute('viewBox', vb.x.toFixed(1)+' '+vb.y.toFixed(1)+' '+vb.w.toFixed(1)+' '+vb.h.toFixed(1));
+    updateNodeScale();
+  }
+  /* Markers stay a near-constant, readable screen size regardless of zoom -
+     like real map pins - rather than growing with the view (which is what
+     raw SVG viewBox zooming does by default, i.e. "zooming a photo").
+     vb.w shrinks as you zoom in, which natively blows markers up; dividing
+     by VB0.w gives the exact compensating factor, clamped so a marker never
+     shrinks to illegible or balloons when zoomed far out. Every scale below
+     is applied as translate(x,y) scale(s) translate(-x,-y), pivoted on the
+     node's own true anchor, so the pin tip / circle center never drifts -
+     only the icon around it resizes. */
+  function currentZoomScale(){
+    var ratio = vb.w / VB0.w;            // <1 when zoomed in, >1 when zoomed out
+    return Math.max(0.4, Math.min(1.25, ratio));
+  }
+  function updateNodeScale(){
+    var s = currentZoomScale().toFixed(3);
+    NODES.forEach(function(n){
+      var t = 'translate('+n.x+','+n.y+') scale('+s+') translate('+(-n.x)+','+(-n.y)+')';
+      if(nodeGroups[n.id]) nodeGroups[n.id].setAttribute('transform', t);
+      if(ringEls[n.id]) ringEls[n.id].setAttribute('transform', t);
+      if(statusRingEls[n.id]) statusRingEls[n.id].setAttribute('transform', t);
+      var lbl = labelEls[n.id];
+      if(lbl){
+        var lx = lbl.getAttribute('x'), ly = lbl.getAttribute('y');
+        lbl.setAttribute('transform', 'translate('+lx+','+ly+') scale('+s+') translate('+(-lx)+','+(-ly)+')');
+      }
+    });
+  }
   function clampVB(){
     var margin = 130;
     vb.w = Math.min(VB_MAX_W, Math.max(VB_MIN_W, vb.w));
@@ -1244,6 +1274,7 @@
 
     nodeLayer.appendChild(g);
     nodeEls[n.id] = shapeEl;
+    nodeGroups[n.id] = g;
 
     if(meta.label_ok){
       var ov = LABEL_OVERRIDE[n.id];
@@ -1253,12 +1284,14 @@
       var lbl = el('text', {x:lx, y:ly, 'text-anchor':anchor, class:'node-label'});
       lbl.textContent = n.short || n.name.split(',')[0];
       labelLayer.appendChild(lbl);
+      labelEls[n.id] = lbl;
     }
 
     g.style.cursor = 'pointer';
     g.addEventListener('click', function(){ if(mapDragged) return; showDetail(n.id); });
   }
   NODES.forEach(nodeShape);
+  updateNodeScale();
 
   function paintNodes(sim){
     NODES.forEach(function(n){
