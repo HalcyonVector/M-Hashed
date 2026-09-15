@@ -1,8 +1,8 @@
-<title>Cascade: Coastal Resilience Simulator</title>
+<title>Ripple: Coastal Resilience Simulator</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-  /* Cascade commits to one visual world: a flood-operations control room.
+  /* Ripple commits to one visual world: a flood-operations control room.
      Chrome (cards, borders, text) is true neutral graphite - blue is spent
      deliberately, only on water in the map and on live/active UI states. */
   :root{
@@ -67,6 +67,55 @@
   .live-badge .dot{ width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 6px var(--accent); animation:pulse 2.2s ease-in-out infinite; }
   @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.4; } }
   @media (prefers-reduced-motion: reduce){ .live-badge .dot{ animation:none; } }
+  .hdr-right{ display:flex; align-items:center; gap:9px; flex:0 0 auto; }
+  .help-badge{
+    flex:0 0 auto; display:flex; align-items:center; gap:7px; cursor:pointer;
+    font-family:var(--font-mono); font-size:10px; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--ink-soft); border:1px solid var(--line-strong); background:var(--surface-2);
+    padding:6px 12px; border-radius:99px; white-space:nowrap; font-weight:600;
+    transition:color .15s, border-color .15s;
+  }
+  .help-badge:hover{ color:var(--accent-deep); border-color:var(--accent-deep); }
+  .help-badge .q{
+    width:14px; height:14px; border-radius:50%; background:var(--line-strong); color:var(--ink);
+    font-size:9px; font-weight:800; display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+  }
+
+  /* ---------- Onboarding banner ---------- */
+  .onboard{
+    flex:0 0 auto; position:relative;
+    display:grid; grid-template-columns:minmax(240px, 320px) 1px repeat(3, 1fr);
+    align-items:center; gap:28px;
+    padding:18px 52px 18px 28px; background:var(--accent-soft); border-bottom:1px solid var(--line-strong);
+  }
+  .onboard.hidden{ display:none; }
+  .onboard-lede{
+    margin:0; font-family:var(--font-display); font-weight:800; font-size:16.5px; line-height:1.28;
+    color:var(--ink); text-transform:uppercase; letter-spacing:.2px;
+  }
+  .onboard-lede b{ display:block; color:var(--accent-deep); font-size:11px; font-family:var(--font-mono);
+    text-transform:uppercase; letter-spacing:.08em; font-weight:700; margin-bottom:5px; }
+  .onboard-lede span{ display:block; font-family:var(--font-body); font-weight:400; text-transform:none;
+    font-size:12px; color:var(--ink-soft); letter-spacing:0; margin-top:6px; line-height:1.4; }
+  .onboard-rule{ align-self:stretch; background:var(--line-strong); }
+  .onboard-step{ display:flex; align-items:flex-start; gap:11px; }
+  .onboard-step .num{
+    flex:0 0 auto; width:26px; height:26px; border-radius:50%; background:var(--accent-deep); color:#fff;
+    font-family:var(--font-mono); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;
+  }
+  .onboard-step .txt{ min-width:0; }
+  .onboard-step .txt b{ display:block; font-size:13px; color:var(--ink); font-weight:700; margin-bottom:2px; }
+  .onboard-step .txt span{ display:block; font-size:11.5px; color:var(--ink-soft); line-height:1.35; }
+  .onboard-close{
+    position:absolute; right:16px; top:16px; width:26px; height:26px;
+    border:none; background:transparent; color:var(--ink-faint); font-size:19px; line-height:1; cursor:pointer; border-radius:50%;
+  }
+  .onboard-close:hover{ color:var(--ink); background:var(--surface-2); }
+  @media (max-width: 980px){
+    .onboard{ grid-template-columns:1fr; }
+    .onboard-rule{ display:none; }
+    .onboard-step{ padding-left:2px; }
+  }
 
   /* ---------- Footer ---------- */
   .ftr{
@@ -134,9 +183,10 @@
   .stat-row{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:9px; }
   .stat{
     background:var(--surface-2); border-radius:5px; padding:9px 11px; border:1px solid var(--line);
+    display:flex; flex-direction:column; justify-content:space-between; min-height:56px;
   }
-  .stat .k{ font-family:var(--font-mono); font-size:9.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-faint); display:block; margin-bottom:3px;}
-  .stat .v{ font-family:var(--font-display); font-size:20px; font-weight:800; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .stat .k{ font-family:var(--font-mono); font-size:9px; text-transform:uppercase; letter-spacing:.03em; color:var(--ink-faint); display:block; line-height:1.35; margin-bottom:6px;}
+  .stat .v{ font-family:var(--font-display); font-size:20px; font-weight:800; color:var(--ink); font-variant-numeric:tabular-nums; line-height:1; }
   .stat .v.d{ color:var(--danger); }
   .stat .v.w{ color:var(--warning); }
   .stat.wide{
@@ -359,12 +409,24 @@
         <rect x="4.5" y="8.7" width="11" height="3.2" rx="1.2" fill="var(--accent-deep)"/>
         <rect x="8" y="14.9" width="4" height="2.6" rx="1" fill="var(--accent-deep)" opacity=".6"/>
       </svg>
-      <h1>Cascade</h1>
+      <h1>Ripple</h1>
       <span class="hdr-divider"></span>
       <span class="tag">Coastal resilience simulator, Udupi&ndash;Manipal&ndash;Kaup &middot; 32 assets &middot; 25 verified</span>
     </div>
-    <span class="live-badge"><span class="dot"></span>Live simulation</span>
+    <div class="hdr-right">
+      <button class="help-badge" id="helpReopen"><span class="q">?</span>How it works</button>
+      <span class="live-badge"><span class="dot"></span>Live simulation</span>
+    </div>
   </header>
+
+  <div class="onboard" id="onboardBanner">
+    <button class="onboard-close" id="onboardClose" aria-label="Dismiss introduction">&times;</button>
+    <p class="onboard-lede"><b>New here?</b>A real town, flooded live.<span>Malpe, Udupi, Manipal and Kaup, mapped with its real hospitals, schools, roads and utilities.</span></p>
+    <div class="onboard-rule"></div>
+    <div class="onboard-step"><span class="num">1</span><div class="txt"><b>Drag the slider</b><span>it's how high the floodwater rises, in metres. Higher means a worse flood, or just tap a preset below, from a normal high tide to an extreme flood</span></div></div>
+    <div class="onboard-step"><span class="num">2</span><div class="txt"><b>Watch the pins</b><span>green is fine. Amber or red means that place lost power, water or road access. Click any pin to see exactly why it failed</span></div></div>
+    <div class="onboard-step"><span class="num">3</span><div class="txt"><b>Check the tabs</b><span>see which assets matter most, compare a safe route to a blocked one, or see which real-world fix would help most</span></div></div>
+  </div>
 
   <div class="main">
     <div class="map-col">
@@ -411,7 +473,7 @@
         <div class="stat-row">
           <div class="stat wide" id="statIsolatedCard"><span class="k">Cut off from every hospital</span><span class="v" id="statIsolated">0 people</span></div>
           <div class="stat"><span class="k">Assets failed</span><span class="v" id="statFailed">0</span></div>
-          <div class="stat"><span class="k">Utility impact score</span><span class="v" id="statScore">0</span></div>
+          <div class="stat"><span class="k">Impact score</span><span class="v" id="statScore">0</span></div>
           <div class="stat" id="statStrainedCard"><span class="k">Sources overloaded</span><span class="v" id="statStrained">0</span></div>
         </div>
       </div>
@@ -423,11 +485,12 @@
       </div>
 
       <div class="panel active" id="panel-critical">
-        <p class="legend-mini">Betweenness centrality on the intact network: the assets whose loss would fracture the most connections, regardless of today's water level.</p>
+        <p class="legend-mini">The assets that matter most to the whole network, the ones the most other things depend on, no matter today's water level. (Ranked by betweenness centrality on the undamaged network.)</p>
         <div class="critical-list" id="critList"></div>
       </div>
 
       <div class="panel" id="panel-routes">
+        <p class="legend-mini">Pick two places. See the route you'd normally take, and the route that's actually still open at today's water level.</p>
         <div class="field">
           <label for="routeA">From</label>
           <select id="routeA"></select>
@@ -460,12 +523,12 @@
         </div>
 
         <div class="subpanel active" id="sub-scenario">
-          <p class="legend-mini">Candidate mitigations re-tested at today's water level, ranked by reduction in the utility impact score.</p>
+          <p class="legend-mini">Five real fixes, re-tested at today's water level and ranked by how much damage each one would prevent.</p>
           <div class="interv-list" id="intervList"></div>
         </div>
 
         <div class="subpanel" id="sub-robust">
-          <p class="legend-mini">Scenario weights are illustrative relative likelihoods for planning discussion, not measured return-period statistics. Optimizer picks the mitigation portfolio that minimizes expected impact under your budget.</p>
+          <p class="legend-mini">Picks the best combination of fixes for your budget, weighing all four flood scenarios at once instead of just the one on the slider. (Scenario weights below are illustrative for planning discussion, not measured statistics.)</p>
           <table class="scenario-table">
             <thead><tr><th>Scenario</th><th class="num">Level</th><th class="num">Weight</th><th class="num">Cut off</th><th class="num">Impact</th></tr></thead>
             <tbody id="scenarioTable"></tbody>
@@ -516,37 +579,37 @@
     {id:'SS1', name:'Manipal Substation', type:'substation', x:839.5, y:182.1, elev:87, pop:0, vuln:0, road:false, source:'osm', cap:18000},
     {id:'SS2', name:'Doddanagudde Substation', type:'substation', x:455.3, y:70.0, elev:26, pop:0, vuln:0, road:false, source:'osm', cap:15000},
     {id:'SS3', name:'Muluru Substation', type:'substation', x:638.3, y:590.0, elev:15, pop:0, vuln:0, road:false, source:'osm', cap:12000},
-    {id:'SS4', name:'Udupi Town Substation', type:'substation', x:440.7, y:171.5, elev:27, pop:0, vuln:0, road:false, source:'estimated', cap:32000},
+    {id:'SS4', name:'Udupi Town Substation', type:'substation', x:430, y:148, elev:27, pop:0, vuln:0, road:false, source:'estimated', cap:32000},
 
     {id:'WP1', name:'Malpe Water Pumping Station', type:'pump', x:147.1, y:125.2, elev:10, pop:0, vuln:0, road:false, source:'estimated', cap:13000},
     {id:'WP2', name:'Kaup Water Works', type:'pump', x:457.9, y:525.2, elev:12, pop:0, vuln:0, road:false, source:'estimated', cap:12000},
     {id:'WP3', name:'Manipal Reservoir Pumping Station', type:'pump', x:872.3, y:128.5, elev:95, pop:0, vuln:0, road:false, source:'estimated', cap:18000},
-    {id:'WP4', name:'Udupi Town Water Works', type:'pump', x:406.2, y:181.4, elev:18, pop:0, vuln:0, road:false, source:'estimated', cap:40000},
+    {id:'WP4', name:'Udupi Town Water Works', type:'pump', x:378, y:195, elev:18, pop:0, vuln:0, road:false, source:'estimated', cap:40000},
 
-    {id:'H1', name:'District Hospital, Udupi', type:'hospital', x:443.2, y:174.8, elev:29, pop:15000, vuln:6, road:true, source:'osm'},
-    {id:'H2', name:'TMA Pai Hospital', type:'hospital', x:485.5, y:179.4, elev:33, pop:6000, vuln:4, road:true, source:'osm'},
-    {id:'H3', name:'KMC Hospital, Manipal', type:'hospital', x:849.9, y:110.3, elev:102, pop:10000, vuln:5, road:true, source:'osm'},
+    {id:'H1', name:'District Hospital, Udupi', type:'hospital', x:440, y:185, elev:29, pop:15000, vuln:6, road:true, source:'osm'},
+    {id:'H2', name:'TMA Pai Hospital', type:'hospital', x:500, y:190, elev:33, pop:6000, vuln:4, road:true, source:'osm'},
+    {id:'H3', name:'KMC Hospital, Manipal', type:'hospital', x:862, y:98, elev:102, pop:10000, vuln:5, road:true, source:'osm'},
 
-    {id:'S1', name:'Government High School, Udupi', type:'school', x:444.1, y:184.4, elev:24, pop:600, vuln:3, road:false, source:'osm'},
-    {id:'S2', name:'Manipal Pre-University College', type:'school', x:830.0, y:133.5, elev:102, pop:900, vuln:3, road:false, source:'osm'},
+    {id:'S1', name:'Government High School, Udupi', type:'school', x:400, y:210, elev:24, pop:600, vuln:3, road:false, source:'osm'},
+    {id:'S2', name:'Manipal Pre-University College', type:'school', x:812, y:148, elev:102, pop:900, vuln:3, road:false, source:'osm'},
     {id:'S3', name:'Adiudupi Higher Primary School', type:'school', x:360.4, y:128.2, elev:14, pop:350, vuln:3, road:false, source:'osm'},
 
-    {id:'SH1', name:'Doddanagudde Govt. School (flood relief centre)', type:'shelter', x:558.1, y:95.5, elev:28, pop:1200, vuln:4, road:true, source:'osm'},
-    {id:'SH2', name:"St Cecily's Girls High School (flood relief centre)", type:'shelter', x:447.6, y:168.2, elev:34, pop:1000, vuln:4, road:true, source:'osm'},
+    {id:'SH1', name:'Doddanagudde Govt. School (flood relief centre)', short:'Doddanagudde Shelter', type:'shelter', x:558.1, y:95.5, elev:28, pop:1200, vuln:4, road:true, source:'osm'},
+    {id:'SH2', name:"St Cecily's Girls High School (flood relief centre)", short:"St Cecily's Shelter", type:'shelter', x:462, y:143, elev:34, pop:1000, vuln:4, road:true, source:'osm'},
 
     {id:'R1', name:'Malpe', type:'residential', x:110.0, y:119.6, elev:12, pop:8000, vuln:2, road:false, source:'osm'},
     {id:'R2', name:'Kodavoor', type:'residential', x:165.3, y:112.0, elev:16, pop:3000, vuln:1, road:false, source:'osm'},
     {id:'R3', name:'Kapu (Kaup)', type:'residential', x:495.9, y:516.3, elev:22, pop:6000, vuln:2, road:false, source:'osm'},
     {id:'R4', name:'Katapady', type:'residential', x:476.9, y:345.4, elev:22, pop:4000, vuln:1, road:false, source:'osm'},
-    {id:'R5', name:'Manipal', type:'residential', x:829.1, y:115.3, elev:98, pop:5000, vuln:1, road:false, source:'osm'},
+    {id:'R5', name:'Manipal', type:'residential', x:798, y:105, elev:98, pop:5000, vuln:1, road:false, source:'osm'},
     {id:'R6', name:'Indrali', type:'residential', x:693.6, y:137.4, elev:38, pop:2500, vuln:1, road:false, source:'osm'},
-    {id:'R7', name:'Brahmagiri', type:'residential', x:430.3, y:151.0, elev:23, pop:4500, vuln:1, road:false, source:'osm'},
+    {id:'R7', name:'Brahmagiri', type:'residential', x:385, y:140, elev:23, pop:4500, vuln:1, road:false, source:'osm'},
 
     {id:'B1', name:'Malpe Bridge', type:'bridge', x:141.9, y:155.0, elev:0, pop:0, vuln:0, road:false, source:'osm'},
     {id:'B2', name:'Unnamed creek crossing near Kaup', type:'bridge', x:358.6, y:409.8, elev:4, pop:0, vuln:0, road:false, source:'osm'},
     {id:'B3', name:'Malpe-Manipal Road Bridge', type:'bridge', x:686.7, y:136.8, elev:32, pop:0, vuln:0, road:false, source:'osm'},
 
-    {id:'RD1', name:'NH66 Junction, Udupi', type:'road', x:475.2, y:145.0, elev:22, pop:0, vuln:0, road:false, source:'osm'},
+    {id:'RD1', name:'NH66 Junction, Udupi', type:'road', x:490, y:150.0, elev:22, pop:0, vuln:0, road:false, source:'osm'},
     {id:'RD2', name:'NH66 Junction, Katapady', type:'road', x:475.2, y:346.7, elev:21, pop:0, vuln:0, road:false, source:'osm'},
     {id:'RD3', name:'Malpe-Manipal Road Junction', type:'road', x:768.7, y:138.4, elev:58, pop:0, vuln:0, road:false, source:'osm'},
     {id:'RD4', name:'Udupi-Manipal Link Junction', type:'road', x:596.0, y:168.2, elev:24, pop:0, vuln:0, road:false, source:'osm'},
@@ -619,13 +682,29 @@
     substation:  {label:'Substation (power source)', r:6, shape:'square', label_ok:false},
     pump:        {label:'Water pump / works', r:6, shape:'square', label_ok:false},
     hospital:    {label:'Hospital', shape:'pin', size:32, glyph:'+', label_ok:true},
-    school:      {label:'School', shape:'pin', size:24, glyph:'S', label_ok:false},
-    shelter:     {label:'Designated flood relief centre', shape:'pin', size:26, glyph:'R', label_ok:false},
-    residential: {label:'Residential locality', r:7, shape:'circle', label_ok:false},
-    bridge:      {label:'Bridge / crossing', r:5, shape:'diamond', label_ok:false},
+    school:      {label:'School', shape:'pin', size:24, glyph:'S', label_ok:true},
+    shelter:     {label:'Designated flood relief centre', shape:'pin', size:26, glyph:'R', label_ok:true},
+    residential: {label:'Residential locality', r:7, shape:'circle', label_ok:true},
+    bridge:      {label:'Bridge / crossing', r:5, shape:'diamond', label_ok:true},
     road:        {label:'Road junction', r:2.5, shape:'dot', label_ok:false}
   };
   var PIN_D = 'M12 0C7.58 0 4 3.58 4 8c0 5.25 8 16 8 16s8-10.75 8-16c0-4.42-3.58-8-8-8z';
+
+  // Manual label placement for the handful of nodes that sit close enough
+  // (in reality) that default below-marker labels would collide. Anchor
+  // and offset only, positions themselves are untouched.
+  var LABEL_OVERRIDE = {
+    R7:  {dx:-8,  dy:-14, anchor:'end'},
+    SH2: {dx:10,  dy:-12, anchor:'start'},
+    H1:  {dx:-14, dy:16,  anchor:'end'},
+    H2:  {dx:18,  dy:14,  anchor:'start'},
+    S1:  {dx:0,   dy:20,  anchor:'middle'},
+    H3:  {dx:14,  dy:-10, anchor:'start'},
+    S2:  {dx:16,  dy:6,   anchor:'start'},
+    R5:  {dx:-12, dy:-10, anchor:'end'},
+    B3:  {dx:-10, dy:-8,  anchor:'end'},
+    R6:  {dx:12,  dy:10,  anchor:'start'}
+  };
 
   var byId = {};
   NODES.forEach(function(n){ byId[n.id] = n; n.roadReq = !!n.road; });
@@ -1167,8 +1246,12 @@
     nodeEls[n.id] = shapeEl;
 
     if(meta.label_ok){
-      var lbl = el('text', {x:n.x, y:(meta.shape==='pin' ? n.y+9 : n.y+meta.r+11), 'text-anchor':'middle', class:'node-label'});
-      lbl.textContent = n.name.split(',')[0];
+      var ov = LABEL_OVERRIDE[n.id];
+      var lx = ov ? n.x + ov.dx : n.x;
+      var ly = ov ? n.y + ov.dy : (meta.shape==='pin' ? n.y+9 : n.y+meta.r+11);
+      var anchor = ov ? ov.anchor : 'middle';
+      var lbl = el('text', {x:lx, y:ly, 'text-anchor':anchor, class:'node-label'});
+      lbl.textContent = n.short || n.name.split(',')[0];
       labelLayer.appendChild(lbl);
     }
 
@@ -1239,7 +1322,7 @@
     wrap.appendChild(note);
   })();
 
-  document.getElementById('mapCaption').textContent = 'North at top. Coastline and node positions are real (OpenStreetMap). Axes are stretched independently for legibility, so this is not true-scale.';
+  document.getElementById('mapCaption').textContent = 'North at top. Coastline and node positions are real (OpenStreetMap). Axes are stretched, and a few tightly-packed real clusters (Udupi and Manipal cores) are spread apart for legibility, so this is not true-scale.';
 
   /* detail drawer */
   var detail = document.getElementById('detail');
@@ -1260,7 +1343,7 @@
       rows += '<div class="drow"><span>Rated capacity (est.)</span><span>'+sl.cap.toLocaleString()+'</span></div>';
       rows += '<div class="drow"><span>Current load</span><span>'+Math.round(sl.load).toLocaleString()+' ('+Math.round(sl.load/sl.cap*100)+'%)</span></div>';
     }
-    rows += '<div class="drow"><span>Betweenness</span><span>'+BETWEENNESS[n.id].toFixed(1)+'</span></div>';
+    rows += '<div class="drow"><span>How structurally important</span><span>'+BETWEENNESS[n.id].toFixed(1)+'</span></div>';
     document.getElementById('dRows').innerHTML = rows;
     document.getElementById('dProv').innerHTML = n.source==='osm'
       ? '<span class="prov-badge prov-verified">Verified position</span>'
@@ -1277,6 +1360,24 @@
     detail.classList.add('show');
   }
   document.getElementById('detailClose').addEventListener('click', function(){ detail.classList.remove('show'); });
+
+  /* onboarding banner: plain-language first look, dismissible, remembered,
+     and reopenable any time from the header */
+  (function(){
+    var banner = document.getElementById('onboardBanner');
+    var closeBtn = document.getElementById('onboardClose');
+    var reopenBtn = document.getElementById('helpReopen');
+    var KEY = 'cascade_onboard_dismissed';
+    try{ if(localStorage.getItem(KEY)) banner.classList.add('hidden'); }catch(e){}
+    closeBtn.addEventListener('click', function(){
+      banner.classList.add('hidden');
+      try{ localStorage.setItem(KEY, '1'); }catch(e){}
+    });
+    reopenBtn.addEventListener('click', function(){
+      banner.classList.remove('hidden');
+      banner.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  })();
 
   /* ================= STATE + UI WIRING ================= */
   var currentSim = null;
