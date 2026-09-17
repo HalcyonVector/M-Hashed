@@ -1,7 +1,7 @@
 # Ripple: Cascading Infrastructure Failure Simulator
 
-**Live app:** [`index.html`](index.html)
-**Field guide:** [`field-guide.html`](field-guide.html)
+**Live app:** [halcyonvector.github.io/M-Hashed](https://halcyonvector.github.io/M-Hashed/) (source: [`index.html`](index.html))
+**Field guide:** [halcyonvector.github.io/M-Hashed/field-guide.html](https://halcyonvector.github.io/M-Hashed/field-guide.html) (source: [`field-guide.html`](field-guide.html))
 
 A client-side simulator of cascading infrastructure failure across a real coastal corridor: Malpe, Udupi, Manipal and Kaup, Karnataka. Built for Manipal Hackathon 2026, Round 1, under the theme "The Butterfly Effect," for the problem statement "Cascading Failure: When One Failure Becomes Many" (SDG 11, Sustainable Cities and Communities). Every node position and elevation reading is real, pulled from OpenStreetMap and NASA/USGS SRTM data, not fabricated. Vanilla HTML, CSS and JavaScript, no framework, no backend, no build step, runs entirely in the browser.
 
