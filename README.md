@@ -103,3 +103,9 @@ Yashaswi Mohan
 Pagavath D P
 
 Amritanshu
+
+---
+
+## License
+
+No license specified yet. Contact the author for usage rights.
