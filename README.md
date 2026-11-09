@@ -5,6 +5,10 @@
 
 A client-side simulator of cascading infrastructure failure across a real coastal corridor: Malpe, Udupi, Manipal and Kaup, Karnataka. Built for Manipal Hackathon 2026, Round 1, under the theme "The Butterfly Effect," for the problem statement "Cascading Failure: When One Failure Becomes Many" (SDG 11, Sustainable Cities and Communities). Every node position and elevation reading is real, pulled from OpenStreetMap and NASA/USGS SRTM data, not fabricated. Vanilla HTML, CSS and JavaScript, no framework, no backend, no build step, runs entirely in the browser.
 
+> **What it's for:** drag a flood-level slider and watch a real coastal corridor fail, hop by hop, to see which hospital, road or substation matters most and which fix would help most.
+
+![Ripple: flood-level slider, dependency network and the assets that matter most for Malpe, Udupi, Manipal and Kaup](docs/screenshots/overview.png)
+
 ---
 
 ## Features
